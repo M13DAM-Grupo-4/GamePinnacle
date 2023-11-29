@@ -1,14 +1,30 @@
 package m13dam.grupo4.gamepinnacle;
 
 import androidx.activity.OnBackPressedCallback;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.Toast;
 
 public class MainActivity2 extends AppCompatActivity {
+
+    private static final int REQUEST_CODE_PICK_IMAGE = 1;
+    private static final int REQUEST_CODE_PERMISSION = 2;
+    ImageView avatarUsuario;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,7 +33,6 @@ public class MainActivity2 extends AppCompatActivity {
 
         Toolbar toolbar_JVM = findViewById(R.id.toolbarPrincipal);
         setSupportActionBar(toolbar_JVM);
-
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -31,7 +46,68 @@ public class MainActivity2 extends AppCompatActivity {
         };
         getOnBackPressedDispatcher().addCallback(this, callback_JVM);
 
+        avatarUsuario = findViewById(R.id.imagenAvatar);
+        avatarUsuario.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Verificar permisos antes de abrir la galería
+                checkAndRequestPermissions();
+            }
+        });
     }
+
+    private void checkAndRequestPermissions() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
+                    != PackageManager.PERMISSION_GRANTED) {
+                // Si no está concedido, solicitar el permiso al usuario
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                        REQUEST_CODE_PERMISSION);
+            } else {
+                // El permiso ya está concedido, puedes proceder con la acción
+                openGallery();
+            }
+        } else {
+            // Versiones anteriores a Android 6.0 no requieren solicitud de permisos en tiempo de ejecución
+            openGallery();
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults); // Añadir esta línea
+
+        if (requestCode == REQUEST_CODE_PERMISSION) {
+            // Verificar si el permiso fue concedido
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Permiso concedido, proceder con la acción
+                openGallery();
+            } else {
+                // Permiso denegado, informar al usuario o realizar alguna acción
+                Toast.makeText(this, "Permiso denegado", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    private void openGallery() {
+        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(intent, REQUEST_CODE_PICK_IMAGE);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == REQUEST_CODE_PICK_IMAGE && resultCode == RESULT_OK && data != null) {
+            // La imagen ha sido seleccionada, obtenla
+            Uri selectedImageUri = data.getData();
+            // Realiza las acciones necesarias con la imagen seleccionada
+            // Por ejemplo, establecer la imagen en el ImageView
+            avatarUsuario.setImageURI(selectedImageUri);
+        }
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -40,6 +116,6 @@ public class MainActivity2 extends AppCompatActivity {
                 startActivity(intent);
                 return true;
         }
-        return false;
+        return super.onOptionsItemSelected(item);
     }
 }
