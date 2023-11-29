@@ -11,9 +11,11 @@ public class TwitchTest {
     public void GetToken() {
         TwitchToken token = Twitch.GetToken();
 
-        if (token != null) {
-            System.out.println(token);
+        if (token == null) {
+            Assert.fail();
         }
+
+        System.out.println(token);
 
         Assert.assertNotNull(token);
     }
