@@ -8,8 +8,8 @@ import org.junit.Test;
 public class TwitchTest {
 
     @Test
-    public void GetTwitchToken() {
-        TwitchToken token = Twitch.GetTwitchToken();
+    public void GetToken() {
+        TwitchToken token = Twitch.GetToken();
 
         if (token != null) {
             System.out.println(token);

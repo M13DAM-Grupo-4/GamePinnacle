@@ -7,7 +7,7 @@ import m13dam.grupo4.gamepinnacle.BuildConfig;
 
 public class Twitch {
 
-    public static TwitchToken GetTwitchToken() {
+    public static TwitchToken GetToken() {
         String TwitchClientId = BuildConfig.twitchclientid;
         String TwitchClientSecret = BuildConfig.twitchclientsecret;
 
