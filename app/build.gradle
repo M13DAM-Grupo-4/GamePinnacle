@@ -47,5 +47,6 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
     implementation 'com.github.Spikeysanju:MotionToast:1.4'
     implementation 'io.github.husnjak:igdb-api-jvm:1.1.0'
+    implementation 'com.squareup.picasso:picasso:2.8'
 
 }
