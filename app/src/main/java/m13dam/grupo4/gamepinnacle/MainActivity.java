@@ -33,6 +33,8 @@ public class MainActivity extends AppCompatActivity {
         contraseña = findViewById(R.id.loginPassword);
         rememberme = findViewById(R.id.checkBox);
 
+        Intent intent = new Intent(MainActivity.this, MainActivity2.class);
+        startActivity(intent);
 
         Thread thread = new Thread(() -> {
             int RememberedID = DataBaseManager.LoginRemember(MainActivity.this);
@@ -74,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
                     });
 
                 });
-
+                thread.start();
             }
         });
 
