@@ -35,7 +35,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="9dp"
         android:fontFamily="@font/roboto_medium"
-        android:text="Inicia sesión a una cuenta existente"
+        android:text="Inicia sesión en una cuenta existente"
         android:textColor="#BFBFBF"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -231,7 +231,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView
-        android:id="@+id/textView8"
+        android:id="@+id/recover"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"

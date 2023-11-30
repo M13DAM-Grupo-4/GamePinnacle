@@ -12,6 +12,9 @@ import android.text.method.PasswordTransformationMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.Interpolator;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -43,6 +46,8 @@ public class LoginMenu extends Fragment {
     EditText password_text;
     ImageView password_eye;
     boolean password_hidden = true;
+
+    TextView recover;
 
     ConstraintLayout login_button;
 
@@ -92,10 +97,13 @@ public class LoginMenu extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        // Password
         password_eye = view.findViewById(R.id.password_eye);
         password_text = view.findViewById(R.id.password_text);
 
         password_eye.setOnClickListener(v -> {
+            Animation anim = AnimationUtils.loadAnimation(getActivity(), R.anim.blink);
+            password_eye.startAnimation(anim);
 
             if (password_hidden) {
                 password_hidden = false;
@@ -113,6 +121,36 @@ public class LoginMenu extends Fragment {
                 password_text.setSelection(sel_start, sel_end);
             }
 
+        });
+
+        // Recover
+        recover = view.findViewById(R.id.recover);
+        recover.setOnClickListener(v -> {
+            Animation anim = AnimationUtils.loadAnimation(getActivity(), R.anim.blink);
+            recover.startAnimation(anim);
+
+            // TODO
+            System.out.println("TODO: Recover");
+        });
+
+        // Login
+        login_button = view.findViewById(R.id.login_button);
+        login_button.setOnClickListener(v -> {
+            Animation anim = AnimationUtils.loadAnimation(getActivity(), R.anim.blink);
+            login_button.startAnimation(anim);
+
+            // TODO
+            System.out.println("TODO: Login");
+        });
+
+        // Register
+        register_register = view.findViewById(R.id.register_register);
+        register_register.setOnClickListener(v -> {
+            Animation anim = AnimationUtils.loadAnimation(getActivity(), R.anim.blink);
+            register_register.startAnimation(anim);
+
+            // TODO
+            System.out.println("TODO: Register");
         });
 
     }
