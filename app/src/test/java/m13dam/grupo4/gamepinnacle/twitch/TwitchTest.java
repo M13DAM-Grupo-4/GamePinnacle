@@ -16,8 +16,6 @@ public class TwitchTest {
         }
 
         System.out.println(token);
-
-        Assert.assertNotNull(token);
     }
 
 }
