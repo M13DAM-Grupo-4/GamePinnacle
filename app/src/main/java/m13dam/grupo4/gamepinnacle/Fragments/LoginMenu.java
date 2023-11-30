@@ -14,7 +14,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.view.animation.Interpolator;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -98,8 +97,8 @@ public class LoginMenu extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         // Password
-        password_eye = view.findViewById(R.id.password_eye);
-        password_text = view.findViewById(R.id.password_text);
+        password_eye = view.findViewById(R.id.login_password_eye);
+        password_text = view.findViewById(R.id.login_password_text);
 
         password_eye.setOnClickListener(v -> {
             Animation anim = AnimationUtils.loadAnimation(getActivity(), R.anim.blink);
@@ -124,7 +123,7 @@ public class LoginMenu extends Fragment {
         });
 
         // Recover
-        recover = view.findViewById(R.id.recover);
+        recover = view.findViewById(R.id.login_recover);
         recover.setOnClickListener(v -> {
             Animation anim = AnimationUtils.loadAnimation(getActivity(), R.anim.blink);
             recover.startAnimation(anim);
@@ -134,7 +133,7 @@ public class LoginMenu extends Fragment {
         });
 
         // Login
-        login_button = view.findViewById(R.id.login_button);
+        login_button = view.findViewById(R.id.login_login_button);
         login_button.setOnClickListener(v -> {
             Animation anim = AnimationUtils.loadAnimation(getActivity(), R.anim.blink);
             login_button.startAnimation(anim);
@@ -144,7 +143,7 @@ public class LoginMenu extends Fragment {
         });
 
         // Register
-        register_register = view.findViewById(R.id.register_register);
+        register_register = view.findViewById(R.id.login_register_register);
         register_register.setOnClickListener(v -> {
             Animation anim = AnimationUtils.loadAnimation(getActivity(), R.anim.blink);
             register_register.startAnimation(anim);
