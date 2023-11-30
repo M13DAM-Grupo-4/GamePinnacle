@@ -10,6 +10,18 @@
     android:background="#000000"
     tools:context=".Fragments.LoginMenu">
 
+    <ImageView
+        android:id="@+id/login_background"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:alpha="0.15"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/login_background" />
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/login_ui"
         android:layout_width="wrap_content"
@@ -244,18 +256,6 @@
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <ImageView
-        android:id="@+id/login_background"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:alpha="0.15"
-        android:scaleType="centerCrop"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/login_background" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
