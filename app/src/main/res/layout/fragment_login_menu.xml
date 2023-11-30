@@ -17,7 +17,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/lop_image" />
+        app:srcCompat="@drawable/login_background" />
 
     <ImageView
         android:id="@+id/Logo"
@@ -27,7 +27,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/Background"
-        app:srcCompat="@drawable/gamepad" />
+        app:srcCompat="@drawable/logo" />
 
     <TextView
         android:id="@+id/Descripcion"
@@ -69,7 +69,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/rectangle_1" />
+            app:srcCompat="@drawable/black_transparent_button_blue_round" />
 
         <ImageView
             android:id="@+id/email_img"
@@ -80,7 +80,7 @@
             app:layout_constraintBottom_toBottomOf="@+id/email_background"
             app:layout_constraintStart_toStartOf="@+id/email_background"
             app:layout_constraintTop_toTopOf="@+id/email_background"
-            app:srcCompat="@drawable/user_light" />
+            app:srcCompat="@drawable/user_icon" />
 
         <EditText
             android:id="@+id/email_text"
@@ -118,7 +118,7 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/rectangle_1" />
+            app:srcCompat="@drawable/black_transparent_button_blue_round" />
 
         <ImageView
             android:id="@+id/password_lock"
@@ -128,7 +128,7 @@
             app:layout_constraintBottom_toBottomOf="@+id/password_background"
             app:layout_constraintStart_toStartOf="@+id/password_background"
             app:layout_constraintTop_toTopOf="@+id/password_background"
-            app:srcCompat="@drawable/lock_alt_light" />
+            app:srcCompat="@drawable/password_icon" />
 
         <EditText
             android:id="@+id/password_text"
@@ -159,7 +159,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/password_background"
-            app:srcCompat="@drawable/key_alt_light" />
+            app:srcCompat="@drawable/password_key" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -180,7 +180,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/rectangle_6" />
+            app:srcCompat="@drawable/blue_button" />
 
         <TextView
             android:id="@+id/login_button_text"

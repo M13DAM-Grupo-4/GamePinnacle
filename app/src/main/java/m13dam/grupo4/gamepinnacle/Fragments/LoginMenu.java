@@ -7,7 +7,6 @@ import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
-import android.text.InputType;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.view.LayoutInflater;
@@ -100,14 +99,14 @@ public class LoginMenu extends Fragment {
 
             if (password_hidden) {
                 password_hidden = false;
-                password_eye.setImageResource(R.drawable.eye_light);
+                password_eye.setImageResource(R.drawable.password_eye);
                 int sel_start = password_text.getSelectionStart();
                 int sel_end = password_text.getSelectionEnd();
                 password_text.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
                 password_text.setSelection(sel_start, sel_end);
             } else {
                 password_hidden = true;
-                password_eye.setImageResource(R.drawable.key_alt_light);
+                password_eye.setImageResource(R.drawable.password_key);
                 int sel_start = password_text.getSelectionStart();
                 int sel_end = password_text.getSelectionEnd();
                 password_text.setTransformationMethod(PasswordTransformationMethod.getInstance());
