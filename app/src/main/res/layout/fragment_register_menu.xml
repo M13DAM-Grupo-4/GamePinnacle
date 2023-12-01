@@ -209,7 +209,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto_medium"
-                    android:text="Iniciar sesión"
+                    android:text="Crear"
                     android:textColor="#FFFFFF"
                     android:textSize="19sp"
                     app:layout_constraintBottom_toBottomOf="@+id/login_login_button_background"
