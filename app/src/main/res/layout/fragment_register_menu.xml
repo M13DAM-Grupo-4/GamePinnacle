@@ -49,10 +49,20 @@
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
             android:layout_marginBottom="20dp"
-            android:background="@drawable/bg"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
+
+            <ImageView
+                android:id="@+id/register_menu_container_bg"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:alpha="0.75"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/bg" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/register_menu_user"
@@ -78,12 +88,13 @@
 
                 <ImageView
                     android:id="@+id/register_menu_user_textbg"
-                    android:layout_width="0dp"
+                    android:layout_width="260dp"
                     android:layout_height="64dp"
                     android:layout_marginTop="10dp"
-                    app:srcCompat="@drawable/black_transparent_button_blue_round"
+                    android:alpha="0.5"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/register_menu_user_title" />
+                    app:layout_constraintTop_toBottomOf="@+id/register_menu_user_title"
+                    app:srcCompat="@drawable/black_transparent_button_blue_round_2" />
 
                 <EditText
                     android:id="@+id/register_menu_user_text"
@@ -124,9 +135,10 @@
                     android:layout_width="0dp"
                     android:layout_height="64dp"
                     android:layout_marginTop="10dp"
-                    app:srcCompat="@drawable/black_transparent_button_blue_round"
+                    android:alpha="0.5"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/register_menu_mail_title" />
+                    app:layout_constraintTop_toBottomOf="@+id/register_menu_mail_title"
+                    app:srcCompat="@drawable/black_transparent_button_blue_round_2" />
 
                 <EditText
                     android:id="@+id/register_menu_mail_text"
@@ -167,9 +179,10 @@
                     android:layout_width="0dp"
                     android:layout_height="64dp"
                     android:layout_marginTop="10dp"
-                    app:srcCompat="@drawable/black_transparent_button_blue_round"
+                    android:alpha="0.5"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/register_menu_password_title" />
+                    app:layout_constraintTop_toBottomOf="@+id/register_menu_password_title"
+                    app:srcCompat="@drawable/black_transparent_button_blue_round_2" />
 
                 <EditText
                     android:id="@+id/register_menu_password_text"
