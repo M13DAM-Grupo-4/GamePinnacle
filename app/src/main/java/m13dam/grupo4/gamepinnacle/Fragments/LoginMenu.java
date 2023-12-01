@@ -168,11 +168,6 @@ public class LoginMenu extends Fragment {
             String contraseñaIntroducido_JVM = password_text.getText().toString();
 
 
-            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-            fragmentManager.beginTransaction()
-                    .replace(R.id.main_fragment_container, PerfilUser.class, null)
-                    .commit();
-
             Thread thread = new Thread(() -> {
 
                 int RememberedID = DataBaseManager.LoginRemember(getActivity());
