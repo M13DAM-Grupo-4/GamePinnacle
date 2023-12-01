@@ -4,11 +4,14 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 
 import m13dam.grupo4.gamepinnacle.R;
 
@@ -27,6 +30,10 @@ public class RegisterMenu extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    // Ui_Layout
+
+    ConstraintLayout register_menu_ui;
 
     public RegisterMenu() {
         // Required empty public constructor
@@ -70,7 +77,14 @@ public class RegisterMenu extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        register_menu_ui = getActivity().findViewById(R.id.register_menu_ui);
+
+        Animation anim = AnimationUtils.loadAnimation(getActivity(), R.anim.blink);
+        register_menu_ui.startAnimation(anim);
+
 
     }
+
+
 
 }

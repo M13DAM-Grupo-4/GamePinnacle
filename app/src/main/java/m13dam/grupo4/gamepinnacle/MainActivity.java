@@ -1,6 +1,8 @@
 package m13dam.grupo4.gamepinnacle;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentContainer;
 import androidx.fragment.app.FragmentManager;
 
@@ -16,11 +18,11 @@ import android.widget.Toast;
 
 import m13dam.grupo4.gamepinnacle.DataBase.DataBaseManager;
 import m13dam.grupo4.gamepinnacle.Fragments.LoginMenu;
+import m13dam.grupo4.gamepinnacle.Fragments.PerfilUser;
+import m13dam.grupo4.gamepinnacle.Fragments.RegisterMenu;
 import m13dam.grupo4.gamepinnacle.Types.CurrentSession;
 
 public class MainActivity extends AppCompatActivity {
-
-    FragmentContainer mainFragmentContainer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +33,22 @@ public class MainActivity extends AppCompatActivity {
         fragmentManager.beginTransaction()
                 .replace(R.id.main_fragment_container, LoginMenu.class, null)
                 .commit();
+
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                Fragment frag = getSupportFragmentManager().findFragmentById(R.id.main_fragment_container);
+
+                if (frag.getClass() == RegisterMenu.class){
+                    FragmentManager fragmentManager = getSupportFragmentManager();
+                    fragmentManager.beginTransaction()
+                            .replace(R.id.main_fragment_container, LoginMenu.class, null)
+                            .commit();
+                    return;
+                }
+
+            }
+        });
 
     }
 

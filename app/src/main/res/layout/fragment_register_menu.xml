@@ -14,7 +14,6 @@
         android:layout_height="0dp"
         android:alpha="0.15"
         android:scaleType="centerCrop"
-        android:src="@tools:sample/avatars"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -22,7 +21,7 @@
         app:srcCompat="@drawable/login_background" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/register_menu_root"
+        android:id="@+id/register_menu_ui"
         android:layout_width="360dp"
         android:layout_height="640dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -82,7 +81,7 @@
                     android:layout_width="0dp"
                     android:layout_height="64dp"
                     android:layout_marginTop="10dp"
-                    android:src="@drawable/black_transparent_button_blue_round"
+                    app:srcCompat="@drawable/black_transparent_button_blue_round"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/register_menu_user_title" />
 
@@ -125,7 +124,7 @@
                     android:layout_width="0dp"
                     android:layout_height="64dp"
                     android:layout_marginTop="10dp"
-                    android:src="@drawable/black_transparent_button_blue_round"
+                    app:srcCompat="@drawable/black_transparent_button_blue_round"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/register_menu_mail_title" />
 
@@ -168,7 +167,7 @@
                     android:layout_width="0dp"
                     android:layout_height="64dp"
                     android:layout_marginTop="10dp"
-                    android:src="@drawable/black_transparent_button_blue_round"
+                    app:srcCompat="@drawable/black_transparent_button_blue_round"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/register_menu_password_title" />
 

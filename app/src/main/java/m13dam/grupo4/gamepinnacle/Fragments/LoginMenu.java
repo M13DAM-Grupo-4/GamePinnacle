@@ -41,6 +41,10 @@ public class LoginMenu extends Fragment {
     private String mParam1;
     private String mParam2;
 
+    // Ui_Layout
+
+    ConstraintLayout login_ui;
+
     // UI
 
     ImageView email_img;
@@ -101,11 +105,17 @@ public class LoginMenu extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        // Ui
+
+        login_ui = getActivity().findViewById(R.id.login_ui);
+        Animation uianim = AnimationUtils.loadAnimation(getActivity(), R.anim.blink);
+        login_ui.startAnimation(uianim);
+
         // Password
         password_eye = view.findViewById(R.id.login_password_eye);
         password_text = view.findViewById(R.id.login_password_text);
 
-        email_text = view.findViewById(R.id.login_email);
+        email_text = view.findViewById(R.id.login_email_text);
 
         password_eye.setOnClickListener(v -> {
             Animation anim = AnimationUtils.loadAnimation(getActivity(), R.anim.blink);
@@ -137,10 +147,12 @@ public class LoginMenu extends Fragment {
 
             // TODO
             System.out.println("TODO: Recover");
+            /*
             FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
             fragmentManager.beginTransaction()
                     .replace(R.id.main_fragment_container, RecoverMenu.class, null)
                     .commit();
+            */
         });
 
         // Login
