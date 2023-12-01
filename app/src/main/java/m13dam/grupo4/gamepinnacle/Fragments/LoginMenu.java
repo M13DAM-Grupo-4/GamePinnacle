@@ -6,7 +6,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
+import android.os.Handler;
+import android.os.Looper;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.view.LayoutInflater;
@@ -18,7 +21,9 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import m13dam.grupo4.gamepinnacle.DataBase.DataBaseManager;
 import m13dam.grupo4.gamepinnacle.R;
+import m13dam.grupo4.gamepinnacle.Types.CurrentSession;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -100,6 +105,8 @@ public class LoginMenu extends Fragment {
         password_eye = view.findViewById(R.id.login_password_eye);
         password_text = view.findViewById(R.id.login_password_text);
 
+        email_text = view.findViewById(R.id.login_email);
+
         password_eye.setOnClickListener(v -> {
             Animation anim = AnimationUtils.loadAnimation(getActivity(), R.anim.blink);
             password_eye.startAnimation(anim);
@@ -130,6 +137,10 @@ public class LoginMenu extends Fragment {
 
             // TODO
             System.out.println("TODO: Recover");
+            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.main_fragment_container, RecoverMenu.class, null)
+                    .commit();
         });
 
         // Login
@@ -140,6 +151,39 @@ public class LoginMenu extends Fragment {
 
             // TODO
             System.out.println("TODO: Login");
+
+            String usuarioIntroducido_JVM = email_text.getText().toString();
+            String contraseñaIntroducido_JVM = password_text.getText().toString();
+
+
+            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.main_fragment_container, PerfilUser.class, null)
+                    .commit();
+
+            Thread thread = new Thread(() -> {
+
+                int RememberedID = DataBaseManager.LoginRemember(getActivity());
+                if(RememberedID > 0){
+                    CurrentSession.setUserID(RememberedID);
+                } else {
+                    int LoginID = DataBaseManager.Login(usuarioIntroducido_JVM,contraseñaIntroducido_JVM);
+                    CurrentSession.setUserID(LoginID);
+                }
+                Handler handler = new Handler(Looper.getMainLooper());
+
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                        fragmentManager.beginTransaction()
+                                .replace(R.id.main_fragment_container, PerfilUser.class, null)
+                                .commit();
+                    }
+                });
+
+            });
+            thread.start();
         });
 
         // Register
@@ -150,6 +194,10 @@ public class LoginMenu extends Fragment {
 
             // TODO
             System.out.println("TODO: Register");
+            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.main_fragment_container, RegisterMenu.class, null)
+                    .commit();
         });
 
     }
