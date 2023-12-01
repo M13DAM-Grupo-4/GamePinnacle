@@ -1,11 +1,13 @@
 package m13dam.grupo4.gamepinnacle.Fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
@@ -18,6 +20,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import m13dam.grupo4.gamepinnacle.MainActivity2;
 import m13dam.grupo4.gamepinnacle.R;
 
 /**
@@ -140,6 +143,10 @@ public class LoginMenu extends Fragment {
 
             // TODO
             System.out.println("TODO: Login");
+
+            Intent intent = new Intent(getActivity(), MainActivity2.class);
+            startActivity(intent);
+
         });
 
         // Register
