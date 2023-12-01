@@ -1,6 +1,8 @@
 package m13dam.grupo4.gamepinnacle;
 
 import androidx.activity.OnBackPressedCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -60,10 +62,17 @@ public class MainActivity2 extends AppCompatActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
                     != PackageManager.PERMISSION_GRANTED) {
-                // Si no está concedido, solicitar el permiso al usuario
-                ActivityCompat.requestPermissions(this,
-                        new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
-                        REQUEST_CODE_PERMISSION);
+                // Solicitar permiso usando la nueva API de Android 12
+                ActivityResultLauncher<String> requestPermissionLauncher = registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
+                    if (isGranted) {
+                        // Permiso concedido, puedes proceder con la acción
+                        openGallery();
+                    } else {
+                        // Permiso denegado, informar al usuario o realizar alguna acción
+                        Toast.makeText(this, "Permiso denegado", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                requestPermissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE);
             } else {
                 // El permiso ya está concedido, puedes proceder con la acción
                 openGallery();
@@ -73,22 +82,7 @@ public class MainActivity2 extends AppCompatActivity {
             openGallery();
         }
     }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults); // Añadir esta línea
-
-        if (requestCode == REQUEST_CODE_PERMISSION) {
-            // Verificar si el permiso fue concedido
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // Permiso concedido, proceder con la acción
-                openGallery();
-            } else {
-                // Permiso denegado, informar al usuario o realizar alguna acción
-                Toast.makeText(this, "Permiso denegado", Toast.LENGTH_SHORT).show();
-            }
-        }
-    }
+    
 
     private void openGallery() {
         Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
