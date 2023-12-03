@@ -107,7 +107,9 @@ public class LoginMenu extends Fragment {
 
         // Ui
 
+        /*
         login_ui = getActivity().findViewById(R.id.login_ui);
+
         Animation uianim = AnimationUtils.loadAnimation(getActivity(), R.anim.blink);
         login_ui.startAnimation(uianim);
 
@@ -152,7 +154,7 @@ public class LoginMenu extends Fragment {
             fragmentManager.beginTransaction()
                     .replace(R.id.main_fragment_container, RecoverMenu.class, null)
                     .commit();
-            */
+
         });
 
         // Login
@@ -210,7 +212,8 @@ public class LoginMenu extends Fragment {
             fragmentManager.beginTransaction()
                     .replace(R.id.main_fragment_container, RegisterMenu.class, null)
                     .commit();
-        });
+        });*/
 
     }
+
 }

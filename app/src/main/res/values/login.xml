@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="login_text_color">#BFBFBF</color>
+    <color name="login_text_accent_color">#057DCD</color>
+    <string name="login_mail_hint">Correo</string>
+    <string name="login_password_hint">Contraseña</string>
+    <string name="login_mail_image_description">Imagen de perfil</string>
+    <string name="login_mail_background_image_description">Una imagen de fondo del campo correo</string>
+    <string name="login_password_image_description">Una imagen de un candado</string>
+    <string name="login_password_background_image_description">Una imagen de fondo del campo contraseña</string>
+    <string name="login_background_description">Una imagen de fondo sobre videojuegos</string>
+    <string name="login_logo_description">Una del logo de Game Pinnacle</string>
+    <string name="login_login_button_text">Iniciar sesión</string>
+    <string name="login_login_button_description">Botón iniciar sesión</string>
+    <string name="login_no_tienes_cuenta">¿No tienes cuenta?</string>
+    <string name="login_registrate">Registrate</string>
+    <string name="login_recover_password">Recuperar contraseña</string>
+    <string name="login_login_to_an_account">Inicia sesión en una cuenta existente</string>
+    <string name="login_welcome">Bienvenido</string>
+</resources>
