@@ -12,6 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import m13dam.grupo4.gamepinnacle.R;
 
@@ -33,7 +35,8 @@ public class RegisterMenu extends Fragment {
 
     // Ui_Layout
 
-    ConstraintLayout register_menu_ui;
+    LinearLayout register_menu_ui;
+    TextView register_menu_title;
 
     public RegisterMenu() {
         // Required empty public constructor
@@ -78,13 +81,12 @@ public class RegisterMenu extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         register_menu_ui = getActivity().findViewById(R.id.register_menu_ui);
+        register_menu_title = getActivity().findViewById(R.id.register_menu_title);
 
         Animation anim = AnimationUtils.loadAnimation(getActivity(), R.anim.blink);
         register_menu_ui.startAnimation(anim);
-
+        register_menu_title.startAnimation(anim);
 
     }
-
-
 
 }
