@@ -187,9 +187,9 @@ public class LoginMenu extends Fragment {
                                 .commit();
                     }
                 });
-
             });
             thread.start();
+
         });
 
         // Register

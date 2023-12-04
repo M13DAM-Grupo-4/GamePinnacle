@@ -1,19 +1,29 @@
 package m13dam.grupo4.gamepinnacle.Fragments;
 
+import static m13dam.grupo4.gamepinnacle.DataBase.DataBaseManager.RegistarUsuario;
+
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
+import android.os.Handler;
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import m13dam.grupo4.gamepinnacle.R;
+import m13dam.grupo4.gamepinnacle.Types.Usuario;
+import m13dam.grupo4.gamepinnacle.Types.sesion;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -30,6 +40,10 @@ public class RegisterMenu extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    private EditText mail_int;
+    private EditText user_int;
+    private EditText pass_int;
+    private Button registrar;
 
     // Ui_Layout
 
@@ -77,10 +91,55 @@ public class RegisterMenu extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        register_menu_ui = getActivity().findViewById(R.id.register_menu_ui);
+        register_menu_ui = getActivity().findViewById(R.id.);
 
         Animation anim = AnimationUtils.loadAnimation(getActivity(), R.anim.blink);
         register_menu_ui.startAnimation(anim);
+
+
+        mail_int = view.findViewById();
+        user_int = view.findViewById();
+        pass_int = view.findViewById();
+
+        registrar = view.findViewById();
+
+        registrar.setOnClickListener(v -> {
+
+            String mail = String.valueOf(mail_int.getText());
+            String user = String.valueOf(user_int.getText());
+            String pass = String.valueOf(pass_int.getText().hashCode());
+
+            if (!mail.isEmpty() && !user.isEmpty() && !pass.isEmpty()) {
+
+                sesion.usuario = new Usuario(mail, user, pass);
+
+            Thread thread = new Thread(() -> {
+                try {
+                    RegistarUsuario(sesion.usuario);
+                }catch(Exception e){
+                    Toast.makeText(getActivity(), "Algo paso", Toast.LENGTH_SHORT).show();
+                }
+
+                Handler handler = new Handler(Looper.getMainLooper());
+
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                        fragmentManager.beginTransaction()
+                                .replace(R.id.main_fragment_container, PerfilUser.class, null)
+                                .commit();
+                    }
+                });
+            });
+            thread.start();
+
+            } else {
+                Toast.makeText(getActivity(), "Algo paso", Toast.LENGTH_SHORT).show();
+            }
+        });
+
 
 
     }

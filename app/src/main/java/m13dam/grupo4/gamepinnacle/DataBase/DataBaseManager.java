@@ -14,6 +14,7 @@ import java.sql.SQLException;
 import java.util.Properties;
 
 import m13dam.grupo4.gamepinnacle.BuildConfig;
+import m13dam.grupo4.gamepinnacle.Types.Usuario;
 
 public class DataBaseManager {
     public static Connection CreateConnection(){
@@ -58,6 +59,32 @@ public class DataBaseManager {
     }
     public static SQLiteDatabase GetLocalDB(@Nullable Context c){
         return new LocalDatabaseManager(c).getWritableDatabase();
+    }
+
+    public static int RegistarUsuario(Usuario usuario){
+        try {
+            Connection c = CreateConnection();
+            PreparedStatement stmt = c.prepareStatement("INSERT INTO public.usuarios SET (mail, usuario, " +
+                    "contraseña VALUES" +
+                    "(?,?,?) RETURNING id");
+            stmt.setString(1, usuario.getCorreo());
+            stmt.setString(2, usuario.getUsuario());
+            stmt.setString(3, usuario.getPassword());
+
+            ResultSet rs = stmt.executeQuery();
+
+            while(rs.next()) {
+                return rs.getInt(1);
+            }
+
+            stmt.close();
+            c.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return -1;
     }
 
     public static int LoginRemember(@Nullable Context c){
