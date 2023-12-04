@@ -17,8 +17,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import m13dam.grupo4.gamepinnacle.DataBase.DataBaseManager;
@@ -43,21 +45,18 @@ public class LoginMenu extends Fragment {
 
     // Ui_Layout
 
-    ConstraintLayout login_ui;
+    LinearLayout login_ui;
 
     // UI
-
-    ImageView email_img;
     EditText email_text;
 
-    ImageView password_lock;
     EditText password_text;
     ImageView password_eye;
     boolean password_hidden = true;
 
     TextView recover;
 
-    ConstraintLayout login_button;
+    Button login_button;
 
     TextView register_register;
 
@@ -106,15 +105,13 @@ public class LoginMenu extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         // Ui
-
-        /*
         login_ui = getActivity().findViewById(R.id.login_ui);
 
         Animation uianim = AnimationUtils.loadAnimation(getActivity(), R.anim.blink);
         login_ui.startAnimation(uianim);
 
         // Password
-        password_eye = view.findViewById(R.id.login_password_eye);
+        password_eye = view.findViewById(R.id.login_password_visibility);
         password_text = view.findViewById(R.id.login_password_text);
 
         email_text = view.findViewById(R.id.login_email_text);
@@ -142,7 +139,7 @@ public class LoginMenu extends Fragment {
         });
 
         // Recover
-        recover = view.findViewById(R.id.login_recover);
+        recover = view.findViewById(R.id.login_recover_button);
         recover.setOnClickListener(v -> {
             Animation anim = AnimationUtils.loadAnimation(getActivity(), R.anim.blink);
             recover.startAnimation(anim);
@@ -154,7 +151,7 @@ public class LoginMenu extends Fragment {
             fragmentManager.beginTransaction()
                     .replace(R.id.main_fragment_container, RecoverMenu.class, null)
                     .commit();
-
+            */
         });
 
         // Login
@@ -201,7 +198,7 @@ public class LoginMenu extends Fragment {
         });
 
         // Register
-        register_register = view.findViewById(R.id.login_register_register);
+        register_register = view.findViewById(R.id.login_register_button);
         register_register.setOnClickListener(v -> {
             Animation anim = AnimationUtils.loadAnimation(getActivity(), R.anim.blink);
             register_register.startAnimation(anim);
@@ -212,7 +209,7 @@ public class LoginMenu extends Fragment {
             fragmentManager.beginTransaction()
                     .replace(R.id.main_fragment_container, RegisterMenu.class, null)
                     .commit();
-        });*/
+        });
 
     }
 
