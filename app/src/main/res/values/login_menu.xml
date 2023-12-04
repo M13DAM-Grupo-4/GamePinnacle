@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="login_background_description">Fondo del menu de login</string>
+    <string name="login_logo_description">Logo de Game Pinnacle</string>
+    <string name="login_welcome_text">Bienvenido</string>
+    <string name="login_subtitle_text">Inicia sesión en una cuenta existente</string>
+    <string name="login_user_image_description">Imagen de usuario</string>
+    <string name="login_mail_hint_text">Correo</string>
+    <string name="login_password_image_description">Imagen de contraseña</string>
+    <string name="login_password_hint_text">Contraseña</string>
+    <string name="login_password_visibility_description">Imagen de visibilidad de la contraseña</string>
+    <string name="login_recover_text">Recuperar contraseña</string>
+    <string name="login_login_button_text">Iniciar sesión</string>
+    <string name="login_register_text_1">¿No tienes cuenta?</string>
+    <string name="login_register_text_2">Regístrate</string>
+</resources>
