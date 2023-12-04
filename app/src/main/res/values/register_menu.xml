@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="register_mail_hint_text">Correo</string>
+    <string name="register_password_hint_text">Contraseña</string>
+    <string name="register_title">Crear una cuenta</string>
+    <string name="register_user_image_description">Imagen de correo</string>
+    <string name="register_password_image_description">Imagen de un candado</string>
+    <string name="register_password_visibility_description">Imagen de una llave</string>
+    <string name="register_login_button_text">Crear</string>
+    <string name="login_password_repeated_hint_text">Contraseña</string>
+    <string name="register_subtitle_text">Rellene los siguientes campos</string>
+</resources>
