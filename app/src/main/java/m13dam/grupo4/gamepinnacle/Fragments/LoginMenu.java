@@ -1,5 +1,6 @@
 package m13dam.grupo4.gamepinnacle.Fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -187,10 +188,17 @@ public class LoginMenu extends Fragment {
                     handler.post(new Runnable() {
                         @Override
                         public void run() {
-                            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                            fragmentManager.beginTransaction()
-                                    .replace(R.id.main_fragment_container, PerfilUser.class, null)
-                                    .commit();
+
+                                if (CurrentSession.getUserID() > 0) {
+                                    FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                                    fragmentManager.beginTransaction()
+                                            .replace(R.id.main_fragment_container, PerfilUser.class, null)
+                                            .commit();
+
+                                } else {
+                                    Toast.makeText(getActivity(), "Usuario o contraseña incorrectos", Toast.LENGTH_SHORT).show();
+                                }
+
                         }
                     });
                 });
