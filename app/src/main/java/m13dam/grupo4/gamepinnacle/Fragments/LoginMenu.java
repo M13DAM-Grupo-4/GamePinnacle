@@ -22,6 +22,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.common.hash.Hashing;
 
@@ -171,28 +172,32 @@ public class LoginMenu extends Fragment {
             String contraseñaIntroducido_JVM = password_text.getText().toString();
 
 
-            Thread thread = new Thread(() -> {
+            if(!usuarioIntroducido_JVM.isEmpty() && !contraseñaIntroducido_JVM.isEmpty()) {
+                Thread thread = new Thread(() -> {
 
-                int RememberedID = DataBaseManager.LoginRemember(getActivity());
-                if(RememberedID > 0){
-                    CurrentSession.setUserID(RememberedID);
-                } else {
-                    int LoginID = DataBaseManager.Login(usuarioIntroducido_JVM, Hashing.sha256().hashString(contraseñaIntroducido_JVM, StandardCharsets.UTF_8).toString());
-                    CurrentSession.setUserID(LoginID);
-                }
-                Handler handler = new Handler(Looper.getMainLooper());
-
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                        fragmentManager.beginTransaction()
-                                .replace(R.id.main_fragment_container, PerfilUser.class, null)
-                                .commit();
+                    int RememberedID = DataBaseManager.LoginRemember(getActivity());
+                    if (RememberedID > 0) {
+                        CurrentSession.setUserID(RememberedID);
+                    } else {
+                        int LoginID = DataBaseManager.Login(usuarioIntroducido_JVM, Hashing.sha256().hashString(contraseñaIntroducido_JVM, StandardCharsets.UTF_8).toString());
+                        CurrentSession.setUserID(LoginID);
                     }
+                    Handler handler = new Handler(Looper.getMainLooper());
+
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                            fragmentManager.beginTransaction()
+                                    .replace(R.id.main_fragment_container, PerfilUser.class, null)
+                                    .commit();
+                        }
+                    });
                 });
-            });
-            thread.start();
+                thread.start();
+            }else{
+                Toast.makeText(getActivity(), "Introduzca ambos campos de sesion", Toast.LENGTH_SHORT).show();
+            }
 
         });
 
