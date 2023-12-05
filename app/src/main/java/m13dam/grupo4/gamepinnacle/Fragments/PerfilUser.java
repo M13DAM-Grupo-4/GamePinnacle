@@ -80,23 +80,17 @@ public class PerfilUser extends Fragment {
 
 
 
-        listaJuegosRecientes();
-
-
-
-
-
-
+       // listaJuegosRecientes();
 
     }
 
 
-    private void listaJuegosRecientes () {
+    /*private void listaJuegosRecientes () {
         AdaptadorPrincipal recycleview_jvm = new AdaptadorPrincipal(getActivity(), listaJuegos);
         //Asignamos la id de nuestro RecyclerView del layout
         RecyclerView recyclerView = getActivity().findViewById(R.id.pruebaRecycle);
         //Asignamos el adaptador que vamos a utilizar en nuestro recyclerview
         recyclerView.setAdapter(recycleview_jvm);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-    }
+    } */
 }
