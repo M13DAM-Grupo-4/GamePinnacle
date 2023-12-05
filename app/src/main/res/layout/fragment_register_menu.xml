@@ -185,7 +185,7 @@
                 android:autofillHints="password" />
 
             <ImageView
-                android:id="@+id/login_password_repeated_visibility"
+                android:id="@+id/register_password_repeated_visibility"
                 android:layout_width="@dimen/_30sdp"
                 android:layout_height="@dimen/_30sdp"
                 android:layout_gravity="center_vertical"

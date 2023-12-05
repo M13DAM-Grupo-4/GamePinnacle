@@ -13,6 +13,8 @@ import androidx.fragment.app.FragmentManager;
 
 import android.os.Handler;
 import android.os.Looper;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +22,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -61,6 +64,17 @@ public class RegisterMenu extends Fragment {
     LinearLayout register_menu_ui;
     TextView register_menu_title;
 
+    // Text
+    EditText register_password_text;
+    EditText register_password_repeated_text;
+
+    // Password visibility
+    ImageView register_password_visibility;
+    ImageView register_password_repeated_visibility;
+
+    boolean password_hidden = true;
+    boolean password_repeated_hidden = true;
+
     public RegisterMenu() {
         // Required empty public constructor
     }
@@ -90,6 +104,7 @@ public class RegisterMenu extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
     }
 
     @Override
@@ -109,6 +124,53 @@ public class RegisterMenu extends Fragment {
         Animation anim = AnimationUtils.loadAnimation(getActivity(), R.anim.blink);
         register_menu_ui.startAnimation(anim);
         register_menu_title.startAnimation(anim);
+
+        register_password_text = getActivity().findViewById(R.id.register_password_text);
+        register_password_repeated_text = getActivity().findViewById(R.id.register_password_repeated_text);
+
+        register_password_visibility = getActivity().findViewById(R.id.register_password_visibility);
+        register_password_visibility.setOnClickListener(v -> {
+            Animation anim1 = AnimationUtils.loadAnimation(getActivity(), R.anim.blink);
+            register_password_visibility.startAnimation(anim1);
+
+            if (password_hidden) {
+                password_hidden = false;
+                register_password_visibility.setImageResource(R.drawable.password_eye);
+                int sel_start = register_password_text.getSelectionStart();
+                int sel_end = register_password_text.getSelectionEnd();
+                register_password_text.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                register_password_text.setSelection(sel_start, sel_end);
+            } else {
+                password_hidden = true;
+                register_password_visibility.setImageResource(R.drawable.password_key);
+                int sel_start = register_password_text.getSelectionStart();
+                int sel_end = register_password_text.getSelectionEnd();
+                register_password_text.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                register_password_text.setSelection(sel_start, sel_end);
+            }
+        });
+
+        register_password_repeated_visibility = getActivity().findViewById(R.id.register_password_repeated_visibility);
+        register_password_repeated_visibility.setOnClickListener(v -> {
+            Animation anim1 = AnimationUtils.loadAnimation(getActivity(), R.anim.blink);
+            register_password_repeated_visibility.startAnimation(anim1);
+
+            if (password_repeated_hidden) {
+                password_repeated_hidden = false;
+                register_password_repeated_visibility.setImageResource(R.drawable.password_eye);
+                int sel_start = register_password_repeated_text.getSelectionStart();
+                int sel_end = register_password_repeated_text.getSelectionEnd();
+                register_password_repeated_text.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                register_password_repeated_text.setSelection(sel_start, sel_end);
+            } else {
+                password_repeated_hidden = true;
+                register_password_repeated_visibility.setImageResource(R.drawable.password_key);
+                int sel_start = register_password_repeated_text.getSelectionStart();
+                int sel_end = register_password_repeated_text.getSelectionEnd();
+                register_password_repeated_text.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                register_password_repeated_text.setSelection(sel_start, sel_end);
+            }
+        });
 
         mail_int = view.findViewById(R.id.register_email_text);
         user_int = view.findViewById(R.id.register_username_text);
