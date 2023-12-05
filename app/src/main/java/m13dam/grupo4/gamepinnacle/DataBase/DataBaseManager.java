@@ -40,12 +40,12 @@ public class DataBaseManager {
         return null;
     }
 
-    public static int Login(String mail, Integer pass){
+    public static int Login(String mail, String pass){
         try {
             Connection c = CreateConnection();
             PreparedStatement stmt = c.prepareStatement("SELECT id FROM public.users WHERE email=? AND password=?");
             stmt.setString(1, mail);
-            stmt.setInt(2, pass);
+            stmt.setString(2, pass);
             ResultSet rs = stmt.executeQuery();
 
             while(rs.next()) {
