@@ -19,7 +19,11 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import java.sql.SQLOutput;
 
 import m13dam.grupo4.gamepinnacle.R;
 import m13dam.grupo4.gamepinnacle.Types.Usuario;
@@ -42,12 +46,14 @@ public class RegisterMenu extends Fragment {
     private String mParam2;
     private EditText mail_int;
     private EditText user_int;
-    private EditText pass_int;
+    private EditText passOne_int;
+    private EditText passTwo_int;
     private Button registrar;
 
     // Ui_Layout
 
-    ConstraintLayout register_menu_ui;
+    LinearLayout register_menu_ui;
+    TextView register_menu_title;
 
     public RegisterMenu() {
         // Required empty public constructor
@@ -91,52 +97,65 @@ public class RegisterMenu extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        register_menu_ui = getActivity().findViewById(R.id.);
+        register_menu_ui = getActivity().findViewById(R.id.register_menu_ui);
+        register_menu_title = getActivity().findViewById(R.id.register_menu_title);
 
         Animation anim = AnimationUtils.loadAnimation(getActivity(), R.anim.blink);
         register_menu_ui.startAnimation(anim);
+        register_menu_title.startAnimation(anim);
 
+        mail_int = view.findViewById(R.id.register_email_text);
+        user_int = view.findViewById(R.id.register_username_text);
+        passOne_int = view.findViewById(R.id.register_password_text);
+        passTwo_int = view.findViewById(R.id.register_password_repeated_text);
 
-        mail_int = view.findViewById();
-        user_int = view.findViewById();
-        pass_int = view.findViewById();
-
-        registrar = view.findViewById();
+        registrar = view.findViewById(R.id.login_login_button);
 
         registrar.setOnClickListener(v -> {
 
             String mail = String.valueOf(mail_int.getText());
             String user = String.valueOf(user_int.getText());
-            String pass = String.valueOf(pass_int.getText().hashCode());
+            String passOne = String.valueOf(passOne_int.getText());
+            String passTwo = String.valueOf(passTwo_int.getText());
 
-            if (!mail.isEmpty() && !user.isEmpty() && !pass.isEmpty()) {
 
-                sesion.usuario = new Usuario(mail, user, pass);
 
-            Thread thread = new Thread(() -> {
-                try {
-                    RegistarUsuario(sesion.usuario);
-                }catch(Exception e){
-                    Toast.makeText(getActivity(), "Algo paso", Toast.LENGTH_SHORT).show();
+            if (!mail.isEmpty() && !user.isEmpty() && !passOne.isEmpty() && !passTwo.isEmpty()) {
+
+                if(passOne.equals(passTwo)) {
+
+                    int pass = passOne.hashCode();
+
+                    sesion.usuario = new Usuario(mail, user, pass);
+
+                    Thread thread = new Thread(() -> {
+                        try {
+
+                            RegistarUsuario(sesion.usuario);
+                        } catch (Exception e) {
+                            System.out.println("Algo paso");
+                        }
+
+                        Handler handler = new Handler(Looper.getMainLooper());
+
+                        handler.post(new Runnable() {
+                            @Override
+                            public void run() {
+
+                                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                                fragmentManager.beginTransaction()
+                                        .replace(R.id.main_fragment_container, PerfilUser.class, null)
+                                        .commit();
+                            }
+                        });
+                    });
+                    thread.start();
+                }else {
+                    Toast.makeText(getActivity(), "Las contraseñas deben coincidir", Toast.LENGTH_SHORT).show();
                 }
 
-                Handler handler = new Handler(Looper.getMainLooper());
-
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
-
-                        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                        fragmentManager.beginTransaction()
-                                .replace(R.id.main_fragment_container, PerfilUser.class, null)
-                                .commit();
-                    }
-                });
-            });
-            thread.start();
-
             } else {
-                Toast.makeText(getActivity(), "Algo paso", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "Complete todos los campos", Toast.LENGTH_SHORT).show();
             }
         });
 

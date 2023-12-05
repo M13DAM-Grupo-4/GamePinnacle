@@ -69,7 +69,7 @@ public class DataBaseManager {
                     "(?,?,?) RETURNING id");
             stmt.setString(1, usuario.getCorreo());
             stmt.setString(2, usuario.getUsuario());
-            stmt.setString(3, usuario.getPassword());
+            stmt.setInt(3, usuario.getPassword());
 
             ResultSet rs = stmt.executeQuery();
 

@@ -4,9 +4,9 @@ public class Usuario {
 
     private String correo;
     private String usuario;
-    private String password;
+    private int  password;
 
-    public Usuario(String correo, String usuario, String password) {
+    public Usuario(String correo, String usuario, int password) {
         this.correo = correo;
         this.usuario = usuario;
         this.password = password;
@@ -28,11 +28,11 @@ public class Usuario {
         this.usuario = usuario;
     }
 
-    public String getPassword() {
+    public int getPassword() {
         return password;
     }
 
-    public void setPassword(String password) {
+    public void setPassword(int password) {
         this.password = password;
     }
 }
