@@ -3,24 +3,12 @@ package m13dam.grupo4.gamepinnacle;
 import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentContainer;
 import androidx.fragment.app.FragmentManager;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
-import android.view.View;
-import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.EditText;
-import android.widget.Toast;
 
-import m13dam.grupo4.gamepinnacle.DataBase.DataBaseManager;
 import m13dam.grupo4.gamepinnacle.Fragments.LoginMenu;
-import m13dam.grupo4.gamepinnacle.Fragments.PerfilUser;
 import m13dam.grupo4.gamepinnacle.Fragments.RegisterMenu;
-import m13dam.grupo4.gamepinnacle.Types.CurrentSession;
 
 public class MainActivity extends AppCompatActivity {
 

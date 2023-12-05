@@ -7,7 +7,6 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
@@ -30,9 +29,6 @@ import android.widget.Toast;
 import com.google.common.hash.Hashing;
 
 import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.sql.SQLOutput;
 
 import m13dam.grupo4.gamepinnacle.R;
 import m13dam.grupo4.gamepinnacle.Types.Usuario;

@@ -3,9 +3,6 @@ package m13dam.grupo4.gamepinnacle.igdb;
 import com.api.igdb.request.IGDBWrapper;
 import com.api.igdb.utils.TwitchToken;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import m13dam.grupo4.gamepinnacle.BuildConfig;
 import m13dam.grupo4.gamepinnacle.twitch.Twitch;
 
