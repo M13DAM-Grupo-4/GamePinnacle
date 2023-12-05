@@ -23,6 +23,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.common.hash.Hashing;
+
+import java.nio.charset.StandardCharsets;
+
 import m13dam.grupo4.gamepinnacle.DataBase.DataBaseManager;
 import m13dam.grupo4.gamepinnacle.R;
 import m13dam.grupo4.gamepinnacle.Types.CurrentSession;
@@ -173,7 +177,7 @@ public class LoginMenu extends Fragment {
                 if(RememberedID > 0){
                     CurrentSession.setUserID(RememberedID);
                 } else {
-                    int LoginID = DataBaseManager.Login(usuarioIntroducido_JVM,contraseñaIntroducido_JVM.hashCode());
+                    int LoginID = DataBaseManager.Login(usuarioIntroducido_JVM, Hashing.sha256().hashString(contraseñaIntroducido_JVM, StandardCharsets.UTF_8).toString());
                     CurrentSession.setUserID(LoginID);
                 }
                 Handler handler = new Handler(Looper.getMainLooper());
