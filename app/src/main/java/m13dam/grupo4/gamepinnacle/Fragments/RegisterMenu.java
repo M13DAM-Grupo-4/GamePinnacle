@@ -23,6 +23,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.common.hash.Hashing;
+
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.SQLOutput;
 
 import m13dam.grupo4.gamepinnacle.R;
@@ -124,7 +129,9 @@ public class RegisterMenu extends Fragment {
 
                 if(passOne.equals(passTwo)) {
 
-                    int pass = passOne.hashCode();
+
+
+                    String pass = Hashing.sha256().hashString(passOne, StandardCharsets.UTF_8).toString();
 
                     sesion.usuario = new Usuario(mail, user, pass);
 
