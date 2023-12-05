@@ -40,11 +40,11 @@ public class DataBaseManager {
         return null;
     }
 
-    public static int Login(String user, String pass){
+    public static int Login(String mail, String pass){
         try {
             Connection c = CreateConnection();
-            PreparedStatement stmt = c.prepareStatement("SELECT id FROM public.NombreTabla WHERE usuario=? AND contra=?");
-            stmt.setString(1, user);
+            PreparedStatement stmt = c.prepareStatement("SELECT id FROM public.users WHERE email=? AND password=?");
+            stmt.setString(1, mail);
             stmt.setString(2, pass);
             ResultSet rs = stmt.executeQuery();
 
@@ -64,8 +64,8 @@ public class DataBaseManager {
     public static int RegistarUsuario(Usuario usuario){
         try {
             Connection c = CreateConnection();
-            PreparedStatement stmt = c.prepareStatement("INSERT INTO public.usuarios SET (mail, usuario, " +
-                    "contraseña VALUES" +
+            PreparedStatement stmt = c.prepareStatement("INSERT INTO public.users (email, username, " +
+                    "password) VALUES" +
                     "(?,?,?) RETURNING id");
             stmt.setString(1, usuario.getCorreo());
             stmt.setString(2, usuario.getUsuario());
