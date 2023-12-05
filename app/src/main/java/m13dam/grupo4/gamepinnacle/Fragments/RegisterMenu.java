@@ -1,5 +1,6 @@
 package m13dam.grupo4.gamepinnacle.Fragments;
 
+import static m13dam.grupo4.gamepinnacle.DataBase.DataBaseManager.Login;
 import static m13dam.grupo4.gamepinnacle.DataBase.DataBaseManager.RegistarUsuario;
 
 import android.os.Bundle;
@@ -135,19 +136,19 @@ public class RegisterMenu extends Fragment {
 
                     sesion.usuario = new Usuario(mail, user, pass);
 
+
                     Thread thread = new Thread(() -> {
-                        try {
 
                             RegistarUsuario(sesion.usuario);
-                        } catch (Exception e) {
-                            System.out.println("Algo paso");
-                        }
+                            Login(mail,pass);
+
 
                         Handler handler = new Handler(Looper.getMainLooper());
 
                         handler.post(new Runnable() {
                             @Override
                             public void run() {
+
 
                                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                                 fragmentManager.beginTransaction()

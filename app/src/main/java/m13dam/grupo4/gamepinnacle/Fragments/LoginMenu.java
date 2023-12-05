@@ -173,7 +173,7 @@ public class LoginMenu extends Fragment {
                 if(RememberedID > 0){
                     CurrentSession.setUserID(RememberedID);
                 } else {
-                    int LoginID = DataBaseManager.Login(usuarioIntroducido_JVM,contraseñaIntroducido_JVM);
+                    int LoginID = DataBaseManager.Login(usuarioIntroducido_JVM,contraseñaIntroducido_JVM.hashCode());
                     CurrentSession.setUserID(LoginID);
                 }
                 Handler handler = new Handler(Looper.getMainLooper());
