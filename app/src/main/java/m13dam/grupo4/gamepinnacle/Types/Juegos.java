@@ -1,16 +1,25 @@
 package m13dam.grupo4.gamepinnacle.Types;
 
+import java.util.ArrayList;
+
 public class Juegos {
     private String url;
     private String nombre;
     private String horas;
     private String sesion;
+    private ArrayList<Amigos> listaAmigos;
 
     public Juegos(String url, String nombre, String horas, String sesion) {
         this.url = url;
         this.nombre = nombre;
         this.horas = horas;
         this.sesion = sesion;
+    }
+
+    public Juegos(String url, String nombre, String horas) {
+        this.url = url;
+        this.nombre = nombre;
+        this.horas = horas;
     }
 
     public String getUrl() {
