@@ -2,37 +2,22 @@ package m13dam.grupo4.gamepinnacle.Fragments;
 
 
 
-import android.Manifest;
-import android.app.Activity;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 
 import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
-import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.Toast;
-
-import com.lukaspradel.steamapi.core.exception.SteamApiException;
 
 import java.util.ArrayList;
 
-import m13dam.grupo4.gamepinnacle.Adapters.AdaptadorPrincipal;
 import m13dam.grupo4.gamepinnacle.R;
-import m13dam.grupo4.gamepinnacle.Types.APISteamFunciones;
 import m13dam.grupo4.gamepinnacle.Types.Juegos;
 
 /**
@@ -102,27 +87,14 @@ public class PerfilUser extends Fragment {
 
         avatarUsuario = getActivity().findViewById(R.id.imagenAvatar);
 
-        try {
-            listaJuegosRecientes();
-
-        } catch (SteamApiException e) {
-
-            throw new RuntimeException(e);
-        }
-
-
     }
 
-
-
-
-
-    private void listaJuegosRecientes () throws SteamApiException {
-        AdaptadorPrincipal recycleview_jvm = new AdaptadorPrincipal(getActivity(), APISteamFunciones.UltimosTresJuegos());
+    private void listaJuegosRecientes () {
+        //AdaptadorPrincipal recycleview_jvm = new AdaptadorPrincipal(getActivity(), xxxxxxxxx);
         //Asignamos la id de nuestro RecyclerView del layout
-        RecyclerView recyclerView = getActivity().findViewById(R.id.pruebaRecycle);
+        //RecyclerView recyclerView = getActivity().findViewById(R.id.pruebaRecycle);
         //Asignamos el adaptador que vamos a utilizar en nuestro recyclerview
-        recyclerView.setAdapter(recycleview_jvm);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        //recyclerView.setAdapter(recycleview_jvm);
+        //recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
     }
 }
