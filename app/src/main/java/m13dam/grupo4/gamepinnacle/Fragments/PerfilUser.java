@@ -1,18 +1,38 @@
 package m13dam.grupo4.gamepinnacle.Fragments;
 
+
+
+import android.Manifest;
+import android.app.Activity;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.Toast;
+
+import com.lukaspradel.steamapi.core.exception.SteamApiException;
 
 import java.util.ArrayList;
 
+import m13dam.grupo4.gamepinnacle.Adapters.AdaptadorPrincipal;
 import m13dam.grupo4.gamepinnacle.R;
+import m13dam.grupo4.gamepinnacle.Types.APISteamFunciones;
 import m13dam.grupo4.gamepinnacle.Types.Juegos;
 
 /**
@@ -30,8 +50,11 @@ public class PerfilUser extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    private ImageView avatarUsuario;
 
     private ArrayList <Juegos> listaJuegos;
+    private ActivityResultLauncher<Intent> pickImageLauncher;
+
 
     public PerfilUser() {
         // Required empty public constructor
@@ -61,33 +84,45 @@ public class PerfilUser extends Fragment {
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
+
         }
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_perfil_user, container, false);
+        return inflater.inflate(R.layout.activity_main2, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        avatarUsuario = getActivity().findViewById(R.id.imagenAvatar);
 
+        try {
+            listaJuegosRecientes();
 
-       // listaJuegosRecientes();
+        } catch (SteamApiException e) {
+
+            throw new RuntimeException(e);
+        }
+
 
     }
 
 
-    /*private void listaJuegosRecientes () {
-        AdaptadorPrincipal recycleview_jvm = new AdaptadorPrincipal(getActivity(), listaJuegos);
+
+
+
+    private void listaJuegosRecientes () throws SteamApiException {
+        AdaptadorPrincipal recycleview_jvm = new AdaptadorPrincipal(getActivity(), APISteamFunciones.UltimosTresJuegos());
         //Asignamos la id de nuestro RecyclerView del layout
         RecyclerView recyclerView = getActivity().findViewById(R.id.pruebaRecycle);
         //Asignamos el adaptador que vamos a utilizar en nuestro recyclerview
         recyclerView.setAdapter(recycleview_jvm);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-    } */
+    }
 }
