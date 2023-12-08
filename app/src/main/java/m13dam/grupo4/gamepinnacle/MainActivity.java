@@ -9,6 +9,12 @@ import android.os.Bundle;
 
 import m13dam.grupo4.gamepinnacle.Fragments.LoginMenu;
 import m13dam.grupo4.gamepinnacle.Fragments.RegisterMenu;
+import m13dam.grupo4.gamepinnacle.Types.GetNewsForApp;
+import m13dam.grupo4.gamepinnacle.Types.GetNewsForAppResponse;
+import m13dam.grupo4.gamepinnacle.Types.NewsItems;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -37,6 +43,31 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
+        /*
+        SteamWebApi.getSteamWebApiService().getNewsForApp(
+                "76561198008676395",
+                440,
+                10,
+                1000,
+                "json").enqueue(new Callback<GetNewsForAppResponse>() {
+                    @Override
+                    public void onResponse(Call<GetNewsForAppResponse> call, Response<GetNewsForAppResponse> response) {
+                        System.out.println(call.request());
+                        if (response.code() == 200) {
+                            System.out.println(response.body().getAppNews().getAppid());
+                            for (NewsItems ni : response.body().getAppNews().getNewsitems()) {
+                                System.out.println("Titulo: " + ni.getTitle() + " Content: " + ni.getContents());
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<GetNewsForAppResponse> call, Throwable t) {
+                        System.out.println(t.getMessage());
+                    }
+                });*/
+
 
     }
 
