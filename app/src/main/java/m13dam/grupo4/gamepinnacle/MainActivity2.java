@@ -31,12 +31,6 @@ public class MainActivity2 extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
 
-        Toolbar toolbar_JVM = findViewById(R.id.toolbarPrincipal);
-        setSupportActionBar(toolbar_JVM);
-
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-
         OnBackPressedCallback callback_JVM = new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
@@ -46,14 +40,6 @@ public class MainActivity2 extends AppCompatActivity {
         };
         getOnBackPressedDispatcher().addCallback(this, callback_JVM);
 
-        avatarUsuario = findViewById(R.id.imagenAvatar);
-        avatarUsuario.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // Verificar permisos antes de abrir la galería
-                checkAndRequestPermissions();
-            }
-        });
     }
 
     private void checkAndRequestPermissions() {
