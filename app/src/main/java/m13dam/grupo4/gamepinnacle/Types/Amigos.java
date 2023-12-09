@@ -7,9 +7,9 @@ public class Amigos {
     private String Nombre;
     private String ApellidoUno;
     private String ApellidoDos;
-    private ArrayList<Juegos> listaJuegos;
+    private ArrayList<Games> listaJuegos;
 
-    public Amigos(String nombre, String apellidoUno, String apellidoDos, ArrayList<Juegos> listaJuegos) {
+    public Amigos(String nombre, String apellidoUno, String apellidoDos, ArrayList<Games> listaJuegos) {
         Nombre = nombre;
         ApellidoUno = apellidoUno;
         ApellidoDos = apellidoDos;
@@ -40,11 +40,11 @@ public class Amigos {
         ApellidoDos = apellidoDos;
     }
 
-    public ArrayList<Juegos> getListaJuegos() {
+    public ArrayList<Games> getListaJuegos() {
         return listaJuegos;
     }
 
-    public void setListaJuegos(ArrayList<Juegos> listaJuegos) {
+    public void setListaJuegos(ArrayList<Games> listaJuegos) {
         this.listaJuegos = listaJuegos;
     }
 }

@@ -9,6 +9,8 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,8 +19,15 @@ import android.widget.ImageView;
 
 import java.util.ArrayList;
 
+import m13dam.grupo4.gamepinnacle.Adapters.AdaptadorPrincipal;
 import m13dam.grupo4.gamepinnacle.R;
-import m13dam.grupo4.gamepinnacle.Types.Juegos;
+import m13dam.grupo4.gamepinnacle.SteamWebApi;
+import m13dam.grupo4.gamepinnacle.Types.Games;
+import m13dam.grupo4.gamepinnacle.Types.GetOwnedGamesResponse;
+import m13dam.grupo4.gamepinnacle.Types.SteamUserId;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -37,7 +46,7 @@ public class PerfilUser extends Fragment {
     private String mParam2;
     private ImageView avatarUsuario;
 
-    private ArrayList <Juegos> listaJuegos;
+    private ArrayList <Games> listaJuegos = new ArrayList<>();
     private ActivityResultLauncher<Intent> pickImageLauncher;
 
 
@@ -87,14 +96,39 @@ public class PerfilUser extends Fragment {
 
         avatarUsuario = getActivity().findViewById(R.id.imagenAvatar);
 
+        SteamWebApi.getSteamWebApiService().getOwnedGamesByUser(
+                SteamUserId.idUser,
+                true,
+                true,
+                "json").enqueue(new Callback<GetOwnedGamesResponse>() {
+            @Override
+            public void onResponse(Call<GetOwnedGamesResponse> call, Response<GetOwnedGamesResponse> response) {
+                System.out.println(call.request());
+                if (response.code() == 200) {
+
+                    for(Games g : response.body().getGetOwnedGames().getGames()) {
+
+                        listaJuegos.add(g);
+
+                    }
+                    listaJuegosRecientes();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<GetOwnedGamesResponse> call, Throwable t) {
+                System.out.println(t.getMessage());
+            }
+        });
+
     }
 
     private void listaJuegosRecientes () {
-        //AdaptadorPrincipal recycleview_jvm = new AdaptadorPrincipal(getActivity(), xxxxxxxxx);
-        //Asignamos la id de nuestro RecyclerView del layout
-        //RecyclerView recyclerView = getActivity().findViewById(R.id.pruebaRecycle);
-        //Asignamos el adaptador que vamos a utilizar en nuestro recyclerview
-        //recyclerView.setAdapter(recycleview_jvm);
-        //recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        AdaptadorPrincipal recycleview_jvm = new AdaptadorPrincipal(getActivity(), listaJuegos);
+
+        RecyclerView recyclerView = getActivity().findViewById(R.id.reciclo);
+
+        recyclerView.setAdapter(recycleview_jvm);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
     }
 }

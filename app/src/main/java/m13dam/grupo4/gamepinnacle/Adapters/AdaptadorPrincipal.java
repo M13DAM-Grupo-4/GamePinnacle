@@ -10,18 +10,20 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.ArrayList;
 
 import m13dam.grupo4.gamepinnacle.R;
-import m13dam.grupo4.gamepinnacle.Types.Juegos;
+import m13dam.grupo4.gamepinnacle.Types.Games;
 
 public class AdaptadorPrincipal extends RecyclerView.Adapter<AdaptadorPrincipal.ViewHolder> { //Creamos el adaptador para nuestro RecyclerView
     //Declaramos las variables que utilizara para almacenar el contexto, la actividad qe lo llama y la informacion con los archivos
     private Context mContext_jvm;
-    private static ArrayList<Juegos> listaJuegos;
+    private static ArrayList<Games> listaJuegos;
 
 
-    public AdaptadorPrincipal(Context context,ArrayList<Juegos>listaJuegos) { //Creamos el constructo de nuestro adaptador
+    public AdaptadorPrincipal(Context context,ArrayList<Games>listaJuegos) { //Creamos el constructo de nuestro adaptador
         this.mContext_jvm = context;
         this.listaJuegos = listaJuegos;
 
@@ -31,10 +33,10 @@ public class AdaptadorPrincipal extends RecyclerView.Adapter<AdaptadorPrincipal.
         //Declaramos las variables que utilizaremos para la informacion del layout que se mostrara por pantalla
         TextView nJuego;
         TextView hJuego;
-        TextView uSesion;
+
         ImageView imagenJuego;
 
-        Juegos juegos;
+        Games juegos;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -42,7 +44,7 @@ public class AdaptadorPrincipal extends RecyclerView.Adapter<AdaptadorPrincipal.
             imagenJuego = itemView.findViewById(R.id.imagen_multi);
             nJuego = itemView.findViewById(R.id.nombre_juego);
             hJuego = itemView.findViewById(R.id.horas_juego);
-            uSesion = itemView.findViewById(R.id.ultima_sesion);
+
 
 
             itemView.setOnClickListener(new View.OnClickListener() {
@@ -72,11 +74,11 @@ public class AdaptadorPrincipal extends RecyclerView.Adapter<AdaptadorPrincipal.
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
-        Juegos juego = listaJuegos.get(position);
+        Games juego = listaJuegos.get(position);
 
-        holder.nJuego.setText(juego.getNombre());
-        holder.hJuego.setText(juego.getHoras());
-        holder.uSesion.setText(juego.getSesion());
+        Picasso.get().load("https://media.steampowered.com/steamcommunity/public/images/apps/" +  juego.getAppid() + "/" +  juego.getImg_icon_url() +  ".jpg").into(holder.imagenJuego);
+        holder.nJuego.setText(juego.getName());
+        holder.hJuego.setText(juego.getPlaytime_forever());
 
         holder.juegos = juego;
     }
