@@ -23,7 +23,7 @@ import m13dam.grupo4.gamepinnacle.Adapters.AdaptadorPrincipal;
 import m13dam.grupo4.gamepinnacle.R;
 import m13dam.grupo4.gamepinnacle.SteamWebApi;
 import m13dam.grupo4.gamepinnacle.Types.Games;
-import m13dam.grupo4.gamepinnacle.Types.GetRecentlyPlayedGamesResponse;
+import m13dam.grupo4.gamepinnacle.Types.GetOwnedGamesResponse;
 import m13dam.grupo4.gamepinnacle.Types.SteamUserId;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -94,9 +94,7 @@ public class PerfilUser extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        avatarUsuario = getActivity().findViewById(R.id.imagenAvatar);
-
-        /*SteamWebApi.getSteamWebApiService().getOwnedGamesByUser(
+        SteamWebApi.getSteamWebApiService().getOwnedGamesByUser(
                 SteamUserId.idUser,
                 true,
                 true,
@@ -117,30 +115,6 @@ public class PerfilUser extends Fragment {
 
             @Override
             public void onFailure(Call<GetOwnedGamesResponse> call, Throwable t) {
-                System.out.println(t.getMessage());
-            }
-        });*/
-
-        SteamWebApi.getSteamWebApiService().getRecentlyGamesByUser(
-                SteamUserId.idUser,
-                3,
-                "json").enqueue(new Callback<GetRecentlyPlayedGamesResponse>() {
-            @Override
-            public void onResponse(Call<GetRecentlyPlayedGamesResponse> call, Response<GetRecentlyPlayedGamesResponse> response) {
-                System.out.println(call.request());
-                if (response.code() == 200) {
-
-                    for(Games g : response.body().getRecentGames().getGames()) {
-
-                        listaJuegos.add(g);
-
-                    }
-                    listaJuegosRecientes();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<GetRecentlyPlayedGamesResponse> call, Throwable t) {
                 System.out.println(t.getMessage());
             }
         });
