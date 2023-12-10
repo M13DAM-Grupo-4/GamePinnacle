@@ -2,15 +2,15 @@ package m13dam.grupo4.gamepinnacle.Types;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.util.ArrayList;
-
 public class Games {
     @SerializedName("appid")
     private String appid;
-    @SerializedName(("name"))
+    @SerializedName("name")
     private String name;
     @SerializedName("playtime_forever")
     private String playtime_forever;
+    @SerializedName("playtime_2weeks")
+    private String playtime_2weeks;
     @SerializedName(("img_icon_url"))
     private String img_icon_url;
 
@@ -29,6 +29,9 @@ public class Games {
 
     public String getImg_icon_url() {
         return img_icon_url;
+    }
+    public String getPlaytime_2weeks() {
+        return playtime_2weeks;
     }
 
 }

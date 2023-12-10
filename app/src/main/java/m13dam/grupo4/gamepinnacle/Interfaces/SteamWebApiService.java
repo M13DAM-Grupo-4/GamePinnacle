@@ -4,6 +4,7 @@ import m13dam.grupo4.gamepinnacle.BuildConfig;
 import m13dam.grupo4.gamepinnacle.Types.GetNewsForAppResponse;
 import m13dam.grupo4.gamepinnacle.Types.GetOwnedGames;
 import m13dam.grupo4.gamepinnacle.Types.GetOwnedGamesResponse;
+import m13dam.grupo4.gamepinnacle.Types.GetRecentlyPlayedGamesResponse;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
@@ -24,6 +25,13 @@ public interface SteamWebApiService {
             @Query("steamid") String userId,
             @Query("include_appinfo") Boolean infoGames,
             @Query("include_played_free_games") Boolean freeGames,
+            @Query("format") String format
+    );
+
+    @GET("IPlayerService/GetRecentlyPlayedGames/v0001/?key=" + steamApiKey)
+    Call<GetRecentlyPlayedGamesResponse> getRecentlyGamesByUser(
+            @Query("steamid") String userId,
+            @Query("count") int numeroJuegos,
             @Query("format") String format
     );
 
