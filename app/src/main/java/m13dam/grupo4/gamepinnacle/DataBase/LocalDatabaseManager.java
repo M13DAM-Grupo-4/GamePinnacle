@@ -20,7 +20,9 @@ public class LocalDatabaseManager extends SQLiteOpenHelper {
         db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_LOGIN + " (" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT," +
                 "user_id INTEGER NOT NULL," +
-                "remember BOLEAN NOT NULL" +
+                "remember BOLEAN NOT NULL," +
+                "mail varchar NOT NULL," +
+                "username varchar NOT NULL"+
                 ")");
     }
 

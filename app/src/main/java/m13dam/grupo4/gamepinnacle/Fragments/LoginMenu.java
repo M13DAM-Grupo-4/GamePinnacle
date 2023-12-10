@@ -1,5 +1,7 @@
 package m13dam.grupo4.gamepinnacle.Fragments;
 
+import static m13dam.grupo4.gamepinnacle.DataBase.DataBaseManager.SaveLoginRemember;
+
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -84,6 +86,7 @@ public class LoginMenu extends Fragment {
         args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
+
     }
 
     @Override
@@ -119,6 +122,24 @@ public class LoginMenu extends Fragment {
         password_text = view.findViewById(R.id.login_password_text);
 
         email_text = view.findViewById(R.id.login_email_text);
+
+
+        new Thread(() -> {
+
+            System.out.println(DataBaseManager.LoginRemember(getActivity()));
+
+        if (DataBaseManager.LoginRemember(getActivity()) > 0) {
+            System.out.println("recuerda");
+
+
+            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.main_fragment_container, PerfilUser.class, null)
+                    .commit();
+        }
+
+        }).start();
+
 
         password_eye.setOnClickListener(v -> {
             Animation anim = AnimationUtils.loadAnimation(getActivity(), R.anim.blink);
@@ -172,20 +193,24 @@ public class LoginMenu extends Fragment {
 
 
             if(!usuarioIntroducido_JVM.isEmpty() && !contraseñaIntroducido_JVM.isEmpty()) {
-                Thread thread = new Thread(() -> {
 
-                    int RememberedID = DataBaseManager.LoginRemember(getActivity());
-                    if (RememberedID > 0) {
-                        CurrentSession.setUserID(RememberedID);
-                    } else {
+                Thread threadDos = new Thread(() -> {
+
+                        SaveLoginRemember(1,getActivity(),usuarioIntroducido_JVM,DataBaseManager.usuario(usuarioIntroducido_JVM,Hashing.sha256().hashString(contraseñaIntroducido_JVM, StandardCharsets.UTF_8).toString()));
+
                         int LoginID = DataBaseManager.Login(usuarioIntroducido_JVM, Hashing.sha256().hashString(contraseñaIntroducido_JVM, StandardCharsets.UTF_8).toString());
+
                         CurrentSession.setUserID(LoginID);
-                    }
+                        CurrentSession.setMail(usuarioIntroducido_JVM);
+                        CurrentSession.setUserName(DataBaseManager.usuario(usuarioIntroducido_JVM,Hashing.sha256().hashString(contraseñaIntroducido_JVM, StandardCharsets.UTF_8).toString()));
+
                     Handler handler = new Handler(Looper.getMainLooper());
 
                     handler.post(new Runnable() {
                         @Override
                         public void run() {
+
+
 
                                 if (CurrentSession.getUserID() > 0) {
                                     FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
@@ -200,7 +225,7 @@ public class LoginMenu extends Fragment {
                         }
                     });
                 });
-                thread.start();
+                threadDos.start();
             }else{
                 Toast.makeText(getActivity(), "Introduzca ambos campos de sesion", Toast.LENGTH_SHORT).show();
             }

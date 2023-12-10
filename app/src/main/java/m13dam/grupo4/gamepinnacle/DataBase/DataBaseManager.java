@@ -14,6 +14,7 @@ import java.sql.SQLException;
 import java.util.Properties;
 
 import m13dam.grupo4.gamepinnacle.BuildConfig;
+import m13dam.grupo4.gamepinnacle.Types.CurrentSession;
 import m13dam.grupo4.gamepinnacle.Types.Usuario;
 
 public class DataBaseManager {
@@ -57,6 +58,25 @@ public class DataBaseManager {
         }
         return -1;
     }
+    public static String usuario(String mail, String pass){
+        try {
+            Connection c = CreateConnection();
+            PreparedStatement stmt = c.prepareStatement("SELECT username FROM public.users WHERE email=? AND password=?");
+            stmt.setString(1, mail);
+            stmt.setString(2, pass);
+            ResultSet rs = stmt.executeQuery();
+
+            while(rs.next()) {
+                return rs.getString(1);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
     public static SQLiteDatabase GetLocalDB(@Nullable Context c){
         return new LocalDatabaseManager(c).getWritableDatabase();
     }
@@ -87,30 +107,46 @@ public class DataBaseManager {
         return -1;
     }
 
-    public static int LoginRemember(@Nullable Context c){
+    public static int LoginRemember(@Nullable Context c) {
         try {
             SQLiteDatabase dbl = GetLocalDB(c);
-            Cursor cr = dbl.rawQuery("SELECT user_id FROM login WHERE remember=true AND id=1", null);
-            if (cr.moveToFirst()){
+            Cursor cr = dbl.rawQuery("SELECT user_id, mail, username FROM login WHERE remember=true AND id=1", null);
+
+            if (cr.moveToFirst()) {
                 do {
                     // Passing values
-                    int ResId = Integer.parseInt(cr.getString(0));
-                    return ResId;
-                } while(cr.moveToNext());
+                    int userId = cr.getInt(0);
+                    String mail = cr.getString(1);
+                    String username = cr.getString(2);
+
+                    // Set values in CurrentSession
+                    CurrentSession.setMail(mail);
+                    CurrentSession.setUserName(username);
+
+                    cr.close(); // Close the cursor before closing the database
+                    dbl.close(); // Close the database
+
+                    return userId;
+                } while (cr.moveToNext());
             }
-            dbl.close();
+
+            cr.close(); // Close the cursor before closing the database
+            dbl.close(); // Close the database
 
         } catch (Exception e) {
             e.printStackTrace();
         }
+
         return -1;
     }
 
-    public static void SaveLoginRemember(int userid, @Nullable Context c){
-        try{
+
+
+    public static void SaveLoginRemember(int userid, @Nullable Context c, String mail, String username) {
+        try {
             SQLiteDatabase dbl = GetLocalDB(c);
             dbl.execSQL("DELETE FROM login");
-            dbl.execSQL("INSERT INTO login (id, user_id, remember) VALUES (1,'"+userid+"', true)");
+            dbl.execSQL("INSERT INTO login (id, user_id, remember, mail, username) VALUES (1, " + userid + ", 1, '" + mail + "', '" + username + "')");
             dbl.close();
         } catch (Exception e) {
             e.printStackTrace();

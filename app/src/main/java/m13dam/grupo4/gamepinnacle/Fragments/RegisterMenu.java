@@ -2,6 +2,7 @@ package m13dam.grupo4.gamepinnacle.Fragments;
 
 import static m13dam.grupo4.gamepinnacle.DataBase.DataBaseManager.Login;
 import static m13dam.grupo4.gamepinnacle.DataBase.DataBaseManager.RegistarUsuario;
+import static m13dam.grupo4.gamepinnacle.DataBase.DataBaseManager.SaveLoginRemember;
 
 import android.os.Bundle;
 
@@ -30,7 +31,9 @@ import com.google.common.hash.Hashing;
 
 import java.nio.charset.StandardCharsets;
 
+import m13dam.grupo4.gamepinnacle.DataBase.DataBaseManager;
 import m13dam.grupo4.gamepinnacle.R;
+import m13dam.grupo4.gamepinnacle.Types.CurrentSession;
 import m13dam.grupo4.gamepinnacle.Types.Usuario;
 import m13dam.grupo4.gamepinnacle.Types.sesion;
 
@@ -200,8 +203,16 @@ public class RegisterMenu extends Fragment {
                             RegistarUsuario(sesion.usuario);
                             Login(mail,pass);
 
+                                SaveLoginRemember(1,getActivity(),mail,user);
 
-                        Handler handler = new Handler(Looper.getMainLooper());
+                                int LoginID = DataBaseManager.Login(mail, Hashing.sha256().hashString(passOne, StandardCharsets.UTF_8).toString());
+                                CurrentSession.setUserID(LoginID);
+                                CurrentSession.setMail(mail);
+                                CurrentSession.setUserName(user);
+
+
+
+                            Handler handler = new Handler(Looper.getMainLooper());
 
                         handler.post(new Runnable() {
                             @Override
@@ -212,6 +223,7 @@ public class RegisterMenu extends Fragment {
                                 fragmentManager.beginTransaction()
                                         .replace(R.id.main_fragment_container, PerfilUser.class, null)
                                         .commit();
+
                             }
                         });
                     });

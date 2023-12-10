@@ -16,14 +16,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
 import m13dam.grupo4.gamepinnacle.Adapters.AdaptadorPrincipal;
 import m13dam.grupo4.gamepinnacle.R;
 import m13dam.grupo4.gamepinnacle.SteamWebApi;
+import m13dam.grupo4.gamepinnacle.Types.CurrentSession;
 import m13dam.grupo4.gamepinnacle.Types.Games;
 import m13dam.grupo4.gamepinnacle.Types.GetOwnedGamesResponse;
+import m13dam.grupo4.gamepinnacle.Types.GetRecentlyPlayedGamesResponse;
 import m13dam.grupo4.gamepinnacle.Types.SteamUserId;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -45,6 +48,8 @@ public class PerfilUser extends Fragment {
     private String mParam1;
     private String mParam2;
     private ImageView avatarUsuario;
+    private TextView uno;
+    private TextView dos;
 
     private ArrayList <Games> listaJuegos = new ArrayList<>();
     private ActivityResultLauncher<Intent> pickImageLauncher;
@@ -94,17 +99,21 @@ public class PerfilUser extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        SteamWebApi.getSteamWebApiService().getOwnedGamesByUser(
+        uno = view.findViewById(R.id.textViewuno);
+        dos= view.findViewById(R.id.textViewdos);
+        uno.setText(CurrentSession.getMail());
+        dos.setText(CurrentSession.getUserName());
+
+        SteamWebApi.getSteamWebApiService().getRecentlyGamesByUser(
                 SteamUserId.idUser,
-                true,
-                true,
-                "json").enqueue(new Callback<GetOwnedGamesResponse>() {
+                3,
+                "json").enqueue(new Callback<GetRecentlyPlayedGamesResponse>() {
             @Override
-            public void onResponse(Call<GetOwnedGamesResponse> call, Response<GetOwnedGamesResponse> response) {
+            public void onResponse(Call<GetRecentlyPlayedGamesResponse> call, Response<GetRecentlyPlayedGamesResponse> response) {
                 System.out.println(call.request());
                 if (response.code() == 200) {
 
-                    for(Games g : response.body().getGetOwnedGames().getGames()) {
+                    for(Games g : response.body().getRecentGames().getGames()) {
 
                         listaJuegos.add(g);
 
@@ -114,7 +123,7 @@ public class PerfilUser extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<GetOwnedGamesResponse> call, Throwable t) {
+            public void onFailure(Call<GetRecentlyPlayedGamesResponse> call, Throwable t) {
                 System.out.println(t.getMessage());
             }
         });
