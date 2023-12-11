@@ -50,7 +50,9 @@ public class PerfilUser extends Fragment {
     private ImageView avatarUsuario;
     private TextView userMail;
     private TextView userName;
+    private TextView played_hours;
     private TextView totalGames;
+    private TextView numberOfFriends;
 
     private ArrayList <Games> listaJuegos = new ArrayList<>();
     private ActivityResultLauncher<Intent> pickImageLauncher;
@@ -102,9 +104,12 @@ public class PerfilUser extends Fragment {
 
         userMail = view.findViewById(R.id.perfil_user_email);
         userName= view.findViewById(R.id.perfil_user_username);
-        totalGames = view.findViewById(R.id.prefil_user_juegos);
+        totalGames = view.findViewById(R.id.perfil_user_juegos);
+        played_hours = view.findViewById(R.id.perfil_user_horas_jugadas);
+        numberOfFriends = view.findViewById(R.id.perfil_user_amigos);
         userMail.setText(CurrentSession.getMail());
         userName.setText(CurrentSession.getUserName());
+
 
         SteamWebApi.getSteamWebApiService().getRecentlyGamesByUser(
                 SteamUserId.idUser,
@@ -140,7 +145,17 @@ public class PerfilUser extends Fragment {
                 System.out.println(call.request());
                 if (response.code() == 200) {
 
-                    totalGames.setText(response.body().getGetOwnedGames().getGame_count());
+                    totalGames.setText(String.valueOf(response.body().getGetOwnedGames().getGame_count()));
+
+                    long playedTimeCount = 0L;
+                    long playedTimeHours;
+
+                    for (Games g : response.body().getGetOwnedGames().getGames()) {
+                        playedTimeCount += Long.parseLong(g.getPlaytime_forever());
+                    }
+                    playedTimeHours = playedTimeCount/60;
+
+                    played_hours.setText(String.valueOf(playedTimeHours));
 
                 }
             }
