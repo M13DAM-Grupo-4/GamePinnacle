@@ -132,13 +132,13 @@
                 android:layout_height="match_parent"
                 android:layout_marginStart="@dimen/_5sdp"
                 android:layout_marginEnd="@dimen/_30sdp"
+                android:autofillHints="emailAddress"
+                android:fontFamily="@font/roboto_medium"
                 android:hint="SteamID"
+                android:inputType="text"
                 android:textColor="@color/text"
                 android:textColorHint="@color/text"
-                android:textSize="@dimen/_16ssp"
-                android:fontFamily="@font/roboto_medium"
-                android:inputType="text"
-                android:autofillHints="emailAddress" />
+                android:textSize="@dimen/_16ssp" />
 
         </LinearLayout>
 

@@ -30,14 +30,21 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.common.hash.Hashing;
+import com.squareup.picasso.Picasso;
 
 import java.nio.charset.StandardCharsets;
+import java.util.concurrent.CompletableFuture;
 
 import m13dam.grupo4.gamepinnacle.DataBase.DataBaseManager;
 import m13dam.grupo4.gamepinnacle.R;
+import m13dam.grupo4.gamepinnacle.SteamWebApi;
 import m13dam.grupo4.gamepinnacle.Types.CurrentSession;
+import m13dam.grupo4.gamepinnacle.Types.GetPlayerSummariesResponse;
 import m13dam.grupo4.gamepinnacle.Types.Usuario;
 import m13dam.grupo4.gamepinnacle.Types.sesion;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -68,6 +75,7 @@ public class RegisterMenu extends Fragment {
     // Text
     EditText register_password_text;
     EditText register_password_repeated_text;
+    EditText register_steam_id;
 
     // Password visibility
     ImageView register_password_visibility;
@@ -177,6 +185,7 @@ public class RegisterMenu extends Fragment {
         user_int = view.findViewById(R.id.register_username_text);
         passOne_int = view.findViewById(R.id.register_password_text);
         passTwo_int = view.findViewById(R.id.register_password_repeated_text);
+        register_steam_id = view.findViewById(R.id.register_steamid_text);
 
         registrar = view.findViewById(R.id.login_login_button);
 
@@ -186,18 +195,22 @@ public class RegisterMenu extends Fragment {
             String user = String.valueOf(user_int.getText());
             String passOne = String.valueOf(passOne_int.getText());
             String passTwo = String.valueOf(passTwo_int.getText());
+            String steamId = String.valueOf(register_steam_id.getText());
 
 
 
-            if (isValidEmail(mail) && !user.isEmpty() && !passOne.isEmpty() && !passTwo.isEmpty()) {
+            if (isValidEmail(mail) && !user.isEmpty() && !passOne.isEmpty() && !passTwo.isEmpty() && !steamId.isEmpty()) {
 
                 if (passOne.equals(passTwo)) {
 
-                    String pass = Hashing.sha256().hashString(passOne, StandardCharsets.UTF_8).toString();
+                    isValidSteamId().thenAccept(isValid -> {
+                        if (isValid) {
 
-                    sesion.usuario = new Usuario(mail, user, pass);
+                        String pass = Hashing.sha256().hashString(passOne, StandardCharsets.UTF_8).toString();
 
-                    Thread thread = new Thread(() -> {
+                        sesion.usuario = new Usuario(mail, user, pass);
+
+                        Thread thread = new Thread(() -> {
                             if (comprobarCorreo(mail) < 0) {
 
                                 RegistarUsuario(sesion.usuario);
@@ -209,6 +222,7 @@ public class RegisterMenu extends Fragment {
                                 CurrentSession.setUserID(LoginID);
                                 CurrentSession.setMail(mail);
                                 CurrentSession.setUserName(user);
+                                CurrentSession.setSteamId(steamId);
 
 
                                 Handler handler = new Handler(Looper.getMainLooper());
@@ -231,10 +245,15 @@ public class RegisterMenu extends Fragment {
                             }
 
 
-                    });
-                    thread.start();
-                } else {
-                    getActivity().runOnUiThread(new Runnable() {
+                        });
+                        thread.start();
+                    }else {
+                    getActivity().runOnUiThread(() ->
+                            Toast.makeText(getActivity(), "La ID de Steam no es válida", Toast.LENGTH_SHORT).show());
+                     }
+                });
+
+                getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             Toast.makeText(getActivity(), "Las contraseñas deben coincidir", Toast.LENGTH_SHORT).show();
@@ -258,6 +277,33 @@ public class RegisterMenu extends Fragment {
         return Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }
 
+    private CompletableFuture<Boolean> isValidSteamId() {
 
+        CompletableFuture<Boolean> future = new CompletableFuture<>();
+
+        SteamWebApi.getSteamWebApiService().getPlayerSummaries(
+                CurrentSession.getSteamId(),
+                "json"
+        ).enqueue(new Callback<GetPlayerSummariesResponse>() {
+            @Override
+            public void onResponse(Call<GetPlayerSummariesResponse> call, Response<GetPlayerSummariesResponse> response) {
+                System.out.println(call.request());
+
+                if (response.code() == 200) {
+                    future.complete(true);
+                } else {
+                    future.complete(false);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<GetPlayerSummariesResponse> call, Throwable t) {
+                System.out.println(t.getMessage());
+                future.complete(false);
+            }
+        });
+
+        return future;
+    }
 
 }
