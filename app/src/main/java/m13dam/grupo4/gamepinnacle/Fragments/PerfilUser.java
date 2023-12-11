@@ -48,8 +48,8 @@ public class PerfilUser extends Fragment {
     private String mParam1;
     private String mParam2;
     private ImageView avatarUsuario;
-    private TextView uno;
-    private TextView dos;
+    private TextView userMail;
+    private TextView userName;
 
     private ArrayList <Games> listaJuegos = new ArrayList<>();
     private ActivityResultLauncher<Intent> pickImageLauncher;
@@ -92,17 +92,17 @@ public class PerfilUser extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.activity_main2, container, false);
+        return inflater.inflate(R.layout.fragment_perfil_user, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        uno = view.findViewById(R.id.textViewuno);
-        dos= view.findViewById(R.id.textViewdos);
-        uno.setText(CurrentSession.getMail());
-        dos.setText(CurrentSession.getUserName());
+        userMail = view.findViewById(R.id.perfil_user_email);
+        userName= view.findViewById(R.id.perfil_user_username);
+        userMail.setText(CurrentSession.getMail());
+        userName.setText(CurrentSession.getUserName());
 
         SteamWebApi.getSteamWebApiService().getRecentlyGamesByUser(
                 SteamUserId.idUser,
@@ -113,12 +113,12 @@ public class PerfilUser extends Fragment {
                 System.out.println(call.request());
                 if (response.code() == 200) {
 
-                    for(Games g : response.body().getRecentGames().getGames()) {
+                    /*for(Games g : response.body().getRecentGames().getGames()) {
 
                         listaJuegos.add(g);
 
                     }
-                    listaJuegosRecientes();
+                    listaJuegosRecientes(); */
                 }
             }
 
@@ -128,12 +128,37 @@ public class PerfilUser extends Fragment {
             }
         });
 
+        SteamWebApi.getSteamWebApiService().getOwnedGamesByUser(
+                SteamUserId.idUser,
+                true,
+                true,
+                "json").enqueue(new Callback<GetOwnedGamesResponse>() {
+            @Override
+            public void onResponse(Call<GetOwnedGamesResponse> call, Response<GetOwnedGamesResponse> response) {
+                System.out.println(call.request());
+                if (response.code() == 200) {
+
+                    for(Games g : response.body().getGetOwnedGames().getGames()) {
+
+                        listaJuegos.add(g);
+
+                    }
+                    listaJuegosRecientes();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<GetOwnedGamesResponse> call, Throwable t) {
+                System.out.println(t.getMessage());
+            }
+        });
+
     }
 
     private void listaJuegosRecientes () {
         AdaptadorPrincipal recycleview_jvm = new AdaptadorPrincipal(getActivity(), listaJuegos);
 
-        RecyclerView recyclerView = getActivity().findViewById(R.id.reciclo);
+        RecyclerView recyclerView = getActivity().findViewById(R.id.perfil_user_lista_juegos_recientes_recycler);
 
         recyclerView.setAdapter(recycleview_jvm);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));

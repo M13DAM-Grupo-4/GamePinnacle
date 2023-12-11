@@ -78,7 +78,7 @@ public class AdaptadorPrincipal extends RecyclerView.Adapter<AdaptadorPrincipal.
 
         Picasso.get().load("https://media.steampowered.com/steamcommunity/public/images/apps/" +  juego.getAppid() + "/" +  juego.getImg_icon_url() +  ".jpg").into(holder.imagenJuego);
         holder.nJuego.setText(juego.getName());
-        holder.hJuego.setText(juego.getPlaytime_forever());
+        holder.hJuego.setText(juego.getPlaytime_2weeks());
 
         holder.juegos = juego;
     }
