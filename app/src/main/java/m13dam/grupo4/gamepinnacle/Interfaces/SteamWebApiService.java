@@ -2,8 +2,8 @@ package m13dam.grupo4.gamepinnacle.Interfaces;
 
 import m13dam.grupo4.gamepinnacle.BuildConfig;
 import m13dam.grupo4.gamepinnacle.Types.GetNewsForAppResponse;
-import m13dam.grupo4.gamepinnacle.Types.GetOwnedGames;
 import m13dam.grupo4.gamepinnacle.Types.GetOwnedGamesResponse;
+import m13dam.grupo4.gamepinnacle.Types.GetPlayerSummariesResponse;
 import m13dam.grupo4.gamepinnacle.Types.GetRecentlyPlayedGamesResponse;
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -32,6 +32,12 @@ public interface SteamWebApiService {
     Call<GetRecentlyPlayedGamesResponse> getRecentlyGamesByUser(
             @Query("steamid") String userId,
             @Query("count") int numeroJuegos,
+            @Query("format") String format
+    );
+
+    @GET("ISteamUser/GetPlayerSummaries/v0002/?key=" + steamApiKey)
+    Call<GetPlayerSummariesResponse> getPlayerSummaries(
+            @Query("steamids") String steamPlayerids,
             @Query("format") String format
     );
 

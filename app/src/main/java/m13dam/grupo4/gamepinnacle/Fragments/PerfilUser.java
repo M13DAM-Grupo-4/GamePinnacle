@@ -18,6 +18,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.ArrayList;
 
 import m13dam.grupo4.gamepinnacle.Adapters.AdaptadorPrincipal;
@@ -26,6 +28,7 @@ import m13dam.grupo4.gamepinnacle.SteamWebApi;
 import m13dam.grupo4.gamepinnacle.Types.CurrentSession;
 import m13dam.grupo4.gamepinnacle.Types.Games;
 import m13dam.grupo4.gamepinnacle.Types.GetOwnedGamesResponse;
+import m13dam.grupo4.gamepinnacle.Types.GetPlayerSummariesResponse;
 import m13dam.grupo4.gamepinnacle.Types.GetRecentlyPlayedGamesResponse;
 import m13dam.grupo4.gamepinnacle.Types.SteamUserId;
 import retrofit2.Call;
@@ -102,6 +105,7 @@ public class PerfilUser extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        avatarUsuario = view.findViewById(R.id.perfil_user_avatar);
         userMail = view.findViewById(R.id.perfil_user_email);
         userName= view.findViewById(R.id.perfil_user_username);
         totalGames = view.findViewById(R.id.perfil_user_juegos);
@@ -162,6 +166,27 @@ public class PerfilUser extends Fragment {
 
             @Override
             public void onFailure(Call<GetOwnedGamesResponse> call, Throwable t) {
+                System.out.println(t.getMessage());
+            }
+        });
+
+        SteamWebApi.getSteamWebApiService().getPlayerSummaries(
+                SteamUserId.idUser,
+                "json"
+        ).enqueue(new Callback<GetPlayerSummariesResponse>() {
+            @Override
+            public void onResponse(Call<GetPlayerSummariesResponse> call, Response<GetPlayerSummariesResponse> response) {
+                System.out.println(call.request());
+
+                if (response.code() == 200) {
+                    System.out.println(response.body().getPlayerSummaries().getPlayers().get(0).getAvatar());
+                    Picasso.get().load(response.body().getPlayerSummaries().getPlayers().get(0).getAvatar()).into(avatarUsuario);
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<GetPlayerSummariesResponse> call, Throwable t) {
                 System.out.println(t.getMessage());
             }
         });
