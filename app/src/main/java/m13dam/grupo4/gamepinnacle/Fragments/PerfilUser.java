@@ -50,6 +50,7 @@ public class PerfilUser extends Fragment {
     private ImageView avatarUsuario;
     private TextView userMail;
     private TextView userName;
+    private TextView totalGames;
 
     private ArrayList <Games> listaJuegos = new ArrayList<>();
     private ActivityResultLauncher<Intent> pickImageLauncher;
@@ -101,6 +102,7 @@ public class PerfilUser extends Fragment {
 
         userMail = view.findViewById(R.id.perfil_user_email);
         userName= view.findViewById(R.id.perfil_user_username);
+        totalGames = view.findViewById(R.id.prefil_user_juegos);
         userMail.setText(CurrentSession.getMail());
         userName.setText(CurrentSession.getUserName());
 
@@ -138,7 +140,7 @@ public class PerfilUser extends Fragment {
                 System.out.println(call.request());
                 if (response.code() == 200) {
 
-
+                    totalGames.setText(response.body().getGetOwnedGames().getGame_count());
 
                 }
             }
