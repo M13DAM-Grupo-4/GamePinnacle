@@ -122,6 +122,8 @@ public class PerfilUser extends Fragment {
             @Override
             public void onResponse(Call<GetRecentlyPlayedGamesResponse> call, Response<GetRecentlyPlayedGamesResponse> response) {
                 System.out.println(call.request());
+                System.out.println(response.code());
+
                 if (response.code() == 200) {
 
                     if (response.body().getRecentGames().getGames() == null) {
@@ -152,6 +154,8 @@ public class PerfilUser extends Fragment {
             @Override
             public void onResponse(Call<GetOwnedGamesResponse> call, Response<GetOwnedGamesResponse> response) {
                 System.out.println(call.request());
+                System.out.println(response.code());
+
                 if (response.code() == 200) {
 
                     if (response.body().getGetOwnedGames().getGames() == null) {
@@ -187,6 +191,7 @@ public class PerfilUser extends Fragment {
             @Override
             public void onResponse(Call<GetPlayerSummariesResponse> call, Response<GetPlayerSummariesResponse> response) {
                 System.out.println(call.request());
+                System.out.println(response.code());
 
                 if (response.code() == 200) {
 

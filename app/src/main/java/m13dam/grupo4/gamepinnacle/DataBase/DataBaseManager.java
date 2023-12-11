@@ -83,7 +83,7 @@ public class DataBaseManager {
             ResultSet rs = stmt.executeQuery();
 
             while(rs.next()) {
-                return rs.getString(4);
+                return rs.getString(1);
             }
 
         } catch (Exception e) {
@@ -181,7 +181,8 @@ public class DataBaseManager {
             if (cr.moveToFirst()) {
                 do {
                     // Passing values
-                    String mail = cr.getString(1);
+                    String mail = cr.getString(0);
+                    System.out.println(mail);
 
                     cr.close(); // Close the cursor before closing the database
                     dbl.close(); // Close the database

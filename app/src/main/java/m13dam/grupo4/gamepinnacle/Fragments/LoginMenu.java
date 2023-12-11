@@ -207,26 +207,27 @@ public class LoginMenu extends Fragment {
                         CurrentSession.setMail(usuarioIntroducido_JVM);
                         CurrentSession.setUserName(DataBaseManager.usuario(usuarioIntroducido_JVM,Hashing.sha256().hashString(contraseñaIntroducido_JVM, StandardCharsets.UTF_8).toString()));
 
-                    Handler handler = new Handler(Looper.getMainLooper());
+                    new Thread(() -> {
 
-                    handler.post(new Runnable() {
-                        @Override
-                        public void run() {
+                        if (CurrentSession.getUserID() > 0) {
 
-                                if (CurrentSession.getUserID() > 0) {
+                            CurrentSession.setSteamId(DataBaseManager.mySteamId(usuarioIntroducido_JVM));
 
-                                    CurrentSession.setSteamId(DataBaseManager.mySteamId(usuarioIntroducido_JVM));
-                                    FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                                    fragmentManager.beginTransaction()
-                                            .replace(R.id.main_fragment_container, PerfilUser.class, null)
-                                            .commit();
+                            new Handler(Looper.getMainLooper()).post(() -> {
 
-                                } else {
-                                    Toast.makeText(getActivity(), "Usuario o contraseña incorrectos", Toast.LENGTH_SHORT).show();
-                                }
+                                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                                fragmentManager.beginTransaction()
+                                        .replace(R.id.main_fragment_container, PerfilUser.class, null)
+                                        .commit();
 
+                            });
+
+                        } else {
+                            Toast.makeText(getActivity(), "Usuario o contraseña incorrectos", Toast.LENGTH_SHORT).show();
                         }
-                    });
+
+                    }).start();
+
                 });
                 threadDos.start();
             }else{
