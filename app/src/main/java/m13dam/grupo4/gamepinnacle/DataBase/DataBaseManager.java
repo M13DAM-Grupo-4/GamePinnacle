@@ -75,6 +75,22 @@ public class DataBaseManager {
         }
         return null;
     }
+    public static String mySteamId(String mail){
+        try {
+            Connection c = CreateConnection();
+            PreparedStatement stmt = c.prepareStatement("SELECT steamid FROM public.users WHERE email=?");
+            stmt.setString(1, mail);
+            ResultSet rs = stmt.executeQuery();
+
+            while(rs.next()) {
+                return rs.getString(4);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
     public static int comprobarCorreo(String mail){
         try {
@@ -155,6 +171,33 @@ public class DataBaseManager {
         }
 
         return -1;
+    }
+
+    public static String sqlitemail(@Nullable Context c) {
+        try {
+            SQLiteDatabase dbl = GetLocalDB(c);
+            Cursor cr = dbl.rawQuery("SELECT mail FROM login WHERE remember=true AND id=1", null);
+
+            if (cr.moveToFirst()) {
+                do {
+                    // Passing values
+                    String mail = cr.getString(1);
+
+                    cr.close(); // Close the cursor before closing the database
+                    dbl.close(); // Close the database
+
+                    return mail;
+                } while (cr.moveToNext());
+            }
+
+            cr.close(); // Close the cursor before closing the database
+            dbl.close(); // Close the database
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 
 

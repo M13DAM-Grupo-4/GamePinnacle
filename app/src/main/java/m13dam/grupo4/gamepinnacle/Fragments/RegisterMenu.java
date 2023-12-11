@@ -210,6 +210,7 @@ public class RegisterMenu extends Fragment {
                                 CurrentSession.setMail(mail);
                                 CurrentSession.setUserName(user);
 
+
                                 Handler handler = new Handler(Looper.getMainLooper());
                                 handler.post(new Runnable() {
                                     @Override

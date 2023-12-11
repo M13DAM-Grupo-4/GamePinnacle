@@ -116,7 +116,7 @@ public class PerfilUser extends Fragment {
 
 
         SteamWebApi.getSteamWebApiService().getRecentlyGamesByUser(
-                SteamUserId.idUser,
+                CurrentSession.getSteamId(),
                 3,
                 "json").enqueue(new Callback<GetRecentlyPlayedGamesResponse>() {
             @Override
@@ -140,7 +140,7 @@ public class PerfilUser extends Fragment {
         });
 
         SteamWebApi.getSteamWebApiService().getOwnedGamesByUser(
-                SteamUserId.idUser,
+                CurrentSession.getSteamId(),
                 true,
                 true,
                 "json").enqueue(new Callback<GetOwnedGamesResponse>() {
@@ -171,7 +171,7 @@ public class PerfilUser extends Fragment {
         });
 
         SteamWebApi.getSteamWebApiService().getPlayerSummaries(
-                SteamUserId.idUser,
+                CurrentSession.getSteamId(),
                 "json"
         ).enqueue(new Callback<GetPlayerSummariesResponse>() {
             @Override

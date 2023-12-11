@@ -1,6 +1,7 @@
 package m13dam.grupo4.gamepinnacle.Fragments;
 
 import static m13dam.grupo4.gamepinnacle.DataBase.DataBaseManager.SaveLoginRemember;
+import static m13dam.grupo4.gamepinnacle.DataBase.DataBaseManager.sqlitemail;
 
 import android.os.Bundle;
 
@@ -131,6 +132,8 @@ public class LoginMenu extends Fragment {
         if (DataBaseManager.LoginRemember(getActivity()) > 0) {
             System.out.println("recuerda");
 
+            CurrentSession.setSteamId(DataBaseManager.mySteamId(sqlitemail(getActivity())));
+
 
             FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
             fragmentManager.beginTransaction()
@@ -210,9 +213,9 @@ public class LoginMenu extends Fragment {
                         @Override
                         public void run() {
 
-
-
                                 if (CurrentSession.getUserID() > 0) {
+
+                                    CurrentSession.setSteamId(DataBaseManager.mySteamId(usuarioIntroducido_JVM));
                                     FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                                     fragmentManager.beginTransaction()
                                             .replace(R.id.main_fragment_container, PerfilUser.class, null)

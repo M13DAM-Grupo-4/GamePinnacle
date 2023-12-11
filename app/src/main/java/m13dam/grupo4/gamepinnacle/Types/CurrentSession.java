@@ -4,6 +4,15 @@ public class CurrentSession {
     private static int UserID;
     private static String mail;
     private static String userName;
+    private static String steamId;
+
+    public static String getSteamId() {
+        return steamId;
+    }
+
+    public static void setSteamId(String steamId) {
+        CurrentSession.steamId = steamId;
+    }
 
     public static int getUserID() {
 
