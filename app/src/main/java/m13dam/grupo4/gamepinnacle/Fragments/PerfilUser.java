@@ -140,7 +140,7 @@ public class PerfilUser extends Fragment {
                 System.out.println(call.request());
                 if (response.code() == 200) {
 
-                    totalGames.setText(response.body().getGetOwnedGames().getGame_count());
+                    totalGames.setText(String.valueOf(response.body().getGetOwnedGames().getGame_count()));
 
                 }
             }

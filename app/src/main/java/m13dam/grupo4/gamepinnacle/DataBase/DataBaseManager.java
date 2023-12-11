@@ -76,6 +76,23 @@ public class DataBaseManager {
         return null;
     }
 
+    public static int comprobarCorreo(String mail){
+        try {
+            Connection c = CreateConnection();
+            PreparedStatement stmt = c.prepareStatement("SELECT email FROM public.users WHERE email=?");
+            stmt.setString(1, mail);
+            ResultSet rs = stmt.executeQuery();
+
+            while(rs.next()) {
+                return 1;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return -1;
+    }
+
 
     public static SQLiteDatabase GetLocalDB(@Nullable Context c){
         return new LocalDatabaseManager(c).getWritableDatabase();

@@ -3,6 +3,7 @@ package m13dam.grupo4.gamepinnacle.Fragments;
 import static m13dam.grupo4.gamepinnacle.DataBase.DataBaseManager.Login;
 import static m13dam.grupo4.gamepinnacle.DataBase.DataBaseManager.RegistarUsuario;
 import static m13dam.grupo4.gamepinnacle.DataBase.DataBaseManager.SaveLoginRemember;
+import static m13dam.grupo4.gamepinnacle.DataBase.DataBaseManager.comprobarCorreo;
 
 import android.os.Bundle;
 
@@ -15,6 +16,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
+import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -187,58 +189,72 @@ public class RegisterMenu extends Fragment {
 
 
 
-            if (!mail.isEmpty() && !user.isEmpty() && !passOne.isEmpty() && !passTwo.isEmpty()) {
+            if (isValidEmail(mail) && !user.isEmpty() && !passOne.isEmpty() && !passTwo.isEmpty()) {
 
-                if(passOne.equals(passTwo)) {
-
-
+                if (passOne.equals(passTwo)) {
 
                     String pass = Hashing.sha256().hashString(passOne, StandardCharsets.UTF_8).toString();
 
                     sesion.usuario = new Usuario(mail, user, pass);
 
-
                     Thread thread = new Thread(() -> {
+                            if (comprobarCorreo(mail) < 0) {
 
-                            RegistarUsuario(sesion.usuario);
-                            Login(mail,pass);
+                                RegistarUsuario(sesion.usuario);
+                                Login(mail, pass);
 
-                                SaveLoginRemember(1,getActivity(),mail,user);
+                                SaveLoginRemember(1, getActivity(), mail, user);
 
                                 int LoginID = DataBaseManager.Login(mail, Hashing.sha256().hashString(passOne, StandardCharsets.UTF_8).toString());
                                 CurrentSession.setUserID(LoginID);
                                 CurrentSession.setMail(mail);
                                 CurrentSession.setUserName(user);
 
-
-
-                            Handler handler = new Handler(Looper.getMainLooper());
-
-                        handler.post(new Runnable() {
-                            @Override
-                            public void run() {
-
-
-                                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                                fragmentManager.beginTransaction()
-                                        .replace(R.id.main_fragment_container, PerfilUser.class, null)
-                                        .commit();
-
+                                Handler handler = new Handler(Looper.getMainLooper());
+                                handler.post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                                        fragmentManager.beginTransaction()
+                                                .replace(R.id.main_fragment_container, PerfilUser.class, null)
+                                                .commit();
+                                    }
+                                });
+                            } else {
+                                getActivity().runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Toast.makeText(getActivity(), "El correo ya existe", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
                             }
-                        });
+
+
                     });
                     thread.start();
-                }else {
-                    Toast.makeText(getActivity(), "Las contraseñas deben coincidir", Toast.LENGTH_SHORT).show();
+                } else {
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(getActivity(), "Las contraseñas deben coincidir", Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 }
-
             } else {
-                Toast.makeText(getActivity(), "Complete todos los campos", Toast.LENGTH_SHORT).show();
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(getActivity(), "Complete todos los campos", Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         });
 
 
 
+    }
+    private boolean isValidEmail(String email) {
+        return Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }
 
 
