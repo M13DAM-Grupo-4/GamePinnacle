@@ -1,6 +1,6 @@
-package m13dam.grupo4.gamepinnacle;
+package m13dam.grupo4.gamepinnacle.Classes.SteamWebApi;
 
-import m13dam.grupo4.gamepinnacle.Interfaces.SteamWebApiService;
+import m13dam.grupo4.gamepinnacle.Interfaces.SteamWebApi.SteamWebApiService;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 

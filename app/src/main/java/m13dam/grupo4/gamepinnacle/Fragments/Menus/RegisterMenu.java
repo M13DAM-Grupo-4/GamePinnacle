@@ -1,9 +1,9 @@
-package m13dam.grupo4.gamepinnacle.Fragments;
+package m13dam.grupo4.gamepinnacle.Fragments.Menus;
 
-import static m13dam.grupo4.gamepinnacle.DataBase.DataBaseManager.Login;
-import static m13dam.grupo4.gamepinnacle.DataBase.DataBaseManager.RegistarUsuario;
-import static m13dam.grupo4.gamepinnacle.DataBase.DataBaseManager.SaveLoginRemember;
-import static m13dam.grupo4.gamepinnacle.DataBase.DataBaseManager.comprobarCorreo;
+import static m13dam.grupo4.gamepinnacle.DataBases.DataBaseManager.Login;
+import static m13dam.grupo4.gamepinnacle.DataBases.DataBaseManager.RegistarUsuario;
+import static m13dam.grupo4.gamepinnacle.DataBases.DataBaseManager.SaveLoginRemember;
+import static m13dam.grupo4.gamepinnacle.DataBases.DataBaseManager.comprobarCorreo;
 
 import android.os.Bundle;
 
@@ -29,19 +29,19 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.common.hash.HashCode;
 import com.google.common.hash.Hashing;
-import com.squareup.picasso.Picasso;
 
 import java.nio.charset.StandardCharsets;
 import java.util.concurrent.CompletableFuture;
 
-import m13dam.grupo4.gamepinnacle.DataBase.DataBaseManager;
+import m13dam.grupo4.gamepinnacle.DataBases.DataBaseManager;
 import m13dam.grupo4.gamepinnacle.R;
-import m13dam.grupo4.gamepinnacle.SteamWebApi;
-import m13dam.grupo4.gamepinnacle.Types.CurrentSession;
-import m13dam.grupo4.gamepinnacle.Types.GetPlayerSummariesResponse;
-import m13dam.grupo4.gamepinnacle.Types.Usuario;
-import m13dam.grupo4.gamepinnacle.Types.sesion;
+import m13dam.grupo4.gamepinnacle.Classes.SteamWebApi.SteamWebApi;
+import m13dam.grupo4.gamepinnacle.Classes.Other.CurrentSession;
+import m13dam.grupo4.gamepinnacle.Classes.SteamWebApi.GetPlayerSummariesResponse;
+import m13dam.grupo4.gamepinnacle.Classes.Other.Usuario;
+import m13dam.grupo4.gamepinnacle.Classes.Other.sesion;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -191,83 +191,65 @@ public class RegisterMenu extends Fragment {
 
         registrar.setOnClickListener(v -> {
 
-            String mail = String.valueOf(mail_int.getText());
-            String user = String.valueOf(user_int.getText());
-            String passOne = String.valueOf(passOne_int.getText());
-            String passTwo = String.valueOf(passTwo_int.getText());
-            String steamId = String.valueOf(register_steam_id.getText());
+            String email = mail_int.getText().toString();
+            String user = user_int.getText().toString();
+            HashCode passOneHash = Hashing.sha256().hashString(passOne_int.getText().toString(), StandardCharsets.UTF_8);
+            HashCode passTwoHash = Hashing.sha256().hashString(passTwo_int.getText().toString(), StandardCharsets.UTF_8);
+            String steamId = register_steam_id.getText().toString();
 
+            new Thread(() -> {
 
+                Looper.prepare();
 
-            if (isValidEmail(mail) && !user.isEmpty() && !passOne.isEmpty() && !passTwo.isEmpty() && !steamId.isEmpty()) {
-
-                if (passOne.equals(passTwo)) {
-
-                    isValidSteamId().thenAccept(isValid -> {
-                        if (isValid) {
-
-                        String pass = Hashing.sha256().hashString(passOne, StandardCharsets.UTF_8).toString();
-
-                        sesion.usuario = new Usuario(mail, user, pass);
-
-                        Thread thread = new Thread(() -> {
-                            if (comprobarCorreo(mail) < 0) {
-
-                                RegistarUsuario(sesion.usuario);
-                                Login(mail, pass);
-
-                                SaveLoginRemember(1, getActivity(), mail, user);
-
-                                int LoginID = DataBaseManager.Login(mail, Hashing.sha256().hashString(passOne, StandardCharsets.UTF_8).toString());
-                                CurrentSession.setUserID(LoginID);
-                                CurrentSession.setMail(mail);
-                                CurrentSession.setUserName(user);
-                                CurrentSession.setSteamId(steamId);
-
-
-                                Handler handler = new Handler(Looper.getMainLooper());
-                                handler.post(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                                        fragmentManager.beginTransaction()
-                                                .replace(R.id.main_fragment_container, PerfilUser.class, null)
-                                                .commit();
-                                    }
-                                });
-                            } else {
-                                getActivity().runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        Toast.makeText(getActivity(), "El correo ya existe", Toast.LENGTH_SHORT).show();
-                                    }
-                                });
-                            }
-
-
-                        });
-                        thread.start();
-                    }else {
-                    getActivity().runOnUiThread(() ->
-                            Toast.makeText(getActivity(), "La ID de Steam no es válida", Toast.LENGTH_SHORT).show());
-                     }
-                });
-
-                getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Toast.makeText(getActivity(), "Las contraseñas deben coincidir", Toast.LENGTH_SHORT).show();
-                        }
-                    });
+                if (user.length() == 0){
+                    Toast.makeText(getActivity(), "El usuario esta vacio", Toast.LENGTH_SHORT).show();
+                    return;
                 }
-            } else {
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(getActivity(), "Complete todos los campos", Toast.LENGTH_SHORT).show();
-                    }
-                });
-            }
+
+                if (!isValidEmail(email)) {
+                    Toast.makeText(getActivity(), "El correo no es valido", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if (emailExistsInDatabase(email)) {
+                    Toast.makeText(getActivity(), "Ya existe una cuenta con este correo", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if (!isSteamIdValid(steamId)) {
+                    Toast.makeText(getActivity(), "El SteamID no es valido", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if (!isPasswordValid(passOneHash)) {
+                    Toast.makeText(getActivity(), "Las contraseña no es valida", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if (!passwordsMatch(passOneHash, passTwoHash)) {
+                    Toast.makeText(getActivity(), "Las contraseñas no coinciden", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                Usuario nuevoUsuario = new Usuario(email, user, passOneHash.toString(), steamId);
+
+                int UserId = DataBaseManager.RegistarUsuario(nuevoUsuario);
+                sesion.usuario = nuevoUsuario;
+
+                SaveLoginRemember(UserId, getActivity(), email, user);
+
+                CurrentSession.setUserID(UserId);
+                CurrentSession.setMail(email);
+                CurrentSession.setUserName(user);
+                CurrentSession.setSteamId(steamId);
+
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                fragmentManager.beginTransaction()
+                        .replace(R.id.main_fragment_container, PerfilUserMenu.class, null)
+                        .commit();
+
+            }).start();
+
         });
 
 
@@ -275,6 +257,48 @@ public class RegisterMenu extends Fragment {
     }
     private boolean isValidEmail(String email) {
         return Patterns.EMAIL_ADDRESS.matcher(email).matches();
+    }
+
+    private boolean emailExistsInDatabase(String email) {
+        return DataBaseManager.comprobarCorreo(email);
+    }
+
+    private boolean isPasswordValid(HashCode password) {
+
+        if (password.equals(Hashing.sha256().hashString("", StandardCharsets.UTF_8))) {
+            return false;
+        }
+
+        return true;
+    }
+
+    private boolean passwordsMatch(HashCode password1, HashCode password2) {
+        return password1.equals(password2);
+    }
+
+    private boolean isSteamIdValid(String SteamID){
+
+        if (SteamID.length() != 17) {
+            return false;
+        }
+
+        try {
+            Response<GetPlayerSummariesResponse> res = SteamWebApi.getSteamWebApiService().getPlayerSummaries(SteamID, "json").execute();
+
+            if (res.code() != 200){
+                return false;
+            }
+
+            if (res.body().getPlayerSummaries().getPlayers().size() == 0) {
+                return false;
+            }
+
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return false;
     }
 
     private CompletableFuture<Boolean> isValidSteamId() {

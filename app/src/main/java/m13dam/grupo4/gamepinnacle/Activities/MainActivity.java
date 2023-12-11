@@ -1,4 +1,4 @@
-package m13dam.grupo4.gamepinnacle;
+package m13dam.grupo4.gamepinnacle.Activities;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
@@ -7,14 +7,9 @@ import androidx.fragment.app.FragmentManager;
 
 import android.os.Bundle;
 
-import m13dam.grupo4.gamepinnacle.Fragments.LoginMenu;
-import m13dam.grupo4.gamepinnacle.Fragments.RegisterMenu;
-import m13dam.grupo4.gamepinnacle.Types.GetNewsForApp;
-import m13dam.grupo4.gamepinnacle.Types.GetNewsForAppResponse;
-import m13dam.grupo4.gamepinnacle.Types.NewsItems;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import m13dam.grupo4.gamepinnacle.Fragments.Menus.LoginMenu;
+import m13dam.grupo4.gamepinnacle.Fragments.Menus.RegisterMenu;
+import m13dam.grupo4.gamepinnacle.R;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -28,22 +23,35 @@ public class MainActivity extends AppCompatActivity {
                 .replace(R.id.main_fragment_container, LoginMenu.class, null)
                 .commit();
 
+        backButton();
+
+    }
+
+    private void backButton() {
         getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
-                Fragment frag = getSupportFragmentManager().findFragmentById(R.id.main_fragment_container);
+                Fragment fragContainer = getSupportFragmentManager().findFragmentById(R.id.main_fragment_container);
 
-                if (frag.getClass() == RegisterMenu.class){
+                Fragment newFrag = null;
+
+                if (fragContainer == null) {
+                    return;
+                }
+
+                if (fragContainer.getClass() == RegisterMenu.class){
+                    newFrag = new LoginMenu();
+                }
+
+                if (newFrag != null) {
                     FragmentManager fragmentManager = getSupportFragmentManager();
                     fragmentManager.beginTransaction()
-                            .replace(R.id.main_fragment_container, LoginMenu.class, null)
+                            .replace(R.id.main_fragment_container, newFrag, null)
                             .commit();
-                    return;
                 }
 
             }
         });
-
     }
 
 }

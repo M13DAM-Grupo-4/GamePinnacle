@@ -1,4 +1,4 @@
-package m13dam.grupo4.gamepinnacle.Types;
+package m13dam.grupo4.gamepinnacle.Classes.SteamWebApi;
 
 import com.google.gson.annotations.SerializedName;
 

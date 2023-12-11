@@ -1,4 +1,4 @@
-package m13dam.grupo4.gamepinnacle.Types;
+package m13dam.grupo4.gamepinnacle.Classes.SteamWebApi;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -13,7 +13,7 @@ public class GetNewsForApp {
     private int count;
 
     @SerializedName("newsitems")
-    List<NewsItems> newsitems;
+    List<NewsItems> newsItems;
 
     public int getAppid() {
         return appid;
@@ -23,7 +23,7 @@ public class GetNewsForApp {
         return count;
     }
 
-    public List<NewsItems> getNewsitems() {
-        return newsitems;
+    public List<NewsItems> getNewsItems() {
+        return newsItems;
     }
 }

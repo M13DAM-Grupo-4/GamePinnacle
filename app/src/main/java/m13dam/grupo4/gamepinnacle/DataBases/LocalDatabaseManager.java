@@ -1,4 +1,4 @@
-package m13dam.grupo4.gamepinnacle.DataBase;
+package m13dam.grupo4.gamepinnacle.DataBases;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;

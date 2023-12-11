@@ -1,4 +1,4 @@
-package m13dam.grupo4.gamepinnacle.Fragments;
+package m13dam.grupo4.gamepinnacle.Fragments.Menus;
 
 
 
@@ -22,25 +22,24 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-import m13dam.grupo4.gamepinnacle.Adapters.AdaptadorPrincipal;
+import m13dam.grupo4.gamepinnacle.Adapters.RecentlyPlayedGamesAdapter;
 import m13dam.grupo4.gamepinnacle.R;
-import m13dam.grupo4.gamepinnacle.SteamWebApi;
-import m13dam.grupo4.gamepinnacle.Types.CurrentSession;
-import m13dam.grupo4.gamepinnacle.Types.Games;
-import m13dam.grupo4.gamepinnacle.Types.GetOwnedGamesResponse;
-import m13dam.grupo4.gamepinnacle.Types.GetPlayerSummariesResponse;
-import m13dam.grupo4.gamepinnacle.Types.GetRecentlyPlayedGamesResponse;
-import m13dam.grupo4.gamepinnacle.Types.SteamUserId;
+import m13dam.grupo4.gamepinnacle.Classes.SteamWebApi.SteamWebApi;
+import m13dam.grupo4.gamepinnacle.Classes.Other.CurrentSession;
+import m13dam.grupo4.gamepinnacle.Classes.SteamWebApi.Games;
+import m13dam.grupo4.gamepinnacle.Classes.SteamWebApi.GetOwnedGamesResponse;
+import m13dam.grupo4.gamepinnacle.Classes.SteamWebApi.GetPlayerSummariesResponse;
+import m13dam.grupo4.gamepinnacle.Classes.SteamWebApi.GetRecentlyPlayedGamesResponse;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link PerfilUser#newInstance} factory method to
+ * Use the {@link PerfilUserMenu#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class PerfilUser extends Fragment {
+public class PerfilUserMenu extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -61,7 +60,7 @@ public class PerfilUser extends Fragment {
     private ActivityResultLauncher<Intent> pickImageLauncher;
 
 
-    public PerfilUser() {
+    public PerfilUserMenu() {
         // Required empty public constructor
     }
 
@@ -74,8 +73,8 @@ public class PerfilUser extends Fragment {
      * @return A new instance of fragment PerfilUser.
      */
     // TODO: Rename and change types and number of parameters
-    public static PerfilUser newInstance(String param1, String param2) {
-        PerfilUser fragment = new PerfilUser();
+    public static PerfilUserMenu newInstance(String param1, String param2) {
+        PerfilUserMenu fragment = new PerfilUserMenu();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -215,7 +214,7 @@ public class PerfilUser extends Fragment {
     }
 
     private void listaJuegosRecientes () {
-        AdaptadorPrincipal recycleview_jvm = new AdaptadorPrincipal(getActivity(), listaJuegos);
+        RecentlyPlayedGamesAdapter recycleview_jvm = new RecentlyPlayedGamesAdapter(getActivity(), listaJuegos);
 
         RecyclerView recyclerView = getActivity().findViewById(R.id.perfil_user_lista_juegos_recientes_recycler);
 

@@ -1,10 +1,10 @@
-package m13dam.grupo4.gamepinnacle.Interfaces;
+package m13dam.grupo4.gamepinnacle.Interfaces.SteamWebApi;
 
 import m13dam.grupo4.gamepinnacle.BuildConfig;
-import m13dam.grupo4.gamepinnacle.Types.GetNewsForAppResponse;
-import m13dam.grupo4.gamepinnacle.Types.GetOwnedGamesResponse;
-import m13dam.grupo4.gamepinnacle.Types.GetPlayerSummariesResponse;
-import m13dam.grupo4.gamepinnacle.Types.GetRecentlyPlayedGamesResponse;
+import m13dam.grupo4.gamepinnacle.Classes.SteamWebApi.GetNewsForAppResponse;
+import m13dam.grupo4.gamepinnacle.Classes.SteamWebApi.GetOwnedGamesResponse;
+import m13dam.grupo4.gamepinnacle.Classes.SteamWebApi.GetPlayerSummariesResponse;
+import m13dam.grupo4.gamepinnacle.Classes.SteamWebApi.GetRecentlyPlayedGamesResponse;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Query;

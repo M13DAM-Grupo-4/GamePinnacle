@@ -1,4 +1,4 @@
-package m13dam.grupo4.gamepinnacle.Types;
+package m13dam.grupo4.gamepinnacle.Classes.Other;
 
 public class sesion {
 

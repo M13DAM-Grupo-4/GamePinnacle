@@ -1,4 +1,4 @@
-package m13dam.grupo4.gamepinnacle.Types;
+package m13dam.grupo4.gamepinnacle.Classes.SteamWebApi;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -32,6 +32,10 @@ public class Games {
     }
     public String getPlaytime_2weeks() {
         return playtime_2weeks;
+    }
+
+    public String getPlaytime_2weeks_on_hours() {
+        return String.valueOf((Integer.parseInt(playtime_2weeks)/60));
     }
 
 }

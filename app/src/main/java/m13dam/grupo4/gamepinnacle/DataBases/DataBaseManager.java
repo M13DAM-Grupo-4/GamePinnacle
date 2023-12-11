@@ -1,4 +1,4 @@
-package m13dam.grupo4.gamepinnacle.DataBase;
+package m13dam.grupo4.gamepinnacle.DataBases;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -14,8 +14,8 @@ import java.sql.SQLException;
 import java.util.Properties;
 
 import m13dam.grupo4.gamepinnacle.BuildConfig;
-import m13dam.grupo4.gamepinnacle.Types.CurrentSession;
-import m13dam.grupo4.gamepinnacle.Types.Usuario;
+import m13dam.grupo4.gamepinnacle.Classes.Other.CurrentSession;
+import m13dam.grupo4.gamepinnacle.Classes.Other.Usuario;
 
 public class DataBaseManager {
     public static Connection CreateConnection(){
@@ -92,21 +92,23 @@ public class DataBaseManager {
         return null;
     }
 
-    public static int comprobarCorreo(String mail){
+    public static boolean comprobarCorreo(String mail){
         try {
             Connection c = CreateConnection();
-            PreparedStatement stmt = c.prepareStatement("SELECT email FROM public.users WHERE email=?");
+            PreparedStatement stmt = c.prepareStatement("SELECT COUNT(email) FROM public.users WHERE email=?");
             stmt.setString(1, mail);
             ResultSet rs = stmt.executeQuery();
 
-            while(rs.next()) {
-                return 1;
+            if (rs.next()){
+                if (rs.getInt(1) > 0) {
+                    return true;
+                }
             }
 
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return -1;
+        return false;
     }
 
 
@@ -118,11 +120,12 @@ public class DataBaseManager {
         try {
             Connection c = CreateConnection();
             PreparedStatement stmt = c.prepareStatement("INSERT INTO public.users (email, username, " +
-                    "password) VALUES" +
-                    "(?,?,?) RETURNING id");
+                    "password, steamid) VALUES" +
+                    "(?,?,?,?) RETURNING id");
             stmt.setString(1, usuario.getCorreo());
             stmt.setString(2, usuario.getUsuario());
             stmt.setString(3, usuario.getPassword());
+            stmt.setString(4, usuario.getSteamid());
 
             ResultSet rs = stmt.executeQuery();
 
