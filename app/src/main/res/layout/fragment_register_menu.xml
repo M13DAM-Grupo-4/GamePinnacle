@@ -137,7 +137,7 @@
                 android:textColorHint="@color/text"
                 android:textSize="@dimen/_16ssp"
                 android:fontFamily="@font/roboto_medium"
-                android:inputType="textEmailAddress"
+                android:inputType="text"
                 android:autofillHints="emailAddress" />
 
         </LinearLayout>
