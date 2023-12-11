@@ -113,12 +113,12 @@ public class PerfilUser extends Fragment {
                 System.out.println(call.request());
                 if (response.code() == 200) {
 
-                    /*for(Games g : response.body().getRecentGames().getGames()) {
+                    for(Games g : response.body().getRecentGames().getGames()) {
 
                         listaJuegos.add(g);
 
                     }
-                    listaJuegosRecientes(); */
+                    listaJuegosRecientes();
                 }
             }
 
@@ -138,12 +138,8 @@ public class PerfilUser extends Fragment {
                 System.out.println(call.request());
                 if (response.code() == 200) {
 
-                    for(Games g : response.body().getGetOwnedGames().getGames()) {
 
-                        listaJuegos.add(g);
 
-                    }
-                    listaJuegosRecientes();
                 }
             }
 
