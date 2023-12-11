@@ -124,6 +124,11 @@ public class PerfilUser extends Fragment {
                 System.out.println(call.request());
                 if (response.code() == 200) {
 
+                    if (response.body().getRecentGames().getGames() == null) {
+                        System.out.println("GetRecentlyPlayedGames is null");
+                        return;
+                    }
+
                     for(Games g : response.body().getRecentGames().getGames()) {
 
                         listaJuegos.add(g);
@@ -148,6 +153,11 @@ public class PerfilUser extends Fragment {
             public void onResponse(Call<GetOwnedGamesResponse> call, Response<GetOwnedGamesResponse> response) {
                 System.out.println(call.request());
                 if (response.code() == 200) {
+
+                    if (response.body().getGetOwnedGames().getGames() == null) {
+                        System.out.println("GetOwnedGames is null");
+                        return;
+                    }
 
                     totalGames.setText(String.valueOf(response.body().getGetOwnedGames().getGame_count()));
 
@@ -179,6 +189,12 @@ public class PerfilUser extends Fragment {
                 System.out.println(call.request());
 
                 if (response.code() == 200) {
+
+                    if (response.body().getPlayerSummaries().getPlayers() == null) {
+                        System.out.println("GetPlayerSummaries is null");
+                        return;
+                    }
+
                     System.out.println(response.body().getPlayerSummaries().getPlayers().get(0).getAvatar());
                     Picasso.get().load(response.body().getPlayerSummaries().getPlayers().get(0).getAvatar()).into(avatarUsuario);
                 }
