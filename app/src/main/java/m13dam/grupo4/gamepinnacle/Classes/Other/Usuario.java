@@ -2,22 +2,34 @@ package m13dam.grupo4.gamepinnacle.Classes.Other;
 
 public class Usuario {
 
+    private int id;
+
     private String correo;
     private String usuario;
     private String password;
     private String steamid;
 
-    public Usuario(String correo, String usuario, String password) {
+    public Usuario(int id, String correo, String usuario, String password) {
+        this.id = id;
         this.correo = correo;
         this.usuario = usuario;
         this.password = password;
     }
 
-    public Usuario(String correo, String usuario, String password, String steamid) {
+    public Usuario(int id, String correo, String usuario, String password, String steamid) {
+        this.id = id;
         this.correo = correo;
         this.usuario = usuario;
         this.password = password;
         this.steamid = steamid;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getCorreo() {

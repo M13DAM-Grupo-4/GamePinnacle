@@ -58,6 +58,32 @@ public class DataBaseManager {
         }
         return -1;
     }
+
+    public static Usuario GetUserFromDatabase(int id) {
+
+        try {
+            Connection c = CreateConnection();
+            PreparedStatement stmt = c.prepareStatement("SELECT * FROM public.users WHERE id=?");
+            stmt.setInt(1, id);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                Usuario usuario = new Usuario(
+                        rs.getInt("id"),
+                        rs.getString("email"),
+                        rs.getString("username"),
+                        rs.getString("password"),
+                        rs.getString("steamid"));
+
+                return usuario;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
     public static String usuario(String mail, String pass){
         try {
             Connection c = CreateConnection();
@@ -146,28 +172,21 @@ public class DataBaseManager {
     public static int LoginRemember(@Nullable Context c) {
         try {
             SQLiteDatabase dbl = GetLocalDB(c);
-            Cursor cr = dbl.rawQuery("SELECT user_id, mail, username FROM login WHERE remember=true AND id=1", null);
+            Cursor cr = dbl.rawQuery("SELECT email,password FROM login WHERE id=1", null);
 
             if (cr.moveToFirst()) {
                 do {
-                    // Passing values
-                    int userId = cr.getInt(0);
-                    String mail = cr.getString(1);
-                    String username = cr.getString(2);
+                    String email = cr.getString(0);
+                    String password = cr.getString(1);
 
-                    // Set values in CurrentSession
-                    CurrentSession.setMail(mail);
-                    CurrentSession.setUserName(username);
-
-                    cr.close(); // Close the cursor before closing the database
-                    dbl.close(); // Close the database
+                    int userId = DataBaseManager.Login(email, password);
 
                     return userId;
                 } while (cr.moveToNext());
             }
 
-            cr.close(); // Close the cursor before closing the database
-            dbl.close(); // Close the database
+            cr.close();
+            dbl.close();
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -206,14 +225,15 @@ public class DataBaseManager {
 
 
 
-    public static void SaveLoginRemember(int userid, @Nullable Context c, String mail, String username) {
+    public static void SaveLoginRemember(@Nullable Context c, Usuario usuario) {
         try {
             SQLiteDatabase dbl = GetLocalDB(c);
             dbl.execSQL("DELETE FROM login");
-            dbl.execSQL("INSERT INTO login (id, user_id, remember, mail, username) VALUES (1, " + userid + ", 1, '" + mail + "', '" + username + "')");
+            dbl.execSQL("INSERT INTO login (id, email, password) VALUES (1, '"+usuario.getCorreo()+"', '"+usuario.getPassword()+"')");
             dbl.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
 }

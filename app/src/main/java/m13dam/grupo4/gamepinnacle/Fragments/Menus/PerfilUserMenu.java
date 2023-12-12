@@ -110,12 +110,12 @@ public class PerfilUserMenu extends Fragment {
         totalGames = view.findViewById(R.id.perfil_user_juegos);
         played_hours = view.findViewById(R.id.perfil_user_horas_jugadas);
         numberOfFriends = view.findViewById(R.id.perfil_user_amigos);
-        userMail.setText(CurrentSession.getMail());
-        userName.setText(CurrentSession.getUserName());
+        userMail.setText(CurrentSession.getUsuario().getCorreo());
+        userName.setText(CurrentSession.getUsuario().getUsuario());
 
 
         SteamWebApi.getSteamWebApiService().getRecentlyGamesByUser(
-                CurrentSession.getSteamId(),
+                CurrentSession.getUsuario().getSteamid(),
                 3,
                 "json").enqueue(new Callback<GetRecentlyPlayedGamesResponse>() {
             @Override
@@ -146,7 +146,7 @@ public class PerfilUserMenu extends Fragment {
         });
 
         SteamWebApi.getSteamWebApiService().getOwnedGamesByUser(
-                CurrentSession.getSteamId(),
+                CurrentSession.getUsuario().getSteamid(),
                 true,
                 true,
                 "json").enqueue(new Callback<GetOwnedGamesResponse>() {
@@ -184,7 +184,7 @@ public class PerfilUserMenu extends Fragment {
         });
 
         SteamWebApi.getSteamWebApiService().getPlayerSummaries(
-                CurrentSession.getSteamId(),
+                CurrentSession.getUsuario().getSteamid(),
                 "json"
         ).enqueue(new Callback<GetPlayerSummariesResponse>() {
             @Override

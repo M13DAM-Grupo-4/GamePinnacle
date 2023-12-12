@@ -30,6 +30,7 @@ import com.google.common.hash.Hashing;
 
 import java.nio.charset.StandardCharsets;
 
+import m13dam.grupo4.gamepinnacle.Classes.Other.Usuario;
 import m13dam.grupo4.gamepinnacle.DataBases.DataBaseManager;
 import m13dam.grupo4.gamepinnacle.R;
 import m13dam.grupo4.gamepinnacle.Classes.Other.CurrentSession;
@@ -75,7 +76,6 @@ public class LoginMenu extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         setViews(view);
-        loadUserMenu();
 
         passwordEye();
         recover(view);
@@ -100,7 +100,23 @@ public class LoginMenu extends Fragment {
     }
 
     private void login(@NonNull View view) {
-        // Login
+        // Login remember
+        new Thread(() -> {
+            Looper.prepare();
+
+            int userId = DataBaseManager.LoginRemember(getActivity());
+
+            if (userId < 1){
+                return;
+            }
+
+            Usuario usuario = DataBaseManager.GetUserFromDatabase(userId);
+            CurrentSession.setUsuario(usuario);
+
+            loadUserMenu();
+        }).start();
+
+        // Login button
         login_button = view.findViewById(R.id.login_login_button);
         login_button.setOnClickListener(v -> {
             Animation anim = AnimationUtils.loadAnimation(getActivity(), R.anim.blink);
@@ -109,47 +125,28 @@ public class LoginMenu extends Fragment {
             String usuarioIntroducido_JVM = email_text.getText().toString();
             String contraseñaIntroducido_JVM = password_text.getText().toString();
 
-
-            if(!usuarioIntroducido_JVM.isEmpty() && !contraseñaIntroducido_JVM.isEmpty()) {
-
-                Thread threadDos = new Thread(() -> {
-
-                        SaveLoginRemember(1,getActivity(),usuarioIntroducido_JVM,DataBaseManager.usuario(usuarioIntroducido_JVM,Hashing.sha256().hashString(contraseñaIntroducido_JVM, StandardCharsets.UTF_8).toString()));
-
-                        int LoginID = DataBaseManager.Login(usuarioIntroducido_JVM, Hashing.sha256().hashString(contraseñaIntroducido_JVM, StandardCharsets.UTF_8).toString());
-
-                        CurrentSession.setUserID(LoginID);
-                        CurrentSession.setMail(usuarioIntroducido_JVM);
-                        CurrentSession.setUserName(DataBaseManager.usuario(usuarioIntroducido_JVM,Hashing.sha256().hashString(contraseñaIntroducido_JVM, StandardCharsets.UTF_8).toString()));
-
-                    new Thread(() -> {
-
-                        if (CurrentSession.getUserID() > 0) {
-
-                            CurrentSession.setSteamId(DataBaseManager.mySteamId(usuarioIntroducido_JVM));
-
-                            new Handler(Looper.getMainLooper()).post(() -> {
-
-                                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                                fragmentManager.beginTransaction()
-                                        .replace(R.id.main_fragment_container, PerfilUserMenu.class, null)
-                                        .commit();
-
-                            });
-
-                        } else {
-                            Toast.makeText(getActivity(), "Usuario o contraseña incorrectos", Toast.LENGTH_SHORT).show();
-                        }
-
-                    }).start();
-
-                });
-                threadDos.start();
-            }else{
+            if(usuarioIntroducido_JVM.isEmpty() || contraseñaIntroducido_JVM.isEmpty()) {
                 Toast.makeText(getActivity(), "Introduzca ambos campos de sesion", Toast.LENGTH_SHORT).show();
+                return;
             }
 
+            new Thread(() -> {
+                Looper.prepare();
+
+                int LoginID = DataBaseManager.Login(usuarioIntroducido_JVM, Hashing.sha256().hashString(contraseñaIntroducido_JVM, StandardCharsets.UTF_8).toString());
+                Usuario usuario = DataBaseManager.GetUserFromDatabase(LoginID);
+                DataBaseManager.SaveLoginRemember(getActivity(), usuario);
+                CurrentSession.setUsuario(usuario);
+
+                if (CurrentSession.getUsuario() == null) {
+                    Toast.makeText(getActivity(), "Usuario o contraseña incorrectos", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                loadUserMenu();
+            }).start();
         });
+
     }
 
     private void recover(@NonNull View view) {
@@ -189,19 +186,10 @@ public class LoginMenu extends Fragment {
     }
 
     private void loadUserMenu() {
-        new Thread(() -> {
-
-            System.out.println(DataBaseManager.LoginRemember(getActivity()));
-
-            if (DataBaseManager.LoginRemember(getActivity()) > 0) {
-                CurrentSession.setSteamId(DataBaseManager.mySteamId(sqlitemail(getActivity())));
-
-                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                fragmentManager.beginTransaction()
-                        .replace(R.id.main_fragment_container, PerfilUserMenu.class, null)
-                        .commit();
-            }
-        }).start();
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        fragmentManager.beginTransaction()
+                .replace(R.id.main_fragment_container, PerfilUserMenu.class, null)
+                .commit();
     }
 
     private void setViews(@NonNull View view) {

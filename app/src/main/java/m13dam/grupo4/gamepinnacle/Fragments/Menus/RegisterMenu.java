@@ -1,9 +1,6 @@
 package m13dam.grupo4.gamepinnacle.Fragments.Menus;
 
-import static m13dam.grupo4.gamepinnacle.DataBases.DataBaseManager.Login;
-import static m13dam.grupo4.gamepinnacle.DataBases.DataBaseManager.RegistarUsuario;
 import static m13dam.grupo4.gamepinnacle.DataBases.DataBaseManager.SaveLoginRemember;
-import static m13dam.grupo4.gamepinnacle.DataBases.DataBaseManager.comprobarCorreo;
 
 import android.os.Bundle;
 
@@ -12,7 +9,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
-import android.os.Handler;
 import android.os.Looper;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
@@ -41,7 +37,6 @@ import m13dam.grupo4.gamepinnacle.Classes.SteamWebApi.SteamWebApi;
 import m13dam.grupo4.gamepinnacle.Classes.Other.CurrentSession;
 import m13dam.grupo4.gamepinnacle.Classes.SteamWebApi.GetPlayerSummariesResponse;
 import m13dam.grupo4.gamepinnacle.Classes.Other.Usuario;
-import m13dam.grupo4.gamepinnacle.Classes.Other.sesion;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -231,17 +226,15 @@ public class RegisterMenu extends Fragment {
                     return;
                 }
 
-                Usuario nuevoUsuario = new Usuario(email, user, passOneHash.toString(), steamId);
+                Usuario nuevoUsuario = new Usuario(-1, email, user, passOneHash.toString(), steamId);
 
                 int UserId = DataBaseManager.RegistarUsuario(nuevoUsuario);
-                sesion.usuario = nuevoUsuario;
 
-                SaveLoginRemember(UserId, getActivity(), email, user);
+                nuevoUsuario.setId(UserId);
 
-                CurrentSession.setUserID(UserId);
-                CurrentSession.setMail(email);
-                CurrentSession.setUserName(user);
-                CurrentSession.setSteamId(steamId);
+                SaveLoginRemember(getActivity(), nuevoUsuario);
+
+                CurrentSession.setUsuario(nuevoUsuario);
 
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 fragmentManager.beginTransaction()
@@ -251,8 +244,6 @@ public class RegisterMenu extends Fragment {
             }).start();
 
         });
-
-
 
     }
     private boolean isValidEmail(String email) {
@@ -306,7 +297,7 @@ public class RegisterMenu extends Fragment {
         CompletableFuture<Boolean> future = new CompletableFuture<>();
 
         SteamWebApi.getSteamWebApiService().getPlayerSummaries(
-                CurrentSession.getSteamId(),
+                CurrentSession.getUsuario().getSteamid(),
                 "json"
         ).enqueue(new Callback<GetPlayerSummariesResponse>() {
             @Override
