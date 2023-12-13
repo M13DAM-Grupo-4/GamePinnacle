@@ -38,15 +38,15 @@ import m13dam.grupo4.gamepinnacle.Classes.Other.CurrentSession;
 public class LoginMenu extends Fragment {
 
     // Ui_Layout
-    LinearLayout login_ui;
-
+    private LinearLayout login_ui;
+    private TextView recover;
     // UI
-    EditText email_text;
-    EditText password_text;
-    ImageView password_eye;
-    TextView recover;
-    Button login_button;
-    TextView register_register;
+    private EditText email_text;
+    private EditText password_text;
+    private ImageView password_eye;
+
+    private Button login_button;
+    private TextView register_register;
 
     //Hidden state
     boolean password_hidden = true;

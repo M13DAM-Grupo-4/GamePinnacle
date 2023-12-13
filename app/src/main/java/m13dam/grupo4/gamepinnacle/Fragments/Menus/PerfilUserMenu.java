@@ -3,18 +3,23 @@ package m13dam.grupo4.gamepinnacle.Fragments.Menus;
 
 
 import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -23,6 +28,7 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 
 import m13dam.grupo4.gamepinnacle.Adapters.RecentlyPlayedGamesAdapter;
+import m13dam.grupo4.gamepinnacle.DataBases.DataBaseManager;
 import m13dam.grupo4.gamepinnacle.R;
 import m13dam.grupo4.gamepinnacle.Classes.SteamWebApi.SteamWebApi;
 import m13dam.grupo4.gamepinnacle.Classes.Other.CurrentSession;
@@ -55,6 +61,8 @@ public class PerfilUserMenu extends Fragment {
     private TextView played_hours;
     private TextView totalGames;
     private TextView numberOfFriends;
+    private ImageView loginOut;
+    private ImageView ajustes;
 
     private ArrayList <Games> listaJuegos = new ArrayList<>();
     private ActivityResultLauncher<Intent> pickImageLauncher;
@@ -112,106 +120,136 @@ public class PerfilUserMenu extends Fragment {
         numberOfFriends = view.findViewById(R.id.perfil_user_amigos);
         userMail.setText(CurrentSession.getUsuario().getCorreo());
         userName.setText(CurrentSession.getUsuario().getUsuario());
+        loginOut = view.findViewById(R.id.prefil_user_logout);
+        ajustes = view.findViewById(R.id.prefil_user_settings);
 
+        loginOut.setOnClickListener(v -> {
 
-        SteamWebApi.getSteamWebApiService().getRecentlyGamesByUser(
-                CurrentSession.getUsuario().getSteamid(),
-                3,
-                "json").enqueue(new Callback<GetRecentlyPlayedGamesResponse>() {
-            @Override
-            public void onResponse(Call<GetRecentlyPlayedGamesResponse> call, Response<GetRecentlyPlayedGamesResponse> response) {
-                System.out.println(call.request());
-                System.out.println(response.code());
+            Animation anim = AnimationUtils.loadAnimation(getActivity(), R.anim.blink);
+            loginOut.startAnimation(anim);
 
-                if (response.code() == 200) {
+            new Thread(() -> {
 
-                    if (response.body().getRecentGames().getGames() == null) {
-                        System.out.println("GetRecentlyPlayedGames is null");
-                        return;
-                    }
+                DataBaseManager.unLoginRemember(getActivity());
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                fragmentManager.beginTransaction()
+                        .replace(R.id.main_fragment_container, LoginMenu.class, null)
+                        .commit();
 
-                    for(Games g : response.body().getRecentGames().getGames()) {
-
-                        listaJuegos.add(g);
-
-                    }
-                    listaJuegosRecientes();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<GetRecentlyPlayedGamesResponse> call, Throwable t) {
-                System.out.println(t.getMessage());
-            }
+            }).start();
         });
 
-        SteamWebApi.getSteamWebApiService().getOwnedGamesByUser(
-                CurrentSession.getUsuario().getSteamid(),
-                true,
-                true,
-                "json").enqueue(new Callback<GetOwnedGamesResponse>() {
-            @Override
-            public void onResponse(Call<GetOwnedGamesResponse> call, Response<GetOwnedGamesResponse> response) {
-                System.out.println(call.request());
-                System.out.println(response.code());
+        ajustes.setOnClickListener(v -> {
 
-                if (response.code() == 200) {
+                Animation anim = AnimationUtils.loadAnimation(getActivity(), R.anim.blink);
+                ajustes.startAnimation(anim);
 
-                    if (response.body().getGetOwnedGames().getGames() == null) {
-                        System.out.println("GetOwnedGames is null");
-                        return;
-                    }
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                fragmentManager.beginTransaction()
+                        .replace(R.id.main_fragment_container, LoginMenu.class, null)
+                        .commit();
 
-                    totalGames.setText(String.valueOf(response.body().getGetOwnedGames().getGame_count()));
 
-                    long playedTimeCount = 0L;
-                    long playedTimeHours;
-
-                    for (Games g : response.body().getGetOwnedGames().getGames()) {
-                        playedTimeCount += Long.parseLong(g.getPlaytime_forever());
-                    }
-                    playedTimeHours = playedTimeCount/60;
-
-                    played_hours.setText(String.valueOf(playedTimeHours));
-
-                }
-            }
-
-            @Override
-            public void onFailure(Call<GetOwnedGamesResponse> call, Throwable t) {
-                System.out.println(t.getMessage());
-            }
         });
 
-        SteamWebApi.getSteamWebApiService().getPlayerSummaries(
-                CurrentSession.getUsuario().getSteamid(),
-                "json"
-        ).enqueue(new Callback<GetPlayerSummariesResponse>() {
-            @Override
-            public void onResponse(Call<GetPlayerSummariesResponse> call, Response<GetPlayerSummariesResponse> response) {
-                System.out.println(call.request());
-                System.out.println(response.code());
+            SteamWebApi.getSteamWebApiService().getRecentlyGamesByUser(
+                    CurrentSession.getUsuario().getSteamid(),
+                    3,
+                    "json").enqueue(new Callback<GetRecentlyPlayedGamesResponse>() {
+                @Override
+                public void onResponse(Call<GetRecentlyPlayedGamesResponse> call, Response<GetRecentlyPlayedGamesResponse> response) {
+                    System.out.println(call.request());
+                    System.out.println(response.code());
 
-                if (response.code() == 200) {
+                    if (response.code() == 200) {
 
-                    if (response.body().getPlayerSummaries().getPlayers() == null) {
-                        System.out.println("GetPlayerSummaries is null");
-                        return;
+                        if (response.body().getRecentGames().getGames() == null) {
+                            System.out.println("GetRecentlyPlayedGames is null");
+                            return;
+                        }
+
+                        for (Games g : response.body().getRecentGames().getGames()) {
+
+                            listaJuegos.add(g);
+
+                        }
+                        listaJuegosRecientes();
                     }
-
-                    System.out.println(response.body().getPlayerSummaries().getPlayers().get(0).getAvatar());
-                    Picasso.get().load(response.body().getPlayerSummaries().getPlayers().get(0).getAvatar()).into(avatarUsuario);
                 }
 
-            }
+                @Override
+                public void onFailure(Call<GetRecentlyPlayedGamesResponse> call, Throwable t) {
+                    System.out.println(t.getMessage());
+                }
+            });
 
-            @Override
-            public void onFailure(Call<GetPlayerSummariesResponse> call, Throwable t) {
-                System.out.println(t.getMessage());
-            }
-        });
+            SteamWebApi.getSteamWebApiService().getOwnedGamesByUser(
+                    CurrentSession.getUsuario().getSteamid(),
+                    true,
+                    true,
+                    "json").enqueue(new Callback<GetOwnedGamesResponse>() {
+                @Override
+                public void onResponse(Call<GetOwnedGamesResponse> call, Response<GetOwnedGamesResponse> response) {
+                    System.out.println(call.request());
+                    System.out.println(response.code());
 
-    }
+                    if (response.code() == 200) {
+
+                        if (response.body().getGetOwnedGames().getGames() == null) {
+                            System.out.println("GetOwnedGames is null");
+                            return;
+                        }
+
+                        totalGames.setText(String.valueOf(response.body().getGetOwnedGames().getGame_count()));
+
+                        long playedTimeCount = 0L;
+                        long playedTimeHours;
+
+                        for (Games g : response.body().getGetOwnedGames().getGames()) {
+                            playedTimeCount += Long.parseLong(g.getPlaytime_forever());
+                        }
+                        playedTimeHours = playedTimeCount / 60;
+
+                        played_hours.setText(String.valueOf(playedTimeHours));
+
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<GetOwnedGamesResponse> call, Throwable t) {
+                    System.out.println(t.getMessage());
+                }
+            });
+
+            SteamWebApi.getSteamWebApiService().getPlayerSummaries(
+                    CurrentSession.getUsuario().getSteamid(),
+                    "json"
+            ).enqueue(new Callback<GetPlayerSummariesResponse>() {
+                @Override
+                public void onResponse(Call<GetPlayerSummariesResponse> call, Response<GetPlayerSummariesResponse> response) {
+                    System.out.println(call.request());
+                    System.out.println(response.code());
+
+                    if (response.code() == 200) {
+
+                        if (response.body().getPlayerSummaries().getPlayers() == null) {
+                            System.out.println("GetPlayerSummaries is null");
+                            return;
+                        }
+
+                        System.out.println(response.body().getPlayerSummaries().getPlayers().get(0).getAvatar());
+                        Picasso.get().load(response.body().getPlayerSummaries().getPlayers().get(0).getAvatar()).into(avatarUsuario);
+                    }
+
+                }
+
+                @Override
+                public void onFailure(Call<GetPlayerSummariesResponse> call, Throwable t) {
+                    System.out.println(t.getMessage());
+                }
+            });
+
+        }
 
     private void listaJuegosRecientes () {
         RecentlyPlayedGamesAdapter recycleview_jvm = new RecentlyPlayedGamesAdapter(getActivity(), listaJuegos);

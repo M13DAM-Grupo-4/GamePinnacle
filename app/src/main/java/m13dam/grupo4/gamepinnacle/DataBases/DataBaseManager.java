@@ -235,5 +235,14 @@ public class DataBaseManager {
             e.printStackTrace();
         }
     }
+    public static void unLoginRemember(@Nullable Context c) {
+        try {
+            SQLiteDatabase dbl = GetLocalDB(c);
+            dbl.execSQL("DELETE FROM login");
+            dbl.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
 }
