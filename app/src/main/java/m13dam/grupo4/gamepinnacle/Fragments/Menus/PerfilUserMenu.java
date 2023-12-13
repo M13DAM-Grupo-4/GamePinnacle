@@ -146,7 +146,7 @@ public class PerfilUserMenu extends Fragment {
 
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 fragmentManager.beginTransaction()
-                        .replace(R.id.main_fragment_container, LoginMenu.class, null)
+                        .replace(R.id.main_fragment_container, SettingsMenu.class, null)
                         .commit();
 
 
