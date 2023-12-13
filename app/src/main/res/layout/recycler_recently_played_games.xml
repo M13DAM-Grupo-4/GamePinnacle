@@ -74,7 +74,7 @@
                 android:layout_marginTop="@dimen/_5sdp"
                 android:layout_marginStart="@dimen/_10sdp"
                 android:layout_marginEnd="@dimen/_10sdp"
-                android:progress="75"
+                android:progress="0"
                 android:progressTint="@color/blue"
                 android:progressBackgroundTint="@color/text"
                 android:alpha="0.75"/>
