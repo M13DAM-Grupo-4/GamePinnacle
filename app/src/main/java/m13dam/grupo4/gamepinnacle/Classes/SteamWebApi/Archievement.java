@@ -2,7 +2,7 @@ package m13dam.grupo4.gamepinnacle.Classes.SteamWebApi;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Achievement {
+public class Archievement {
 
     @SerializedName("apiname")
     private String apiName;
