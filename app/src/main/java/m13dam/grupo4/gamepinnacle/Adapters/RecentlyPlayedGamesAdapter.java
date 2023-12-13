@@ -104,7 +104,6 @@ public class RecentlyPlayedGamesAdapter extends RecyclerView.Adapter<RecentlyPla
                         }
                     }
 
-                    holder.archivementPorgress.setMin(0);
                     holder.archivementPorgress.setMax(NumberOfArchivements);
                     holder.archivementPorgress.setProgress(ArchivementsCompleted, true);
                     holder.archivementText.setText(ArchivementsCompleted + "/" + NumberOfArchivements);

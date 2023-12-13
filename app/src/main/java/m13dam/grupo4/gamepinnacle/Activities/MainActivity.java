@@ -8,7 +8,9 @@ import androidx.fragment.app.FragmentManager;
 import android.os.Bundle;
 
 import m13dam.grupo4.gamepinnacle.Fragments.Menus.LoginMenu;
+import m13dam.grupo4.gamepinnacle.Fragments.Menus.PerfilUserMenu;
 import m13dam.grupo4.gamepinnacle.Fragments.Menus.RegisterMenu;
+import m13dam.grupo4.gamepinnacle.Fragments.Menus.SettingsMenu;
 import m13dam.grupo4.gamepinnacle.R;
 
 public class MainActivity extends AppCompatActivity {
@@ -41,6 +43,10 @@ public class MainActivity extends AppCompatActivity {
 
                 if (fragContainer.getClass() == RegisterMenu.class){
                     newFrag = new LoginMenu();
+                }
+
+                if (fragContainer.getClass() == SettingsMenu.class){
+                    newFrag = new PerfilUserMenu();
                 }
 
                 if (newFrag != null) {
