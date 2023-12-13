@@ -18,6 +18,9 @@ public class GetPlayerAchievements {
     @SerializedName("success")
     private boolean success;
 
+    @SerializedName("error")
+    private String error;
+
     public String getSteamID() {
         return steamID;
     }
@@ -32,5 +35,9 @@ public class GetPlayerAchievements {
 
     public boolean isSuccess() {
         return success;
+    }
+
+    public String getError() {
+        return error;
     }
 }

@@ -90,6 +90,7 @@ public class RecentlyPlayedGamesAdapter extends RecyclerView.Adapter<RecentlyPla
         ).enqueue(new Callback<GetPlayerAchievementsResponse>() {
             @Override
             public void onResponse(Call<GetPlayerAchievementsResponse> call, Response<GetPlayerAchievementsResponse> response) {
+                System.out.println(call.request());
 
                 if (response.code() == 200) {
 
@@ -107,7 +108,11 @@ public class RecentlyPlayedGamesAdapter extends RecyclerView.Adapter<RecentlyPla
                     holder.archivementPorgress.setMax(NumberOfArchivements);
                     holder.archivementPorgress.setProgress(ArchivementsCompleted, true);
                     holder.archivementText.setText(ArchivementsCompleted + "/" + NumberOfArchivements);
+                    return;
                 }
+
+                holder.archivementPorgress.setAlpha(0);
+                holder.archivementText.setAlpha(0);
 
             }
 
