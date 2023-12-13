@@ -169,6 +169,48 @@ public class DataBaseManager {
         return -1;
     }
 
+    public static int actualizarNombreUsuario(String nuevoNombre) {
+        try {
+            Connection c = CreateConnection();
+            PreparedStatement stmt = c.prepareStatement("UPDATE public.users SET username = ? WHERE username = ?");
+            stmt.setString(1, nuevoNombre);
+            stmt.setString(2, CurrentSession.getUsuario().getUsuario());
+            stmt.executeUpdate();
+
+            stmt.close();
+            c.close();
+
+            // Verificar si la actualización fue exitosa (si se afectó al menos una fila)
+            return 1;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return -1;
+        }
+
+    }
+    public static int actualizarContraseñaUsuario(String nuevaContraseña) {
+        try {
+            Connection c = CreateConnection();
+            PreparedStatement stmt = c.prepareStatement("UPDATE public.users SET password = ? WHERE password = ?");
+            stmt.setString(1, nuevaContraseña);
+            stmt.setString(2, CurrentSession.getUsuario().getPassword());
+            stmt.executeUpdate();
+
+
+            stmt.close();
+            c.close();
+
+            // Verificar si la actualización fue exitosa (si se afectó al menos una fila)
+            return 1;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return -1;
+        }
+
+    }
+
     public static int LoginRemember(@Nullable Context c) {
         try {
             SQLiteDatabase dbl = GetLocalDB(c);
