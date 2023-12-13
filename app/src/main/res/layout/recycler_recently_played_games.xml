@@ -33,7 +33,7 @@
                 android:id="@+id/recently_playes_games_nombre_juego"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_5sdp"
                 android:layout_marginStart="@dimen/_10sdp"
                 android:text="Nombre"
                 android:textSize="@dimen/_16ssp"
@@ -64,20 +64,35 @@
 
             </LinearLayout>
 
-
-            
-            <ProgressBar
-                android:id="@+id/recently_playes_games_archivement_progress"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_10sdp"
-                style="@android:style/Widget.ProgressBar.Horizontal"
-                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_height="@dimen/_20sdp"
+                android:orientation="horizontal"
                 android:layout_marginStart="@dimen/_10sdp"
-                android:layout_marginEnd="@dimen/_10sdp"
-                android:progress="0"
-                android:progressTint="@color/blue"
-                android:progressBackgroundTint="@color/text"
-                android:alpha="0.75"/>
+                android:gravity="center_vertical"
+                android:layout_marginTop="@dimen/_2sdp">
+
+                <ProgressBar
+                    android:id="@+id/recently_playes_games_archivement_progress"
+                    android:layout_width="@dimen/_85sdp"
+                    android:layout_height="@dimen/_10sdp"
+                    style="@android:style/Widget.ProgressBar.Horizontal"
+                    android:progress="0"
+                    android:progressTint="@color/blue"
+                    android:progressBackgroundTint="@color/text"
+                    android:alpha="0.75"/>
+
+                <TextView
+                    android:id="@+id/recently_playes_games_archivement_text"
+                    android:layout_width="@dimen/_59sdp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_5sdp"
+                    android:text="9999/9999"
+                    android:fontFamily="@font/roboto_medium"
+                    android:textSize="@dimen/_12ssp"
+                    android:gravity="start"/>
+
+            </LinearLayout>
 
         </LinearLayout>
 

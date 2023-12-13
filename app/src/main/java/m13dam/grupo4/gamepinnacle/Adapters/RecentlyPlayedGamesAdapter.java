@@ -45,6 +45,7 @@ public class RecentlyPlayedGamesAdapter extends RecyclerView.Adapter<RecentlyPla
         TextView hJuego;
         ImageView imagenJuego;
         ProgressBar archivementPorgress;
+        TextView archivementText;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -53,6 +54,7 @@ public class RecentlyPlayedGamesAdapter extends RecyclerView.Adapter<RecentlyPla
             nJuego = itemView.findViewById(R.id.recently_playes_games_nombre_juego);
             hJuego = itemView.findViewById(R.id.recently_playes_games_horas_juego);
             archivementPorgress = itemView.findViewById(R.id.recently_playes_games_archivement_progress);
+            archivementText = itemView.findViewById(R.id.recently_playes_games_archivement_text);
 
             itemView.setOnClickListener(v ->  {
                 int position = getAdapterPosition();
@@ -105,6 +107,7 @@ public class RecentlyPlayedGamesAdapter extends RecyclerView.Adapter<RecentlyPla
                     holder.archivementPorgress.setMin(0);
                     holder.archivementPorgress.setMax(NumberOfArchivements);
                     holder.archivementPorgress.setProgress(ArchivementsCompleted, true);
+                    holder.archivementText.setText(ArchivementsCompleted + "/" + NumberOfArchivements);
                 }
 
             }
