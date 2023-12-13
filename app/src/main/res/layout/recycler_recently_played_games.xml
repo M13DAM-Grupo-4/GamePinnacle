@@ -79,8 +79,7 @@
                     style="@android:style/Widget.ProgressBar.Horizontal"
                     android:progress="0"
                     android:progressTint="@color/blue"
-                    android:progressBackgroundTint="@color/text"
-                    android:alpha="0.75"/>
+                    android:progressBackgroundTint="@color/text"/>
 
                 <TextView
                     android:id="@+id/recently_playes_games_archivement_text"
