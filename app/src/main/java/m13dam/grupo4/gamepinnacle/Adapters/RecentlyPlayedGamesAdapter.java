@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -12,10 +13,21 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.List;
 
+import m13dam.grupo4.gamepinnacle.Classes.Other.CurrentSession;
+import m13dam.grupo4.gamepinnacle.Classes.SteamWebApi.Archievement;
+import m13dam.grupo4.gamepinnacle.Classes.SteamWebApi.GetPlayerAchievements;
+import m13dam.grupo4.gamepinnacle.Classes.SteamWebApi.GetPlayerAchievementsResponse;
+import m13dam.grupo4.gamepinnacle.Classes.SteamWebApi.GetPlayerSummariesResponse;
+import m13dam.grupo4.gamepinnacle.Classes.SteamWebApi.SteamWebApi;
 import m13dam.grupo4.gamepinnacle.R;
 import m13dam.grupo4.gamepinnacle.Classes.SteamWebApi.Games;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class RecentlyPlayedGamesAdapter extends RecyclerView.Adapter<RecentlyPlayedGamesAdapter.ViewHolder> {
     private Context mContext_jvm;
@@ -32,13 +44,16 @@ public class RecentlyPlayedGamesAdapter extends RecyclerView.Adapter<RecentlyPla
         TextView nJuego;
         TextView hJuego;
         ImageView imagenJuego;
+        ProgressBar archivementPorgress;
 
         public ViewHolder(View itemView) {
             super(itemView);
 
             imagenJuego = itemView.findViewById(R.id.imagen_multi);
-            nJuego = itemView.findViewById(R.id.nombre_juego);
-            hJuego = itemView.findViewById(R.id.horas_juego);
+            nJuego = itemView.findViewById(R.id.recently_playes_games_nombre_juego);
+            hJuego = itemView.findViewById(R.id.recently_playes_games_horas_juego);
+            archivementPorgress = itemView.findViewById(R.id.recently_playes_games_archivement_progress);
+
             itemView.setOnClickListener(v ->  {
                 int position = getAdapterPosition();
                 if (position != RecyclerView.NO_POSITION) {
@@ -64,6 +79,42 @@ public class RecentlyPlayedGamesAdapter extends RecyclerView.Adapter<RecentlyPla
         Picasso.get().load("https://media.steampowered.com/steamcommunity/public/images/apps/" +  juego.getAppid() + "/" +  juego.getImg_icon_url() +  ".jpg").into(holder.imagenJuego);
         holder.nJuego.setText(juego.getName());
         holder.hJuego.setText(juego.getPlaytime_2weeks_on_hours());
+
+        SteamWebApi.getSteamWebApiService().getPlayerAchievements(
+                CurrentSession.getUsuario().getSteamid(),
+                juego.getAppid(),
+                "spanish",
+                "json"
+        ).enqueue(new Callback<GetPlayerAchievementsResponse>() {
+            @Override
+            public void onResponse(Call<GetPlayerAchievementsResponse> call, Response<GetPlayerAchievementsResponse> response) {
+
+                if (response.code() == 200) {
+
+                    List<Archievement> archievements = response.body().getPlayerAchievements().getArchivements();
+
+                    int NumberOfArchivements = archievements.size();
+                    int ArchivementsCompleted = 0;
+
+                    for (Archievement a : archievements) {
+                        if (a.getAchieved() == 1){
+                            ArchivementsCompleted++;
+                        }
+                    }
+
+                    holder.archivementPorgress.setMin(0);
+                    holder.archivementPorgress.setMax(NumberOfArchivements);
+                    holder.archivementPorgress.setProgress(ArchivementsCompleted, true);
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<GetPlayerAchievementsResponse> call, Throwable t) {
+                t.printStackTrace();
+            }
+        });
+
     }
 
     @Override

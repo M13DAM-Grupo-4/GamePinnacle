@@ -30,7 +30,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/nombre_juego"
+                android:id="@+id/recently_playes_games_nombre_juego"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
@@ -54,7 +54,7 @@
                     android:textColor="@color/text"/>
 
                 <TextView
-                    android:id="@+id/horas_juego"
+                    android:id="@+id/recently_playes_games_horas_juego"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text=""
@@ -67,6 +67,7 @@
 
             
             <ProgressBar
+                android:id="@+id/recently_playes_games_archivement_progress"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_10sdp"
                 style="@android:style/Widget.ProgressBar.Horizontal"

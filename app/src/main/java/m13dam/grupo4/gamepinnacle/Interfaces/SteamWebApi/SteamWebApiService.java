@@ -3,6 +3,7 @@ package m13dam.grupo4.gamepinnacle.Interfaces.SteamWebApi;
 import m13dam.grupo4.gamepinnacle.BuildConfig;
 import m13dam.grupo4.gamepinnacle.Classes.SteamWebApi.GetNewsForAppResponse;
 import m13dam.grupo4.gamepinnacle.Classes.SteamWebApi.GetOwnedGamesResponse;
+import m13dam.grupo4.gamepinnacle.Classes.SteamWebApi.GetPlayerAchievementsResponse;
 import m13dam.grupo4.gamepinnacle.Classes.SteamWebApi.GetPlayerSummariesResponse;
 import m13dam.grupo4.gamepinnacle.Classes.SteamWebApi.GetRecentlyPlayedGamesResponse;
 import retrofit2.Call;
@@ -42,7 +43,7 @@ public interface SteamWebApiService {
     );
 
     @GET("ISteamUserStats/GetPlayerAchievements/v0001/?key=" + steamApiKey)
-    Call<GetPlayerSummariesResponse> getPlayerAchievements(
+    Call<GetPlayerAchievementsResponse> getPlayerAchievements(
             @Query("steamid") String userId,
             @Query("appid") String appId,
             @Query("l") String languaje,

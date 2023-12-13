@@ -2,6 +2,8 @@ package m13dam.grupo4.gamepinnacle.Classes.SteamWebApi;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 public class GetPlayerAchievements {
 
     @SerializedName("steamID")
@@ -9,6 +11,9 @@ public class GetPlayerAchievements {
 
     @SerializedName("gameName")
     private String gameName;
+
+    @SerializedName("achievements")
+    List<Archievement> archivements;
 
     @SerializedName("success")
     private boolean success;
@@ -19,6 +24,10 @@ public class GetPlayerAchievements {
 
     public String getGameName() {
         return gameName;
+    }
+
+    public List<Archievement> getArchivements() {
+        return archivements;
     }
 
     public boolean isSuccess() {
