@@ -41,4 +41,12 @@ public interface SteamWebApiService {
             @Query("format") String format
     );
 
+    @GET("ISteamUserStats/GetPlayerAchievements/v0001/?key=" + steamApiKey)
+    Call<GetPlayerSummariesResponse> getPlayerAchievements(
+            @Query("steamid") String userId,
+            @Query("appid") String appId,
+            @Query("l") String languaje,
+            @Query("format") String format
+    );
+
 }
