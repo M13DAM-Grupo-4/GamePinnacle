@@ -63,6 +63,7 @@ public class RecentlyPlayedGamesAdapter extends RecyclerView.Adapter<RecentlyPla
                     // Abre la nueva actividad y pasa el array y la posición
                 }
             });
+
         }
     }
 
@@ -80,7 +81,13 @@ public class RecentlyPlayedGamesAdapter extends RecyclerView.Adapter<RecentlyPla
 
         Picasso.get().load("https://media.steampowered.com/steamcommunity/public/images/apps/" +  juego.getAppid() + "/" +  juego.getImg_icon_url() +  ".jpg").into(holder.imagenJuego);
         holder.nJuego.setText(juego.getName());
-        holder.hJuego.setText(juego.getPlaytime_2weeks_on_hours());
+
+        if(juego.getPlaytime_2weeks() != null){
+            holder.hJuego.setText(juego.getPlaytime_2weeks_on_hours());
+        }else {
+            holder.hJuego.setText(juego.getPlaytime_forever());
+        }
+
 
         SteamWebApi.getSteamWebApiService().getPlayerAchievements(
                 CurrentSession.getUsuario().getSteamid(),

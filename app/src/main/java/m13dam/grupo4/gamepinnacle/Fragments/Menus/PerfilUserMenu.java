@@ -63,6 +63,8 @@ public class PerfilUserMenu extends Fragment {
     private TextView numberOfFriends;
     private ImageView loginOut;
     private ImageView ajustes;
+    private Button buttonListGames;
+    private Button buttonListFriend;
 
     private ArrayList <Games> listaJuegos = new ArrayList<>();
     private ActivityResultLauncher<Intent> pickImageLauncher;
@@ -122,6 +124,9 @@ public class PerfilUserMenu extends Fragment {
         userName.setText(CurrentSession.getUsuario().getUsuario());
         loginOut = view.findViewById(R.id.prefil_user_logout);
         ajustes = view.findViewById(R.id.prefil_user_settings);
+        buttonListGames = view.findViewById(R.id.perfil_user_games_button);
+        buttonListFriend = view.findViewById(R.id.perfil_user_friends_button);
+
 
         loginOut.setOnClickListener(v -> {
 
@@ -151,6 +156,31 @@ public class PerfilUserMenu extends Fragment {
 
 
         });
+
+        buttonListGames.setOnClickListener(v -> {
+
+            Animation anim = AnimationUtils.loadAnimation(getActivity(), R.anim.blink);
+            ajustes.startAnimation(anim);
+
+            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.main_fragment_container, GameListMenu.class, null)
+                    .commit();
+
+                });
+
+        buttonListFriend.setOnClickListener(v -> {
+
+            Animation anim = AnimationUtils.loadAnimation(getActivity(), R.anim.blink);
+            ajustes.startAnimation(anim);
+
+            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.main_fragment_container, FriendListMenu.class, null)
+                    .commit();
+
+                });
+
 
             SteamWebApi.getSteamWebApiService().getRecentlyGamesByUser(
                     CurrentSession.getUsuario().getSteamid(),

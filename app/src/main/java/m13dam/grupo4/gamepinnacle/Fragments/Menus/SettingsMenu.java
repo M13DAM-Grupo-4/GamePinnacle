@@ -125,12 +125,9 @@ public class SettingsMenu extends Fragment {
             } else {
                 Toast.makeText(getActivity(), "Las contraseñas no coinciden", Toast.LENGTH_SHORT).show();
             }
-            
 
         });
 
-
-
-
     }
+
 }
