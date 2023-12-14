@@ -31,14 +31,15 @@
 
             <TextView
                 android:id="@+id/recently_playes_games_nombre_juego"
-                android:layout_width="wrap_content"
+                android:layout_width="@dimen/_150sdp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_5sdp"
                 android:layout_marginStart="@dimen/_10sdp"
-                android:text="Nombre"
-                android:textSize="@dimen/_16ssp"
+                android:layout_marginTop="@dimen/_5sdp"
                 android:fontFamily="@font/roboto_medium"
-                android:textColor="@color/white"/>
+                android:singleLine="true"
+                android:text="Nombre"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_16ssp" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -55,7 +56,7 @@
 
                 <TextView
                     android:id="@+id/recently_playes_games_horas_juego"
-                    android:layout_width="wrap_content"
+                    android:layout_width="@dimen/_65sdp"
                     android:layout_height="wrap_content"
                     android:text=""
                     android:textSize="@dimen/_12ssp"

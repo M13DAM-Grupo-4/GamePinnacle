@@ -96,6 +96,12 @@ public class RecentlyPlayedGamesAdapter extends RecyclerView.Adapter<RecentlyPla
 
                     List<Archievement> archievements = response.body().getPlayerAchievements().getArchivements();
 
+                    if (archievements == null) {
+                        holder.archivementPorgress.setAlpha(0);
+                        holder.archivementText.setAlpha(0);
+                        return;
+                    }
+
                     int NumberOfArchivements = archievements.size();
                     int ArchivementsCompleted = 0;
 
@@ -108,11 +114,7 @@ public class RecentlyPlayedGamesAdapter extends RecyclerView.Adapter<RecentlyPla
                     holder.archivementPorgress.setMax(NumberOfArchivements);
                     holder.archivementPorgress.setProgress(ArchivementsCompleted, true);
                     holder.archivementText.setText(ArchivementsCompleted + "/" + NumberOfArchivements);
-                    return;
                 }
-
-                holder.archivementPorgress.setAlpha(0);
-                holder.archivementText.setAlpha(0);
 
             }
 
