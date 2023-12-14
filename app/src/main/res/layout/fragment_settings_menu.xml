@@ -83,7 +83,7 @@
         <Button
             android:id="@+id/cambiar_usuario"
             android:layout_width="234dp"
-            android:layout_height="41dp"
+            android:layout_height="60dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="@dimen/_15sdp"
             android:background="@drawable/blue_button"
