@@ -123,11 +123,6 @@ public class RecentlyPlayedGamesAdapter extends RecyclerView.Adapter<RecentlyPla
                     holder.archivementText.setText(ArchivementsCompleted + "/" + NumberOfArchivements);
                 }
 
-                if (response.code() == 400) {
-                    holder.archivementPorgress.setAlpha(0);
-                    holder.archivementText.setAlpha(0);
-                }
-
             }
 
             @Override

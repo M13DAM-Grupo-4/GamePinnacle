@@ -67,7 +67,7 @@ public class PerfilUserMenu extends Fragment {
     private Button buttonListFriend;
 
     private ArrayList <Games> listaJuegos = new ArrayList<>();
-    private ActivityResultLauncher<Intent> pickImageLauncher;
+
 
 
     public PerfilUserMenu() {
