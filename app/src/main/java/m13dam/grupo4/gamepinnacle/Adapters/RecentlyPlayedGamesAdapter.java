@@ -55,6 +55,7 @@ public class RecentlyPlayedGamesAdapter extends RecyclerView.Adapter<RecentlyPla
             hJuego = itemView.findViewById(R.id.recently_playes_games_horas_juego);
             archivementPorgress = itemView.findViewById(R.id.recently_playes_games_archivement_progress);
             archivementPorgress.setAlpha(0);
+            archivementPorgress.setProgress(0);
             archivementText = itemView.findViewById(R.id.recently_playes_games_archivement_text);
             archivementText.setAlpha(0);
 
