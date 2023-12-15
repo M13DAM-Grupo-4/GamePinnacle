@@ -122,7 +122,7 @@ public class GameListMenu extends Fragment {
     }
 
     private void listJuegosSteam () {
-        RecentlyPlayedGamesAdapter recycleview_jvm = new RecentlyPlayedGamesAdapter(getActivity(), listaJuegos);
+        RecentlyPlayedGamesAdapter recycleview_jvm = new RecentlyPlayedGamesAdapter(getActivity(), listaJuegos, "all");
 
         RecyclerView recyclerView = getActivity().findViewById(R.id.reciclePrueba);
 
