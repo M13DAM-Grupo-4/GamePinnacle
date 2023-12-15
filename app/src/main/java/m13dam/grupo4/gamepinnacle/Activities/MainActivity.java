@@ -7,6 +7,8 @@ import androidx.fragment.app.FragmentManager;
 
 import android.os.Bundle;
 
+import m13dam.grupo4.gamepinnacle.Fragments.Menus.FriendListMenu;
+import m13dam.grupo4.gamepinnacle.Fragments.Menus.GameListMenu;
 import m13dam.grupo4.gamepinnacle.Fragments.Menus.LoginMenu;
 import m13dam.grupo4.gamepinnacle.Fragments.Menus.PerfilUserMenu;
 import m13dam.grupo4.gamepinnacle.Fragments.Menus.RegisterMenu;
@@ -48,6 +50,12 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 if (fragContainer.getClass() == SettingsMenu.class){
+                    newFrag = new PerfilUserMenu();
+                }
+                if (fragContainer.getClass() == FriendListMenu.class){
+                    newFrag = new PerfilUserMenu();
+                }
+                if (fragContainer.getClass() == GameListMenu.class){
                     newFrag = new PerfilUserMenu();
                 }
 
