@@ -54,7 +54,9 @@ public class RecentlyPlayedGamesAdapter extends RecyclerView.Adapter<RecentlyPla
             nJuego = itemView.findViewById(R.id.recently_playes_games_nombre_juego);
             hJuego = itemView.findViewById(R.id.recently_playes_games_horas_juego);
             archivementPorgress = itemView.findViewById(R.id.recently_playes_games_archivement_progress);
+            archivementPorgress.setAlpha(0);
             archivementText = itemView.findViewById(R.id.recently_playes_games_archivement_text);
+            archivementText.setAlpha(0);
 
             itemView.setOnClickListener(v ->  {
                 int position = getAdapterPosition();
@@ -90,6 +92,7 @@ public class RecentlyPlayedGamesAdapter extends RecyclerView.Adapter<RecentlyPla
 
 
         SteamWebApi.getSteamWebApiService().getPlayerAchievements(
+                CurrentSession.getSteamApiKey(),
                 CurrentSession.getUsuario().getSteamid(),
                 juego.getAppid(),
                 "spanish",
@@ -104,10 +107,11 @@ public class RecentlyPlayedGamesAdapter extends RecyclerView.Adapter<RecentlyPla
                     List<Archievement> archievements = response.body().getPlayerAchievements().getArchivements();
 
                     if (archievements == null) {
-                        holder.archivementPorgress.setAlpha(0);
-                        holder.archivementText.setAlpha(0);
                         return;
                     }
+
+                    holder.archivementPorgress.setAlpha(1);
+                    holder.archivementText.setAlpha(1);
 
                     int NumberOfArchivements = archievements.size();
                     int ArchivementsCompleted = 0;
@@ -121,6 +125,7 @@ public class RecentlyPlayedGamesAdapter extends RecyclerView.Adapter<RecentlyPla
                     holder.archivementPorgress.setMax(NumberOfArchivements);
                     holder.archivementPorgress.setProgress(ArchivementsCompleted, true);
                     holder.archivementText.setText(ArchivementsCompleted + "/" + NumberOfArchivements);
+                    return;
                 }
 
             }
