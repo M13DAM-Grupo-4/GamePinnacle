@@ -183,6 +183,7 @@ public class PerfilUserMenu extends Fragment {
 
 
             SteamWebApi.getSteamWebApiService().getRecentlyGamesByUser(
+                    CurrentSession.getSteamApiKey(),
                     CurrentSession.getUsuario().getSteamid(),
                     3,
                     "json").enqueue(new Callback<GetRecentlyPlayedGamesResponse>() {
@@ -214,6 +215,7 @@ public class PerfilUserMenu extends Fragment {
             });
 
             SteamWebApi.getSteamWebApiService().getOwnedGamesByUser(
+                    CurrentSession.getSteamApiKey(),
                     CurrentSession.getUsuario().getSteamid(),
                     true,
                     true,
@@ -252,6 +254,7 @@ public class PerfilUserMenu extends Fragment {
             });
 
             SteamWebApi.getSteamWebApiService().getPlayerSummaries(
+                    CurrentSession.getSteamApiKey(),
                     CurrentSession.getUsuario().getSteamid(),
                     "json"
             ).enqueue(new Callback<GetPlayerSummariesResponse>() {

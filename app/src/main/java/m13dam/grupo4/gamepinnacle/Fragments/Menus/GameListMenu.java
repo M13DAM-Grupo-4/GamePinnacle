@@ -87,6 +87,7 @@ public class GameListMenu extends Fragment {
 
 
         SteamWebApi.getSteamWebApiService().getOwnedGamesByUser(
+                CurrentSession.getSteamApiKey(),
                 CurrentSession.getUsuario().getSteamid(),
                 true,
                 true,

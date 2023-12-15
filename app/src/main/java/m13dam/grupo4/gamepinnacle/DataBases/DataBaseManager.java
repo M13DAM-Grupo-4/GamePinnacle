@@ -211,6 +211,25 @@ public class DataBaseManager {
 
     }
 
+    public static String getSteamApiKey(int userID) {
+
+        try {
+            Connection c = CreateConnection();
+            PreparedStatement stmt = c.prepareStatement("SELECT steamapikey FROM public.users WHERE id=?");
+            stmt.setInt(1, userID);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()){
+                return rs.getString(1);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
     public static int LoginRemember(@Nullable Context c) {
         try {
             SQLiteDatabase dbl = GetLocalDB(c);

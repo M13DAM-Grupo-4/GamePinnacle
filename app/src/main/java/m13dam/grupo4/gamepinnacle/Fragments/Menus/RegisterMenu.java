@@ -71,6 +71,7 @@ public class RegisterMenu extends Fragment {
     EditText register_password_text;
     EditText register_password_repeated_text;
     EditText register_steam_id;
+    EditText register_steamapikey;
 
     // Password visibility
     ImageView register_password_visibility;
@@ -181,6 +182,7 @@ public class RegisterMenu extends Fragment {
         passOne_int = view.findViewById(R.id.register_password_text);
         passTwo_int = view.findViewById(R.id.register_password_repeated_text);
         register_steam_id = view.findViewById(R.id.register_steamid_text);
+        register_steamapikey = view.findViewById(R.id.register_steamapikey_text);
 
         registrar = view.findViewById(R.id.login_login_button);
 
@@ -191,6 +193,7 @@ public class RegisterMenu extends Fragment {
             HashCode passOneHash = Hashing.sha256().hashString(passOne_int.getText().toString(), StandardCharsets.UTF_8);
             HashCode passTwoHash = Hashing.sha256().hashString(passTwo_int.getText().toString(), StandardCharsets.UTF_8);
             String steamId = register_steam_id.getText().toString();
+            String steamApiKey = register_steamapikey.getText().toString();
 
             new Thread(() -> {
 
@@ -212,6 +215,11 @@ public class RegisterMenu extends Fragment {
                 }
 
                 if (!isSteamIdValid(steamId)) {
+                    Toast.makeText(getActivity(), "El SteamID no es valido", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if (!isSteamApiKeyValid(steamApiKey)) {
                     Toast.makeText(getActivity(), "El SteamID no es valido", Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -274,7 +282,7 @@ public class RegisterMenu extends Fragment {
         }
 
         try {
-            Response<GetPlayerSummariesResponse> res = SteamWebApi.getSteamWebApiService().getPlayerSummaries(SteamID, "json").execute();
+            Response<GetPlayerSummariesResponse> res = SteamWebApi.getSteamWebApiService().getPlayerSummaries(CurrentSession.getSteamApiKey(), SteamID, "json").execute();
 
             if (res.code() != 200){
                 return false;
@@ -292,11 +300,38 @@ public class RegisterMenu extends Fragment {
         return false;
     }
 
+    private boolean isSteamApiKeyValid(String SteamApiKey) {
+
+        if (SteamApiKey.length() == 32) {
+            return false;
+        }
+
+        try {
+            Response<GetPlayerSummariesResponse> res = SteamWebApi.getSteamWebApiService().getPlayerSummaries(CurrentSession.getSteamApiKey(), "76561197960435530", "json").execute();
+
+            if (res.code() != 200){
+                return false;
+            }
+
+            if (res.body().getPlayerSummaries().getPlayers().size() == 0) {
+                return false;
+            }
+
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return false;
+
+    }
+
     private CompletableFuture<Boolean> isValidSteamId() {
 
         CompletableFuture<Boolean> future = new CompletableFuture<>();
 
         SteamWebApi.getSteamWebApiService().getPlayerSummaries(
+                CurrentSession.getSteamApiKey(),
                 CurrentSession.getUsuario().getSteamid(),
                 "json"
         ).enqueue(new Callback<GetPlayerSummariesResponse>() {

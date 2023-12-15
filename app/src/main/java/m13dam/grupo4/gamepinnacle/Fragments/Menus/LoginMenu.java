@@ -112,6 +112,8 @@ public class LoginMenu extends Fragment {
 
             Usuario usuario = DataBaseManager.GetUserFromDatabase(userId);
             CurrentSession.setUsuario(usuario);
+            CurrentSession.UpdateSteamApiKey();
+            System.out.println(CurrentSession.getSteamApiKey());
 
             loadUserMenu();
         }).start();
@@ -135,8 +137,9 @@ public class LoginMenu extends Fragment {
 
                 int LoginID = DataBaseManager.Login(usuarioIntroducido_JVM, Hashing.sha256().hashString(contraseñaIntroducido_JVM, StandardCharsets.UTF_8).toString());
                 Usuario usuario = DataBaseManager.GetUserFromDatabase(LoginID);
-                DataBaseManager.SaveLoginRemember(getActivity(), usuario);
+                SaveLoginRemember(getActivity(), usuario);
                 CurrentSession.setUsuario(usuario);
+                CurrentSession.UpdateSteamApiKey();
 
                 if (CurrentSession.getUsuario() == null) {
                     Toast.makeText(getActivity(), "Usuario o contraseña incorrectos", Toast.LENGTH_SHORT).show();
