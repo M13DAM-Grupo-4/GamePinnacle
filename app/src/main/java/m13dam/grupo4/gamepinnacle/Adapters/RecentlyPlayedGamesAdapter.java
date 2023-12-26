@@ -2,6 +2,7 @@ package m13dam.grupo4.gamepinnacle.Adapters;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
@@ -24,6 +27,7 @@ import m13dam.grupo4.gamepinnacle.Classes.SteamWebApi.GetPlayerAchievements;
 import m13dam.grupo4.gamepinnacle.Classes.SteamWebApi.GetPlayerAchievementsResponse;
 import m13dam.grupo4.gamepinnacle.Classes.SteamWebApi.GetPlayerSummariesResponse;
 import m13dam.grupo4.gamepinnacle.Classes.SteamWebApi.SteamWebApi;
+import m13dam.grupo4.gamepinnacle.Fragments.Menus.GameInfo;
 import m13dam.grupo4.gamepinnacle.Fragments.Menus.GameListMenu;
 import m13dam.grupo4.gamepinnacle.R;
 import m13dam.grupo4.gamepinnacle.Classes.SteamWebApi.Games;
@@ -33,7 +37,7 @@ import retrofit2.Response;
 
 public class RecentlyPlayedGamesAdapter extends RecyclerView.Adapter<RecentlyPlayedGamesAdapter.ViewHolder> {
     private Context mContext_jvm;
-    private ArrayList<Games> listaJuegos;
+    private static ArrayList<Games> listaJuegos;
     private String test;
 
 
@@ -70,8 +74,20 @@ public class RecentlyPlayedGamesAdapter extends RecyclerView.Adapter<RecentlyPla
             itemView.setOnClickListener(v ->  {
                 int position = getAdapterPosition();
                 if (position != RecyclerView.NO_POSITION) {
-                    // TODO
-                    // Abre la nueva actividad y pasa el array y la posición
+
+                    Games selectedGame = listaJuegos.get(position);
+
+                    Bundle bundle = new Bundle();
+                    bundle.putString("gameId", selectedGame.getAppid());
+
+                    GameInfo gameInfoFragment = new GameInfo();
+                    gameInfoFragment.setArguments(bundle);
+
+                    FragmentManager fragmentManager = ((AppCompatActivity) v.getContext()).getSupportFragmentManager();
+                    fragmentManager.beginTransaction()
+                            .replace(R.id.main_fragment_container, gameInfoFragment)
+                            .addToBackStack(null)
+                            .commit();
                 }
             });
 

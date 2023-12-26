@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 import m13dam.grupo4.gamepinnacle.Classes.Other.FilterOption;
-import m13dam.grupo4.gamepinnacle.Classes.SteamWebApi.Amigos;
 import m13dam.grupo4.gamepinnacle.R;
 
 public class FilterGamesAdapter extends RecyclerView.Adapter<FilterGamesAdapter.ViewHolder> {
