@@ -1,30 +1,26 @@
 package m13dam.grupo4.gamepinnacle.Adapters;
 
 import android.content.Context;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
 import m13dam.grupo4.gamepinnacle.Classes.Other.Amigos;
-import m13dam.grupo4.gamepinnacle.Fragments.Menus.FriendInfo;
 import m13dam.grupo4.gamepinnacle.R;
 
-public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.ViewHolder> {
+public class FriendSet extends RecyclerView.Adapter<FriendSet.ViewHolder> {
     private Context mContext_jvm;
     private static ArrayList<Amigos> listAmigos;
 
 
 
-    public FriendsAdapter(Context context, ArrayList<Amigos>listAmigos) {
+    public FriendSet(Context context, ArrayList<Amigos>listAmigos) {
         this.mContext_jvm = context;
         this.listAmigos = listAmigos;
 
@@ -41,28 +37,6 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.ViewHold
             nombre = itemView.findViewById(R.id.nombre);
             apellido = itemView.findViewById(R.id.apellido1);
             apellido2 = itemView.findViewById(R.id.apellido2);
-
-
-            itemView.setOnClickListener(v ->  {
-                int position = getAdapterPosition();
-                if (position != RecyclerView.NO_POSITION) {
-
-                    Amigos selectedFriend = listAmigos.get(position);
-
-                    Bundle bundle = new Bundle();
-                    bundle.putInt("friendId", selectedFriend.getId());
-
-                    FriendInfo friendInfoFragment = new FriendInfo();
-                    friendInfoFragment.setArguments(bundle);
-
-                    FragmentManager fragmentManager = ((AppCompatActivity) v.getContext()).getSupportFragmentManager();
-                    fragmentManager.beginTransaction()
-                            .replace(R.id.main_fragment_container, friendInfoFragment)
-                            .addToBackStack(null)
-                            .commit();
-                }
-            });
-
         }
     }
 
@@ -80,7 +54,6 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.ViewHold
         holder.nombre.setText(juego.getNombre());
         holder.apellido.setText(juego.getApellidoUno());
         holder.apellido2.setText(juego.getApellidoDos());
-
 
     }
 
