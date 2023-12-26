@@ -14,8 +14,10 @@ import android.view.ViewGroup;
 
 import java.util.ArrayList;
 
+import m13dam.grupo4.gamepinnacle.Adapters.FilterGamesAdapter;
 import m13dam.grupo4.gamepinnacle.Adapters.RecentlyPlayedGamesAdapter;
 import m13dam.grupo4.gamepinnacle.Classes.Other.CurrentSession;
+import m13dam.grupo4.gamepinnacle.Classes.Other.FilterOption;
 import m13dam.grupo4.gamepinnacle.Classes.SteamWebApi.Games;
 import m13dam.grupo4.gamepinnacle.Classes.SteamWebApi.GetOwnedGamesResponse;
 import m13dam.grupo4.gamepinnacle.Classes.SteamWebApi.SteamWebApi;
@@ -111,6 +113,8 @@ public class GameListMenu extends Fragment {
                     }
                     listJuegosSteam();
                 }
+
+                listFiltros();
             }
 
             @Override
@@ -128,5 +132,23 @@ public class GameListMenu extends Fragment {
 
         recyclerView.setAdapter(recycleview_jvm);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+    }
+
+    private void listFiltros () {
+        ArrayList<FilterOption> opts = new ArrayList<>();
+        opts.add(new FilterOption("Steam"));
+        opts.add(new FilterOption("IGDB"));
+        opts.add(new FilterOption("Añadir Juego"));
+
+        RecyclerView recyclerView = getView().findViewById(R.id.reciclerFilters);
+
+        // Use a LinearLayoutManager with horizontal orientation
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setHasFixedSize(true);
+
+        FilterGamesAdapter adapter = new FilterGamesAdapter(getActivity(), opts);
+
+        recyclerView.setAdapter(adapter);
     }
 }
