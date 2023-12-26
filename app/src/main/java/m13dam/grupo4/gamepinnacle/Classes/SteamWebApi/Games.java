@@ -38,4 +38,8 @@ public class Games {
         return String.valueOf((Integer.parseInt(playtime_2weeks)/60));
     }
 
+    public String getPlaytime_forever_on_hours() {
+        return String.valueOf((Integer.parseInt(playtime_forever)/60));
+    }
+
 }

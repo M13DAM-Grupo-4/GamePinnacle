@@ -285,7 +285,7 @@ public class PerfilUserMenu extends Fragment {
         }
 
     private void listaJuegosRecientes () {
-        RecentlyPlayedGamesAdapter recycleview_jvm = new RecentlyPlayedGamesAdapter(getActivity(), listaJuegos);
+        RecentlyPlayedGamesAdapter recycleview_jvm = new RecentlyPlayedGamesAdapter(getActivity(), listaJuegos, "2weeks");
 
         RecyclerView recyclerView = getActivity().findViewById(R.id.perfil_user_lista_juegos_recientes_recycler);
 
