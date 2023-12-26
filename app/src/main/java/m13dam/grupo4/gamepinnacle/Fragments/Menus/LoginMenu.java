@@ -137,14 +137,13 @@ public class LoginMenu extends Fragment {
 
                 int LoginID = DataBaseManager.Login(usuarioIntroducido_JVM, Hashing.sha256().hashString(contraseñaIntroducido_JVM, StandardCharsets.UTF_8).toString());
                 Usuario usuario = DataBaseManager.GetUserFromDatabase(LoginID);
+                if (usuario == null) {
+                    Toast.makeText(getActivity(), "Usuario o contraseña incorrectos", Toast.LENGTH_SHORT).show();
+                return;
+                }
                 SaveLoginRemember(getActivity(), usuario);
                 CurrentSession.setUsuario(usuario);
                 CurrentSession.UpdateSteamApiKey();
-
-                if (CurrentSession.getUsuario() == null) {
-                    Toast.makeText(getActivity(), "Usuario o contraseña incorrectos", Toast.LENGTH_SHORT).show();
-                    return;
-                }
 
                 loadUserMenu();
             }).start();
