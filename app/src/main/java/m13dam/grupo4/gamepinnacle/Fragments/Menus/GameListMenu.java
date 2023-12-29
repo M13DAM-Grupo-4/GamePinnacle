@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -43,6 +44,7 @@ public class GameListMenu extends Fragment {
     private String mParam1;
     private String mParam2;
     private ArrayList<Games> listaJuegos = new ArrayList<>();
+    private Button addGame;
 
     public GameListMenu() {
         // Required empty public constructor
@@ -85,9 +87,6 @@ public class GameListMenu extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-
-
 
         SteamWebApi.getSteamWebApiService().getOwnedGamesByUser(
                 CurrentSession.getSteamApiKey(),

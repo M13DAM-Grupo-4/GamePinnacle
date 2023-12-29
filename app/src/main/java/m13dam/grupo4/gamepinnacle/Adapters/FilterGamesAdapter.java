@@ -1,17 +1,22 @@
 package m13dam.grupo4.gamepinnacle.Adapters;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ToggleButton;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
 import m13dam.grupo4.gamepinnacle.Classes.Other.FilterOption;
+import m13dam.grupo4.gamepinnacle.Classes.SteamWebApi.Games;
+import m13dam.grupo4.gamepinnacle.Fragments.Menus.GameInfo;
 import m13dam.grupo4.gamepinnacle.R;
 
 public class FilterGamesAdapter extends RecyclerView.Adapter<FilterGamesAdapter.ViewHolder> {
@@ -43,6 +48,16 @@ public class FilterGamesAdapter extends RecyclerView.Adapter<FilterGamesAdapter.
             holder.toggleButton.setTextOn("Añadir Juego");
             holder.toggleButton.setTextOff("Añadir Juego");
             holder.toggleButton.setOnClickListener(v -> {
+
+                        GameInfo gameInfoFragment = new GameInfo();
+                        FragmentManager fragmentManager = ((AppCompatActivity) v.getContext()).getSupportFragmentManager();
+                        fragmentManager.beginTransaction()
+                                .replace(R.id.main_fragment_container, gameInfoFragment)
+                                .addToBackStack(null)
+                                .commit();
+
+
+
 
             });
             return;
