@@ -76,10 +76,10 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Amigos juego = listAmigos.get(position);
-        holder.nombre.setText(juego.getNombre());
-        holder.apellido.setText(juego.getApellidoUno());
-        holder.apellido2.setText(juego.getApellidoDos());
+        Amigos amigo = listAmigos.get(position);
+        holder.nombre.setText(amigo.getNombre());
+        holder.apellido.setText(amigo.getApellidoUno());
+        holder.apellido2.setText(amigo.getApellidoDos());
 
 
     }

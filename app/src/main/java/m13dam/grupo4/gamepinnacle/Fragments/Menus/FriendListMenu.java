@@ -8,14 +8,18 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 import m13dam.grupo4.gamepinnacle.Adapters.FriendsAdapter;
 import m13dam.grupo4.gamepinnacle.Classes.Other.Amigos;
+import m13dam.grupo4.gamepinnacle.Classes.Other.CurrentSession;
+import m13dam.grupo4.gamepinnacle.DataBases.DataBaseManager;
 import m13dam.grupo4.gamepinnacle.R;
 
 /**
@@ -33,7 +37,7 @@ public class FriendListMenu extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-    private ArrayList<Amigos> listaAmigos = new ArrayList<>();
+    //ArrayList<Amigos> friendList = new ArrayList<>();
 
     public FriendListMenu() {
         // Required empty public constructor
@@ -76,20 +80,29 @@ public class FriendListMenu extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        listaAmigos.add(new Amigos("a","a","a",1));
-        listaAmigos.add(new Amigos("b","b","b",2));
-        listaAmigos.add(new Amigos("c","c","c",3));
-        listaAmigos.add(new Amigos("d","d","d",4));
 
-        listJuegosAmigos ();
+        /*
+        friendList.add (new Amigos("asdd","asd","asd",1));
+        listJuegosAmigos(); */
+        System.out.println("Algo paso mu mal");
+
+        new Thread(() -> {
+            ArrayList<Amigos> listaDeAmigos = DataBaseManager.getFriendList(CurrentSession.getUsuario().getId());
+
+            requireActivity().runOnUiThread(() -> {
+                mostrarListaDeAmigos(listaDeAmigos);
+            });
+        }).start();
+
     }
 
-    private void listJuegosAmigos () {
-        FriendsAdapter recycleview_jvm = new FriendsAdapter(getActivity(), listaAmigos);
+    private void mostrarListaDeAmigos(ArrayList<Amigos> listaDeAmigos) {
+        FriendsAdapter adaptadorRecyclerView = new FriendsAdapter(getActivity(), listaDeAmigos);
 
         RecyclerView recyclerView = getActivity().findViewById(R.id.reciclePruebaAmigos);
 
-        recyclerView.setAdapter(recycleview_jvm);
+        recyclerView.setAdapter(adaptadorRecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
     }
+
 }

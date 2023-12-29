@@ -26,6 +26,7 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 import m13dam.grupo4.gamepinnacle.Adapters.RecentlyPlayedGamesAdapter;
 import m13dam.grupo4.gamepinnacle.DataBases.DataBaseManager;
@@ -136,7 +137,7 @@ public class PerfilUserMenu extends Fragment {
             new Thread(() -> {
 
                 DataBaseManager.unLoginRemember(getActivity());
-                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
                 fragmentManager.beginTransaction()
                         .replace(R.id.main_fragment_container, LoginMenu.class, null)
                         .commit();
@@ -149,7 +150,7 @@ public class PerfilUserMenu extends Fragment {
                 Animation anim = AnimationUtils.loadAnimation(getActivity(), R.anim.blink);
                 ajustes.startAnimation(anim);
 
-                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
                 fragmentManager.beginTransaction()
                         .replace(R.id.main_fragment_container, SettingsMenu.class, null)
                         .commit();
@@ -162,7 +163,7 @@ public class PerfilUserMenu extends Fragment {
             Animation anim = AnimationUtils.loadAnimation(getActivity(), R.anim.blink);
             ajustes.startAnimation(anim);
 
-            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+            FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
             fragmentManager.beginTransaction()
                     .replace(R.id.main_fragment_container, GameListMenu.class, null)
                     .commit();
@@ -174,7 +175,7 @@ public class PerfilUserMenu extends Fragment {
             Animation anim = AnimationUtils.loadAnimation(getActivity(), R.anim.blink);
             ajustes.startAnimation(anim);
 
-            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+            FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
             fragmentManager.beginTransaction()
                     .replace(R.id.main_fragment_container, FriendListMenu.class, null)
                     .commit();

@@ -6,14 +6,18 @@ import android.database.sqlite.SQLiteDatabase;
 
 import androidx.annotation.Nullable;
 
+import java.sql.Array;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Properties;
 
 import m13dam.grupo4.gamepinnacle.BuildConfig;
+import m13dam.grupo4.gamepinnacle.Classes.Other.Amigos;
 import m13dam.grupo4.gamepinnacle.Classes.Other.CurrentSession;
 import m13dam.grupo4.gamepinnacle.Classes.Other.Usuario;
 
@@ -168,6 +172,32 @@ public class DataBaseManager {
 
         return -1;
     }
+    public static int RegistarAmigo(Amigos amigo){
+        try {
+            Connection c = CreateConnection();
+            PreparedStatement stmt = c.prepareStatement("INSERT INTO public.friends (email, username, " +
+                    "password, steamid) VALUES" +
+                    "(?,?,?,?) RETURNING id");
+            stmt.setString(1, amigo.getNombre());
+            stmt.setString(2, amigo.getApellidoUno());
+            stmt.setString(3, amigo.getApellidoDos());
+
+
+            ResultSet rs = stmt.executeQuery();
+
+            while(rs.next()) {
+                return rs.getInt(1);
+            }
+
+            stmt.close();
+            c.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return -1;
+    }
 
     public static int actualizarNombreUsuario(String nuevoNombre) {
         try {
@@ -222,6 +252,41 @@ public class DataBaseManager {
             if (rs.next()){
                 return rs.getString(1);
             }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    public static ArrayList <Amigos> getFriendList(int userID) {
+        System.out.println("Algo paso normal");
+        ArrayList <Amigos> listaAmigos = new ArrayList<>();
+        try {
+            Connection c = CreateConnection();
+            PreparedStatement stmt0 = c.prepareStatement("SELECT friend_id from public.friends where user_id=" + userID);
+            ResultSet rs2 = stmt0.executeQuery();
+            System.out.println("Algo paso 1");
+            ArrayList <Integer> array = new ArrayList<>();
+
+            while(rs2.next()) {
+                array.add(rs2.getInt(1));
+            }
+
+            for (int i: array){
+
+                PreparedStatement stmt = c.prepareStatement("SELECT name, f_surname, s_surname, user_id  FROM public.user_data WHERE user_id=?");
+                stmt.setInt(1, i);
+                ResultSet rs = stmt.executeQuery();
+
+                if (rs.next()){
+                    Amigos amigo = new Amigos(rs.getString(1),rs.getString(2),rs.getString(3),rs.getInt(4) );
+                    listaAmigos.add(amigo);
+                }
+            }
+            System.out.println("Algo paso 2");
+            return listaAmigos;
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -305,5 +370,7 @@ public class DataBaseManager {
             e.printStackTrace();
         }
     }
+
+
 
 }

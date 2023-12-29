@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 import m13dam.grupo4.gamepinnacle.Adapters.FilterGamesAdapter;
 import m13dam.grupo4.gamepinnacle.Adapters.RecentlyPlayedGamesAdapter;
@@ -128,7 +129,7 @@ public class GameListMenu extends Fragment {
     private void listJuegosSteam () {
         RecentlyPlayedGamesAdapter recycleview_jvm = new RecentlyPlayedGamesAdapter(getActivity(), listaJuegos, "all");
 
-        RecyclerView recyclerView = getActivity().findViewById(R.id.reciclePrueba);
+        RecyclerView recyclerView = requireActivity().findViewById(R.id.reciclePrueba);
 
         recyclerView.setAdapter(recycleview_jvm);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -140,7 +141,7 @@ public class GameListMenu extends Fragment {
         opts.add(new FilterOption("IGDB"));
         opts.add(new FilterOption("Añadir Juego"));
 
-        RecyclerView recyclerView = getView().findViewById(R.id.reciclerFilters);
+        RecyclerView recyclerView = requireView().findViewById(R.id.reciclerFilters);
 
         // Use a LinearLayoutManager with horizontal orientation
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
