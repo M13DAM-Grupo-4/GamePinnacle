@@ -32,15 +32,13 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.ViewHold
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView nombre;
-        TextView apellido;
-        TextView apellido2;
+        TextView apellidos;
 
         public ViewHolder(View itemView) {
             super(itemView);
 
-            nombre = itemView.findViewById(R.id.nombre);
-            apellido = itemView.findViewById(R.id.apellido1);
-            apellido2 = itemView.findViewById(R.id.apellido2);
+            nombre = itemView.findViewById(R.id.Friends_nombre);
+            apellidos = itemView.findViewById(R.id.Friends_apellido1);
 
 
             itemView.setOnClickListener(v ->  {
@@ -76,10 +74,9 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Amigos amigo = listAmigos.get(position);
-        holder.nombre.setText(amigo.getNombre());
-        holder.apellido.setText(amigo.getApellidoUno());
-        holder.apellido2.setText(amigo.getApellidoDos());
+        Amigos juego = listAmigos.get(position);
+        holder.nombre.setText(juego.getNombre());
+        holder.apellidos.setText(juego.getApellidoUno() + " " + juego.getApellidoDos());
 
 
     }

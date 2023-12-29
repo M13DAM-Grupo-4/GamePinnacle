@@ -99,7 +99,7 @@ public class FriendListMenu extends Fragment {
     private void mostrarListaDeAmigos(ArrayList<Amigos> listaDeAmigos) {
         FriendsAdapter adaptadorRecyclerView = new FriendsAdapter(getActivity(), listaDeAmigos);
 
-        RecyclerView recyclerView = getActivity().findViewById(R.id.reciclePruebaAmigos);
+        RecyclerView recyclerView = getActivity().findViewById(R.id.recicleFriendsList);
 
         recyclerView.setAdapter(adaptadorRecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
