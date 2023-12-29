@@ -8,6 +8,8 @@ public class Amigos {
     private String ApellidoDos;
     private int Id;
 
+    private String Picture;
+
 
     public Amigos(String nombre, String apellidoUno, String apellidoDos,int id) {
         Nombre = nombre;
@@ -44,6 +46,11 @@ public class Amigos {
         ApellidoDos = apellidoDos;
     }
 
+    public String getPicture() {
+        return Picture;
+    }
 
-
+    public void setPicture(String picture) {
+        Picture = picture;
+    }
 }

@@ -276,12 +276,13 @@ public class DataBaseManager {
 
             for (int i: array){
 
-                PreparedStatement stmt = c.prepareStatement("SELECT name, f_surname, s_surname, user_id  FROM public.user_data WHERE user_id=?");
+                PreparedStatement stmt = c.prepareStatement("SELECT name, f_surname, s_surname, user_id, picture  FROM public.user_data WHERE user_id=?");
                 stmt.setInt(1, i);
                 ResultSet rs = stmt.executeQuery();
 
                 if (rs.next()){
                     Amigos amigo = new Amigos(rs.getString(1),rs.getString(2),rs.getString(3),rs.getInt(4) );
+                    amigo.setPicture(rs.getString(5));
                     listaAmigos.add(amigo);
                 }
             }

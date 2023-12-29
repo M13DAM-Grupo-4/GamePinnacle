@@ -5,12 +5,15 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -33,12 +36,14 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.ViewHold
     public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView nombre;
         TextView apellidos;
+        ImageView picture;
 
         public ViewHolder(View itemView) {
             super(itemView);
 
             nombre = itemView.findViewById(R.id.Friends_nombre);
             apellidos = itemView.findViewById(R.id.Friends_apellido1);
+            picture = itemView.findViewById(R.id.Friends_picture);
 
 
             itemView.setOnClickListener(v ->  {
@@ -68,7 +73,7 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.ViewHold
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(mContext_jvm);
-        View view = inflater.inflate(R.layout.recycleviewlayout_jvm, parent, false);
+        View view = inflater.inflate(R.layout.recycler_friend_list_item, parent, false);
         return new ViewHolder(view);
     }
 
@@ -77,8 +82,9 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.ViewHold
         Amigos juego = listAmigos.get(position);
         holder.nombre.setText(juego.getNombre());
         holder.apellidos.setText(juego.getApellidoUno() + " " + juego.getApellidoDos());
-
-
+        if (juego.getPicture().length() > 0){
+            Picasso.get().load(juego.getPicture()).into(holder.picture);
+        }
     }
 
     @Override
