@@ -23,12 +23,15 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:orientation="vertical">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recicleFriendsOptions"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/_35sdp"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:orientation="horizontal"/>
+        <Button
+            android:layout_width="@dimen/_280sdp"
+            android:layout_height="@dimen/_50sdp"
+            android:background="@drawable/juegos_recientes_button_bg"
+            android:text="Añadir amigo"
+            android:textColor="@color/white"
+            android:fontFamily="@font/roboto_medium"
+            android:textSize="@dimen/_16ssp"
+            android:textAllCaps="false"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id ="@+id/recicleFriendsList"

@@ -16,9 +16,11 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.Objects;
 
+import m13dam.grupo4.gamepinnacle.Adapters.FilterGamesAdapter;
 import m13dam.grupo4.gamepinnacle.Adapters.FriendsAdapter;
 import m13dam.grupo4.gamepinnacle.Classes.Other.Amigos;
 import m13dam.grupo4.gamepinnacle.Classes.Other.CurrentSession;
+import m13dam.grupo4.gamepinnacle.Classes.Other.FilterOption;
 import m13dam.grupo4.gamepinnacle.DataBases.DataBaseManager;
 import m13dam.grupo4.gamepinnacle.R;
 
@@ -104,5 +106,6 @@ public class FriendListMenu extends Fragment {
         recyclerView.setAdapter(adaptadorRecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
     }
+
 
 }
