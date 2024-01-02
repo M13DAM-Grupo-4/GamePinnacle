@@ -14,6 +14,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -129,6 +130,12 @@ public class PerfilUserMenu extends Fragment {
         buttonListFriend = view.findViewById(R.id.perfil_user_friends_button);
 
 
+        new Thread(()->{
+            Looper.prepare();
+            numberOfFriends.setText(String.valueOf(DataBaseManager.getFriendList(CurrentSession.getUsuario().getId()).size()));
+        }).start();
+
+
         loginOut.setOnClickListener(v -> {
 
             Animation anim = AnimationUtils.loadAnimation(getActivity(), R.anim.blink);
@@ -215,6 +222,7 @@ public class PerfilUserMenu extends Fragment {
                 }
             });
 
+
             SteamWebApi.getSteamWebApiService().getOwnedGamesByUser(
                     CurrentSession.getSteamApiKey(),
                     CurrentSession.getUsuario().getSteamid(),
@@ -234,6 +242,7 @@ public class PerfilUserMenu extends Fragment {
                         }
 
                         totalGames.setText(String.valueOf(response.body().getGetOwnedGames().getGame_count()));
+
 
                         long playedTimeCount = 0L;
                         long playedTimeHours;
