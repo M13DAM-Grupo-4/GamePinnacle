@@ -130,11 +130,13 @@ public class PerfilUserMenu extends Fragment {
         buttonListFriend = view.findViewById(R.id.perfil_user_friends_button);
 
 
-        new Thread(()->{
-            Looper.prepare();
-            numberOfFriends.setText(String.valueOf(DataBaseManager.getFriendList(CurrentSession.getUsuario().getId()).size()));
-        }).start();
+        new Thread(() -> {
+            int friendListSize = DataBaseManager.getFriendList(CurrentSession.getUsuario().getId()).size();
 
+            requireActivity().runOnUiThread(() -> {
+                numberOfFriends.setText(String.valueOf(friendListSize));
+            });
+        }).start();
 
         loginOut.setOnClickListener(v -> {
 
