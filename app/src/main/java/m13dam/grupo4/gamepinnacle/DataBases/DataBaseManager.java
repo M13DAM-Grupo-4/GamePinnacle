@@ -265,27 +265,16 @@ public class DataBaseManager {
         ArrayList <Amigos> listaAmigos = new ArrayList<>();
         try {
             Connection c = CreateConnection();
-            PreparedStatement stmt0 = c.prepareStatement("SELECT friend_id from public.friends where user_id=" + userID);
-            ResultSet rs2 = stmt0.executeQuery();
+            PreparedStatement stmt0 = c.prepareStatement("SELECT name, f_surname, s_surname, user_id, picture, friend_id from public.friends where user_id=" + userID);
+            ResultSet rs = stmt0.executeQuery();
             System.out.println("Algo paso 1");
-            ArrayList <Integer> array = new ArrayList<>();
 
-            while(rs2.next()) {
-                array.add(rs2.getInt(1));
+            if (rs.next()){
+                Amigos amigo = new Amigos(rs.getString("name"),rs.getString("f_surname"),rs.getString("s_surname"),rs.getInt("friend_id") );
+                amigo.setPicture(rs.getString("picture"));
+                listaAmigos.add(amigo);
             }
 
-            for (int i: array){
-
-                PreparedStatement stmt = c.prepareStatement("SELECT name, f_surname, s_surname, user_id, picture  FROM public.user_data WHERE user_id=?");
-                stmt.setInt(1, i);
-                ResultSet rs = stmt.executeQuery();
-
-                if (rs.next()){
-                    Amigos amigo = new Amigos(rs.getString(1),rs.getString(2),rs.getString(3),rs.getInt(4) );
-                    amigo.setPicture(rs.getString(5));
-                    listaAmigos.add(amigo);
-                }
-            }
             System.out.println("Algo paso 2");
             return listaAmigos;
 
@@ -295,6 +284,27 @@ public class DataBaseManager {
 
         return null;
     }
+
+    public static int removeFriend(int friendId) {
+        try {
+            Connection c = CreateConnection();
+            PreparedStatement stmt = c.prepareStatement("DELETE FROM public.friends WHERE friend_id = ?");
+            stmt.setInt(1, friendId);
+            int rowsAffected = stmt.executeUpdate();
+
+            stmt.close();
+            c.close();
+
+            // Verificar si la actualización fue exitosa (si se afectó al menos una fila)
+            return rowsAffected > 0 ? 1 : 0;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return -1;
+        }
+    }
+
+
 
     public static int LoginRemember(@Nullable Context c) {
         try {
