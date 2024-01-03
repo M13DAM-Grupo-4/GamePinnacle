@@ -69,6 +69,7 @@
         </LinearLayout>
 
         <Button
+            android:id="@+id/eliminarAmigoButton"
             android:layout_width="@dimen/_30sdp"
             android:layout_height="@dimen/_30sdp"
             android:layout_marginStart="@dimen/_5sdp"

@@ -2,9 +2,11 @@ package m13dam.grupo4.gamepinnacle.Adapters;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -18,7 +20,9 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 
 import m13dam.grupo4.gamepinnacle.Classes.Other.Amigos;
+import m13dam.grupo4.gamepinnacle.DataBases.DataBaseManager;
 import m13dam.grupo4.gamepinnacle.Fragments.Menus.FriendInfo;
+import m13dam.grupo4.gamepinnacle.Fragments.Menus.FriendListMenu;
 import m13dam.grupo4.gamepinnacle.R;
 
 public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.ViewHolder> {
@@ -37,6 +41,7 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.ViewHold
         TextView nombre;
         TextView apellidos;
         ImageView picture;
+        Button eliminarAmigo;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -44,9 +49,29 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.ViewHold
             nombre = itemView.findViewById(R.id.Friends_nombre);
             apellidos = itemView.findViewById(R.id.Friends_apellido1);
             picture = itemView.findViewById(R.id.Friends_picture);
+            eliminarAmigo =itemView.findViewById(R.id.eliminarAmigoButton);
+
+            eliminarAmigo.setOnClickListener(v -> {
+                int position = getAdapterPosition();
+                if (position != RecyclerView.NO_POSITION) {
+
+                    Amigos selectedFriend = listAmigos.get(position);
+                    new Thread(() ->{
+                        Looper.prepare();
+                        DataBaseManager.removeFriend(selectedFriend.getId());
+
+                        FragmentManager fragmentManager = ((AppCompatActivity) v.getContext()).getSupportFragmentManager();
+                        fragmentManager.beginTransaction()
+                                .replace(R.id.main_fragment_container, FriendListMenu.class, null)
+                                .commit();
+
+                    }).start();
 
 
-            itemView.setOnClickListener(v ->  {
+                }
+                    });
+
+            picture.setOnClickListener(v ->  {
                 int position = getAdapterPosition();
                 if (position != RecyclerView.NO_POSITION) {
 
