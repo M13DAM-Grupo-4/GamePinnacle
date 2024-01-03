@@ -269,7 +269,7 @@ public class DataBaseManager {
             ResultSet rs = stmt0.executeQuery();
             System.out.println("Algo paso 1");
 
-            if (rs.next()){
+            while (rs.next()){
                 Amigos amigo = new Amigos(rs.getString("name"),rs.getString("f_surname"),rs.getString("s_surname"),rs.getInt("friend_id") );
                 amigo.setPicture(rs.getString("picture"));
                 listaAmigos.add(amigo);

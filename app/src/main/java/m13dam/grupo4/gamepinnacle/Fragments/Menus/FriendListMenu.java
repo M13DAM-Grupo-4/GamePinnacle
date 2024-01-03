@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -12,6 +13,7 @@ import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -40,6 +42,7 @@ public class FriendListMenu extends Fragment {
     private String mParam1;
     private String mParam2;
     //ArrayList<Amigos> friendList = new ArrayList<>();
+    private Button añadirFriend;
 
     public FriendListMenu() {
         // Required empty public constructor
@@ -87,6 +90,17 @@ public class FriendListMenu extends Fragment {
         friendList.add (new Amigos("asdd","asd","asd",1));
         listJuegosAmigos(); */
         System.out.println("Algo paso mu mal");
+
+        añadirFriend = view.findViewById(R.id.añadirAmigo);
+
+        añadirFriend.setOnClickListener(v -> {
+            FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.main_fragment_container, AddFriendMenu.class, null)
+                    .commit();
+
+        });
+
 
         new Thread(() -> {
             ArrayList<Amigos> listaDeAmigos = DataBaseManager.getFriendList(CurrentSession.getUsuario().getId());

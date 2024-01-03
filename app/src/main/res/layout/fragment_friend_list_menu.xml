@@ -24,6 +24,7 @@
         android:orientation="vertical">
 
         <Button
+            android:id="@+id/añadirAmigo"
             android:layout_width="@dimen/_280sdp"
             android:layout_height="@dimen/_50sdp"
             android:background="@drawable/juegos_recientes_button_bg"
