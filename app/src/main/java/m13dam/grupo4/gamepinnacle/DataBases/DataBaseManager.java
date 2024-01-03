@@ -172,21 +172,22 @@ public class DataBaseManager {
 
         return -1;
     }
-    public static int RegistarAmigo(Amigos amigo){
-        try {
+    public static int RegistrarAmigo(Amigos amigo, int id){
+        try{
             Connection c = CreateConnection();
-            PreparedStatement stmt = c.prepareStatement("INSERT INTO public.friends (email, username, " +
-                    "password, steamid) VALUES" +
-                    "(?,?,?,?) RETURNING id");
+            PreparedStatement stmt = c.prepareStatement("INSERT INTO public.friends (name, f_surname, " +
+                    "s_surname, picture, user_id) VALUES" +
+                    "(?,?,?,?,?) RETURNING user_id");
             stmt.setString(1, amigo.getNombre());
             stmt.setString(2, amigo.getApellidoUno());
             stmt.setString(3, amigo.getApellidoDos());
-
+            stmt.setString(4, amigo.getPicture());
+            stmt.setInt(5, id);
 
             ResultSet rs = stmt.executeQuery();
 
             while(rs.next()) {
-                return rs.getInt(1);
+                return rs.getInt("user_id");
             }
 
             stmt.close();

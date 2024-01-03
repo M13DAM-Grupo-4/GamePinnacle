@@ -7,6 +7,7 @@ import androidx.fragment.app.FragmentManager;
 
 import android.os.Bundle;
 
+import m13dam.grupo4.gamepinnacle.Fragments.Menus.AddFriendMenu;
 import m13dam.grupo4.gamepinnacle.Fragments.Menus.FriendInfo;
 import m13dam.grupo4.gamepinnacle.Fragments.Menus.FriendListMenu;
 import m13dam.grupo4.gamepinnacle.Fragments.Menus.GameInfo;
@@ -65,6 +66,9 @@ public class MainActivity extends AppCompatActivity {
                 }
                 if (fragContainer.getClass() == GameInfo.class){
                     newFrag = new GameListMenu();
+                }
+                if (fragContainer.getClass() == AddFriendMenu.class){
+                    newFrag = new FriendListMenu();
                 }
 
                 if (newFrag != null) {

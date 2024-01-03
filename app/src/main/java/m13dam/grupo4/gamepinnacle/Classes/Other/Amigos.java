@@ -18,6 +18,14 @@ public class Amigos {
         Id = id;
     }
 
+    public Amigos(String nombre, String apellidoUno, String apellidoDos,String picture) {
+        Nombre = nombre;
+        ApellidoUno = apellidoUno;
+        ApellidoDos = apellidoDos;
+        Picture = picture;
+    }
+
+
     public int getId() {
         return Id;
     }

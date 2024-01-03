@@ -64,6 +64,7 @@
                 android:contentDescription="@string/register_user_image_description" />
 
             <EditText
+                android:id="@+id/nombreAmigo"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginStart="@dimen/_5sdp"
@@ -94,6 +95,7 @@
                 android:contentDescription="@string/register_user_image_description" />
 
             <EditText
+                android:id="@+id/apellidoAmigo1"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginStart="@dimen/_5sdp"
@@ -124,6 +126,7 @@
                 android:contentDescription="@string/register_user_image_description" />
 
             <EditText
+                android:id="@+id/apellidoAmigo2"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginStart="@dimen/_5sdp"
@@ -154,6 +157,7 @@
                 android:contentDescription="@string/register_user_image_description" />
 
             <EditText
+                android:id="@+id/imagenUrlAmigo"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginStart="@dimen/_5sdp"
@@ -169,7 +173,7 @@
         </LinearLayout>
 
         <Button
-            android:id="@+id/login_login_button"
+            android:id="@+id/añadirAmigo_button"
             android:layout_width="@dimen/_150sdp"
             android:layout_height="@dimen/_50sdp"
             android:layout_gravity="center_horizontal"
