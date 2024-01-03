@@ -25,7 +25,7 @@
         android:layout_marginTop="@dimen/_50sdp"
         android:textColor="@color/white"
         android:textSize="@dimen/_30ssp"
-        android:text="Añadir amigo"
+        android:text="@string/register_title"
         android:fontFamily="@font/roboto_medium"/>
 
     <LinearLayout
@@ -64,11 +64,12 @@
                 android:contentDescription="@string/register_user_image_description" />
 
             <EditText
+                android:id="@+id/register_username_text"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginStart="@dimen/_5sdp"
                 android:layout_marginEnd="@dimen/_30sdp"
-                android:hint="Nombre"
+                android:hint="@string/register_username_hint_text"
                 android:textColor="@color/text"
                 android:textColorHint="@color/text"
                 android:textSize="@dimen/_16ssp"
@@ -88,17 +89,18 @@
             <ImageView
                 android:layout_width="@dimen/_30sdp"
                 android:layout_height="@dimen/_30sdp"
-                android:src="@drawable/user_icon"
                 android:layout_gravity="start|center_vertical"
                 android:layout_marginStart="@dimen/_15sdp"
-                android:contentDescription="@string/register_user_image_description" />
+                android:contentDescription="@string/register_user_image_description"
+                android:src="@drawable/email_icon" />
 
             <EditText
+                android:id="@+id/register_email_text"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginStart="@dimen/_5sdp"
                 android:layout_marginEnd="@dimen/_30sdp"
-                android:hint="Primer apellido"
+                android:hint="@string/register_mail_hint_text"
                 android:textColor="@color/text"
                 android:textColorHint="@color/text"
                 android:textSize="@dimen/_16ssp"
@@ -118,23 +120,25 @@
             <ImageView
                 android:layout_width="@dimen/_30sdp"
                 android:layout_height="@dimen/_30sdp"
-                android:src="@drawable/user_icon"
+                android:src="@drawable/steam"
+                android:foregroundTint="@color/white"
                 android:layout_gravity="start|center_vertical"
                 android:layout_marginStart="@dimen/_15sdp"
                 android:contentDescription="@string/register_user_image_description" />
 
             <EditText
+                android:id="@+id/register_steamid_text"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginStart="@dimen/_5sdp"
                 android:layout_marginEnd="@dimen/_30sdp"
-                android:hint="Segundo apellido"
+                android:autofillHints="emailAddress"
+                android:fontFamily="@font/roboto_medium"
+                android:hint="SteamID"
+                android:inputType="text"
                 android:textColor="@color/text"
                 android:textColorHint="@color/text"
-                android:textSize="@dimen/_16ssp"
-                android:fontFamily="@font/roboto_medium"
-                android:inputType="textEmailAddress"
-                android:autofillHints="emailAddress" />
+                android:textSize="@dimen/_16ssp" />
 
         </LinearLayout>
 
@@ -148,23 +152,68 @@
             <ImageView
                 android:layout_width="@dimen/_30sdp"
                 android:layout_height="@dimen/_30sdp"
-                android:src="@drawable/user_icon"
+                android:src="@drawable/steam"
+                android:foregroundTint="@color/white"
                 android:layout_gravity="start|center_vertical"
                 android:layout_marginStart="@dimen/_15sdp"
                 android:contentDescription="@string/register_user_image_description" />
 
             <EditText
+                android:id="@+id/register_steamapikey_text"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginStart="@dimen/_5sdp"
                 android:layout_marginEnd="@dimen/_30sdp"
-                android:hint="Foto del perfil (URL)"
+                android:autofillHints="emailAddress"
+                android:fontFamily="@font/roboto_medium"
+                android:hint="SteamAPI Key"
+                android:inputType="text"
+                android:textColor="@color/text"
+                android:textColorHint="@color/text"
+                android:textSize="@dimen/_16ssp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="@dimen/_250sdp"
+            android:layout_height="@dimen/_50sdp"
+            android:orientation="horizontal"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginBottom="@dimen/_10sdp"
+            android:background="@drawable/button"
+            >
+
+            <ImageView
+                android:layout_width="@dimen/_30sdp"
+                android:layout_height="@dimen/_30sdp"
+                android:src="@drawable/password_icon"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="@dimen/_15sdp"
+                android:contentDescription="@string/register_password_image_description" />
+
+            <EditText
+                android:id="@+id/register_password_text"
+                android:layout_width="@dimen/_150sdp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_marginEnd="@dimen/_5sdp"
+                android:hint="@string/register_password_hint_text"
                 android:textColor="@color/text"
                 android:textColorHint="@color/text"
                 android:textSize="@dimen/_16ssp"
                 android:fontFamily="@font/roboto_medium"
-                android:inputType="textEmailAddress"
-                android:autofillHints="emailAddress" />
+                android:inputType="textPassword"
+                android:layout_gravity="center_vertical"
+                android:autofillHints="password" />
+
+            <ImageView
+                android:id="@+id/register_password_visibility"
+                android:layout_width="@dimen/_30sdp"
+                android:layout_height="@dimen/_30sdp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="@dimen/_15sdp"
+                android:src="@drawable/password_key"
+                android:contentDescription="@string/register_password_visibility_description" />
 
         </LinearLayout>
 
