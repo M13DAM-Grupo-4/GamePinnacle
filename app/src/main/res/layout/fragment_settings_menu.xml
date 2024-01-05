@@ -62,7 +62,7 @@
                 android:layout_gravity="start|center_vertical"
                 android:layout_marginStart="@dimen/_15sdp"
                 android:contentDescription="@string/register_user_image_description"
-                android:src="@drawable/email_icon" />
+                android:src="@drawable/user_icon" />
 
             <EditText
                 android:id="@+id/nuevo_usuario"
@@ -72,7 +72,7 @@
                 android:layout_marginEnd="@dimen/_30sdp"
                 android:autofillHints="emailAddress"
                 android:fontFamily="@font/roboto_medium"
-                android:hint="@string/register_mail_hint_text"
+                android:hint="Usuario"
                 android:inputType="textEmailAddress"
                 android:textColor="@color/text"
                 android:textColorHint="@color/text"
@@ -127,7 +127,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginStart="@dimen/_5sdp"
                 android:layout_marginEnd="@dimen/_5sdp"
-                android:hint="@string/register_password_hint_text"
+                android:hint="Nueva contraseña"
                 android:textColor="@color/text"
                 android:textColorHint="@color/text"
                 android:textSize="@dimen/_16ssp"
@@ -170,7 +170,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginStart="@dimen/_5sdp"
                 android:layout_marginEnd="@dimen/_5sdp"
-                android:hint="@string/login_password_repeated_hint_text"
+                android:hint="Nueva contraseña"
                 android:textColor="@color/text"
                 android:textColorHint="@color/text"
                 android:textSize="@dimen/_16ssp"
