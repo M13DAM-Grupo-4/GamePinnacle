@@ -31,9 +31,6 @@ public class MainActivity extends AppCompatActivity {
                 .commit();
 
         backButton();
-
-
-
     }
 
     private void backButton() {

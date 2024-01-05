@@ -2,23 +2,27 @@ package m13dam.grupo4.gamepinnacle.Fragments.Menus;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import m13dam.grupo4.gamepinnacle.Classes.Other.Usuario;
 import m13dam.grupo4.gamepinnacle.R;
-
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link PerfilFriendMenu#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class PerfilFriendMenu extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+    private static Usuario usuario;
+
+    public static Usuario getUsuario() {
+        return usuario;
+    }
+
+    public static void setUsuario(Usuario usuario) {
+        PerfilFriendMenu.usuario = usuario;
+    }
 
     public PerfilFriendMenu() {
         // Required empty public constructor
@@ -45,4 +49,13 @@ public class PerfilFriendMenu extends Fragment {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_perfil_friend, container, false);
     }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+
+    }
+
+
 }

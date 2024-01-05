@@ -34,7 +34,7 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:id="@+id/perfil_user_avatar"
+                android:id="@+id/perfil_friend_avatar"
                 android:layout_width="@dimen/_80sdp"
                 android:layout_height="@dimen/_80sdp"
                 android:layout_gravity="center_vertical"
@@ -50,16 +50,16 @@
                 android:gravity="center_vertical">
 
                 <TextView
-                    android:id="@+id/perfil_user_username"
+                    android:id="@+id/perfil_friend_nombre"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto_medium"
-                    android:text="Apellidos"
+                    android:text="Nombre"
                     android:textColor="@color/white"
                     android:textSize="@dimen/_16ssp" />
 
                 <TextView
-                    android:id="@+id/perfil_user_email"
+                    android:id="@+id/perfil_friend_correo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Correo"
@@ -100,7 +100,7 @@
                         android:textColor="@color/white"/>
 
                     <TextView
-                        android:id="@+id/perfil_user_horas_jugadas"
+                        android:id="@+id/perfil_friend_juegos_totales"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text=""
@@ -126,7 +126,7 @@
                         android:textColor="@color/white"/>
 
                     <TextView
-                        android:id="@+id/perfil_user_juegos"
+                        android:id="@+id/perfil_friend_partidas_totales"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text=""
@@ -152,7 +152,7 @@
                         android:textColor="@color/white"/>
 
                     <TextView
-                        android:id="@+id/perfil_user_amigos"
+                        android:id="@+id/perfil_friend_horas_totales"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text=""
@@ -200,7 +200,7 @@
                 android:background="@drawable/perfil_user_juegos_recientes_bg">
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/perfil_user_lista_juegos_recientes_recycler"
+                    android:id="@+id/perfil_friend_partidas_jugadas_recycler"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginTop="@dimen/_10sdp"
