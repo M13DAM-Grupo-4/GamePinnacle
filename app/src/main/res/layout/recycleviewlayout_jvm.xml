@@ -10,6 +10,7 @@
 
     <TextView
         android:id="@+id/nombre"
+        android:textColor="@color/blue"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="3"
@@ -19,6 +20,7 @@
 
     <TextView
         android:id="@+id/apellido1"
+        android:textColor="@color/blue"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="3"
@@ -28,6 +30,7 @@
 
     <TextView
         android:id="@+id/apellido2"
+        android:textColor="@color/blue"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="3"

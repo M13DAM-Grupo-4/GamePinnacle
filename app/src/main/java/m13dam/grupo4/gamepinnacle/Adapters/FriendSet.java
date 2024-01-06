@@ -12,18 +12,19 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 import m13dam.grupo4.gamepinnacle.Classes.Other.Amigos;
+import m13dam.grupo4.gamepinnacle.Classes.Other.PlayedGamesFriends;
 import m13dam.grupo4.gamepinnacle.R;
 
 public class FriendSet extends RecyclerView.Adapter<FriendSet.ViewHolder> {
     private Context mContext_jvm;
-    private static ArrayList<Amigos> listAmigos;
+    private ArrayList<PlayedGamesFriends> listapartidas;
 
 
 
-    public FriendSet(Context context, ArrayList<Amigos>listAmigos) {
+    public FriendSet(Context context, ArrayList<PlayedGamesFriends>Listapartidas) {
         this.mContext_jvm = context;
-        this.listAmigos = listAmigos;
-
+        this.listapartidas = Listapartidas;
+        System.out.println("asdasdasdasdasdad");
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -42,24 +43,24 @@ public class FriendSet extends RecyclerView.Adapter<FriendSet.ViewHolder> {
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public FriendSet.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(mContext_jvm);
         View view = inflater.inflate(R.layout.recycleviewlayout_jvm, parent, false);
-        return new ViewHolder(view);
+        return new FriendSet.ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Amigos juego = listAmigos.get(position);
-        holder.nombre.setText(juego.getNombre());
-        holder.apellido.setText(juego.getApellidoUno());
-        holder.apellido2.setText(juego.getApellidoDos());
+        PlayedGamesFriends parti = listapartidas.get(position);
+        holder.nombre.setText(parti.getFriend_name());
+        holder.apellido.setText(parti.getFecha());
+        holder.apellido2.setText(parti.getHours());
 
     }
 
     @Override
     public int getItemCount() {
-        return listAmigos.size();
+        return listapartidas.size();
     }
 
 }

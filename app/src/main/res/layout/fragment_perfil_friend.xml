@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<androidx.constraintlayout.widget.ConstraintLayout
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android"
@@ -8,12 +8,13 @@
     android:background="@color/black">
 
     <ImageView
+        android:id="@+id/imageView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/login_background"
-        android:scaleType="centerCrop"
         android:alpha="0.15"
-        android:contentDescription="@string/login_background_description" />
+        android:contentDescription="@string/login_background_description"
+        android:scaleType="centerCrop"
+        android:src="@drawable/login_background" />
 
     <LinearLayout
         android:id="@+id/login_ui"
@@ -203,17 +204,25 @@
                     android:id="@+id/perfil_friend_partidas_jugadas_recycler"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:layout_marginBottom="@dimen/_10sdp"
                     android:layout_marginStart="@dimen/_10sdp"
-                    android:layout_marginEnd="@dimen/_10sdp"/>
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:layout_marginBottom="@dimen/_10sdp" />
 
-                </LinearLayout>
+            </LinearLayout>
 
             </LinearLayout>
 
 
 
         </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="337dp"
+        android:layout_height="510dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

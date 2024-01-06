@@ -21,8 +21,8 @@ import java.util.ArrayList;
 
 import m13dam.grupo4.gamepinnacle.Classes.Other.Amigos;
 import m13dam.grupo4.gamepinnacle.DataBases.DataBaseManager;
-import m13dam.grupo4.gamepinnacle.Fragments.Menus.FriendInfo;
 import m13dam.grupo4.gamepinnacle.Fragments.Menus.FriendListMenu;
+import m13dam.grupo4.gamepinnacle.Fragments.Menus.PerfilFriendMenu;
 import m13dam.grupo4.gamepinnacle.R;
 
 public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.ViewHolder> {
@@ -76,11 +76,11 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.ViewHold
                 if (position != RecyclerView.NO_POSITION) {
 
                     Amigos selectedFriend = listAmigos.get(position);
-
+                    PerfilFriendMenu.setAmigos(selectedFriend);
                     Bundle bundle = new Bundle();
                     bundle.putInt("friendId", selectedFriend.getId());
 
-                    FriendInfo friendInfoFragment = new FriendInfo();
+                    PerfilFriendMenu friendInfoFragment = new PerfilFriendMenu();
                     friendInfoFragment.setArguments(bundle);
 
                     FragmentManager fragmentManager = ((AppCompatActivity) v.getContext()).getSupportFragmentManager();

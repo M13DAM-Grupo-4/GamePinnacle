@@ -19,6 +19,7 @@ import java.util.Properties;
 import m13dam.grupo4.gamepinnacle.BuildConfig;
 import m13dam.grupo4.gamepinnacle.Classes.Other.Amigos;
 import m13dam.grupo4.gamepinnacle.Classes.Other.CurrentSession;
+import m13dam.grupo4.gamepinnacle.Classes.Other.PlayedGamesFriends;
 import m13dam.grupo4.gamepinnacle.Classes.Other.Usuario;
 
 public class DataBaseManager {
@@ -284,6 +285,60 @@ public class DataBaseManager {
         }
 
         return null;
+    }
+
+    public static ArrayList<PlayedGamesFriends> partidasAmigos(int amigoId) {
+        System.out.println("Algo paso normal");
+        ArrayList <PlayedGamesFriends> listaGames = new ArrayList<>();
+        try {
+            Connection c = CreateConnection();
+            PreparedStatement stmt0 = c.prepareStatement("SELECT a.game_id, a.friend_id, a.played_time, a.winned, a.time, b.name FROM public.user_interactions AS a LEFT JOIN public.games AS b ON a.game_id = b.id WHERE friend_id = ?");
+            stmt0.setInt(1, amigoId);
+            ResultSet rs = stmt0.executeQuery();
+            System.out.println("Algo paso 1");
+
+            while (rs.next()){
+                PlayedGamesFriends partida = new PlayedGamesFriends(rs.getInt("game_id"), "pepe",rs.getInt("friend_id"),rs.getString("played_time"),rs.getBoolean("winned"), rs.getString("time") );
+                listaGames.add(partida);
+            }
+
+            System.out.println("Algo paso 2");
+            return listaGames;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    public static int RegistrarPartida(PlayedGamesFriends playedGamesFriends){
+        try{
+            Connection c = CreateConnection();
+            PreparedStatement stmt = c.prepareStatement("INSERT INTO public.user_interactions (user_id, friend_id, " +
+                    "game_id, played_time, winned, time) VALUES" +
+                    "(?,?,?,?,?,?) RETURNING user_id");
+            stmt.setInt(1, CurrentSession.getUsuario().getId());
+            stmt.setInt(2, playedGamesFriends.getFriend_id());
+            stmt.setInt(3, playedGamesFriends.getGame_id());
+            stmt.setInt(4, Integer.parseInt(playedGamesFriends.getHours()));
+            stmt.setBoolean(5, playedGamesFriends.getLoseWin());
+            stmt.setString(6, playedGamesFriends.getFecha());
+
+            ResultSet rs = stmt.executeQuery();
+
+            while(rs.next()) {
+                return rs.getInt("user_id");
+            }
+
+            stmt.close();
+            c.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return -1;
     }
 
     public static int removeFriend(int friendId) {
