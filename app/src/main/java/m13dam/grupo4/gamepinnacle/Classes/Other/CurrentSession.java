@@ -6,6 +6,7 @@ public class CurrentSession {
 
     private static Usuario usuario;
     private static String steamApiKey;
+    private static String TwitchToken;
 
     public static Usuario getUsuario() {
         return usuario;
@@ -26,5 +27,13 @@ public class CurrentSession {
 
     public static void setSteamApiKey(String steamApiKey) {
         CurrentSession.steamApiKey = steamApiKey;
+    }
+
+    public static String getTwitchToken() {
+        return TwitchToken;
+    }
+
+    public static void setTwitchToken(String twitchToken) {
+        TwitchToken = twitchToken;
     }
 }

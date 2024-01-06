@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/login_background"
+        android:scaleType="centerCrop"
+        android:alpha="0.15"
+        android:contentDescription="@string/login_background_description" />
+
+    <TextView
+        android:id="@+id/register_menu_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="@dimen/_50sdp"
+        android:textColor="@color/white"
+        android:textSize="@dimen/_30ssp"
+        android:text="Añadir juego"
+        android:fontFamily="@font/roboto_medium"/>
+
+    <LinearLayout
+        android:id="@+id/register_menu_ui"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@+id/register_menu_title"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintVertical_bias="0.3">
+
+        <LinearLayout
+            android:layout_width="@dimen/_250sdp"
+            android:layout_height="@dimen/_50sdp"
+            android:orientation="horizontal"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:background="@drawable/button">
+
+            <ImageView
+                android:layout_width="@dimen/_30sdp"
+                android:layout_height="@dimen/_30sdp"
+                android:src="@drawable/user_icon"
+                android:layout_gravity="start|center_vertical"
+                android:layout_marginStart="@dimen/_15sdp"
+                android:contentDescription="@string/register_user_image_description" />
+
+            <EditText
+                android:id="@+id/add_games_input"
+                android:layout_width="@dimen/_145sdp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_marginEnd="@dimen/_5sdp"
+                android:hint="Nombre"
+                android:textColor="@color/text"
+                android:textColorHint="@color/text"
+                android:textSize="@dimen/_16ssp"
+                android:fontFamily="@font/roboto_medium"
+                android:inputType="textEmailAddress"
+                android:autofillHints="emailAddress" />
+
+            <Button
+                android:layout_width="@dimen/_35sdp"
+                android:layout_height="@dimen/_35sdp"/>
+
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/add_games_menu_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_260sdp"
+            android:layout_marginTop="@dimen/_20sdp"/>
+
+        <Button
+            android:id="@+id/añadirAmigo_button"
+            android:layout_width="@dimen/_150sdp"
+            android:layout_height="@dimen/_50sdp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:gravity="center"
+            android:text="@string/register_login_button_text"
+            android:textSize="@dimen/_16ssp"
+            android:fontFamily="@font/roboto_medium"
+            android:textColor="@color/white"
+            android:background="@drawable/blue_button"/>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

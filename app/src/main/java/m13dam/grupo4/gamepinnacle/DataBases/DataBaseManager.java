@@ -363,11 +363,11 @@ public class DataBaseManager {
 
 
 
-    public static void SaveLoginRemember(@Nullable Context c, Usuario usuario) {
+    public static void SaveLoginRemember(@Nullable Context c, Usuario usuario, String TwitchToken) {
         try {
             SQLiteDatabase dbl = GetLocalDB(c);
             dbl.execSQL("DELETE FROM login");
-            dbl.execSQL("INSERT INTO login (id, email, password) VALUES (1, '"+usuario.getCorreo()+"', '"+usuario.getPassword()+"')");
+            dbl.execSQL("INSERT INTO login (id, email, password, twitch_token) VALUES (1, '"+usuario.getCorreo()+"', '"+usuario.getPassword()+"', '"+TwitchToken+"')");
             dbl.close();
         } catch (Exception e) {
             e.printStackTrace();
@@ -383,6 +383,32 @@ public class DataBaseManager {
         }
     }
 
+    public static String sqliteTwitchToken(@Nullable Context c) {
+        try {
+            SQLiteDatabase dbl = GetLocalDB(c);
+            Cursor cr = dbl.rawQuery("SELECT twitch_token FROM login WHERE id=1", null);
 
+            if (cr.moveToFirst()) {
+                do {
+                    // Passing values
+                    String twitch_token = cr.getString(0);
+                    System.out.println(twitch_token);
+
+                    cr.close(); // Close the cursor before closing the database
+                    dbl.close(); // Close the database
+
+                    return twitch_token;
+                } while (cr.moveToNext());
+            }
+
+            cr.close(); // Close the cursor before closing the database
+            dbl.close(); // Close the database
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
 
 }

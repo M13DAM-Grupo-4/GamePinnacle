@@ -81,6 +81,7 @@ public class LoginMenu extends Fragment {
         recover(view);
         login(view);
         register(view);
+
     }
 
     private void register(@NonNull View view) {
@@ -141,7 +142,7 @@ public class LoginMenu extends Fragment {
                     Toast.makeText(getActivity(), "Usuario o contraseña incorrectos", Toast.LENGTH_SHORT).show();
                 return;
                 }
-                SaveLoginRemember(getActivity(), usuario);
+                SaveLoginRemember(getActivity(), usuario, CurrentSession.getTwitchToken());
                 CurrentSession.setUsuario(usuario);
                 CurrentSession.UpdateSteamApiKey();
 
