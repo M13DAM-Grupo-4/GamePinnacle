@@ -28,9 +28,12 @@ import android.widget.Toast;
 import com.google.common.hash.HashCode;
 import com.google.common.hash.Hashing;
 
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.concurrent.CompletableFuture;
 
+import m13dam.grupo4.gamepinnacle.BuildConfig;
+import m13dam.grupo4.gamepinnacle.Classes.TwitchApi.TwitchApi;
 import m13dam.grupo4.gamepinnacle.DataBases.DataBaseManager;
 import m13dam.grupo4.gamepinnacle.R;
 import m13dam.grupo4.gamepinnacle.Classes.SteamWebApi.SteamWebApi;
@@ -209,7 +212,7 @@ public class RegisterMenu extends Fragment {
 
                 nuevoUsuario.setId(UserId);
 
-                SaveLoginRemember(getActivity(), nuevoUsuario);
+                SaveLoginRemember(getActivity(), nuevoUsuario, CurrentSession.getTwitchToken());
 
                 CurrentSession.setUsuario(nuevoUsuario);
 

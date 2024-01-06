@@ -7,6 +7,11 @@ import androidx.fragment.app.FragmentManager;
 
 import android.os.Bundle;
 
+import m13dam.grupo4.gamepinnacle.BuildConfig;
+import m13dam.grupo4.gamepinnacle.Classes.Other.CurrentSession;
+import m13dam.grupo4.gamepinnacle.Classes.TwitchApi.GetAccessToken;
+import m13dam.grupo4.gamepinnacle.Classes.TwitchApi.TwitchApi;
+import m13dam.grupo4.gamepinnacle.DataBases.DataBaseManager;
 import m13dam.grupo4.gamepinnacle.Fragments.Menus.AddFriendMenu;
 import m13dam.grupo4.gamepinnacle.Fragments.Menus.FriendListMenu;
 import m13dam.grupo4.gamepinnacle.Fragments.Menus.GameInfo;
@@ -17,6 +22,9 @@ import m13dam.grupo4.gamepinnacle.Fragments.Menus.PerfilUserMenu;
 import m13dam.grupo4.gamepinnacle.Fragments.Menus.RegisterMenu;
 import m13dam.grupo4.gamepinnacle.Fragments.Menus.SettingsMenu;
 import m13dam.grupo4.gamepinnacle.R;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -25,12 +33,50 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        createTwitchToken();
+
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
                 .replace(R.id.main_fragment_container, LoginMenu.class, null)
                 .commit();
 
         backButton();
+
+    }
+
+    private void createTwitchToken() {
+
+        new Thread(() -> {
+
+            if (CurrentSession.getTwitchToken() != null) {
+                return;
+            }
+
+            if (DataBaseManager.sqliteTwitchToken(MainActivity.this) != null){
+                String token = DataBaseManager.sqliteTwitchToken(MainActivity.this);
+                System.out.println("SQLITE TWITCH: " + token);
+                CurrentSession.setTwitchToken(token);
+                return;
+            }
+
+            TwitchApi.getTwitchApiService().getAccessToken(BuildConfig.twitchclientid, BuildConfig.twitchclientsecret, "client_credentials").enqueue(
+                    new Callback<GetAccessToken>() {
+                        @Override
+                        public void onResponse(Call<GetAccessToken> call, Response<GetAccessToken> response) {
+                            if (response.code() == 200){
+                                CurrentSession.setTwitchToken(response.body().getAccessToken());
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<GetAccessToken> call, Throwable t) {
+                            t.printStackTrace();
+                        }
+                    }
+            );
+
+        }).start();
+
     }
 
     private void backButton() {

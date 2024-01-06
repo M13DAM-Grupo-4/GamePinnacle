@@ -8,7 +8,7 @@ import androidx.annotation.Nullable;
 
 public class LocalDatabaseManager extends SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
     private static final String DATABASE_NAME = "local.db";
     private static final String TABLE_LOGIN = "login";
     public LocalDatabaseManager(@Nullable Context context) {
@@ -20,7 +20,8 @@ public class LocalDatabaseManager extends SQLiteOpenHelper {
         db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_LOGIN + " (" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT," +
                 "email varchar NOT NULL," +
-                "password varchar NOT NULL"+
+                "password varchar NOT NULL," +
+                "twitch_token varchar NOT NULL"+
                 ")");
     }
 

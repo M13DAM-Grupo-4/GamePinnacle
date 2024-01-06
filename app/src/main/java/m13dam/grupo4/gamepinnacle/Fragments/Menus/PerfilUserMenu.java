@@ -129,7 +129,6 @@ public class PerfilUserMenu extends Fragment {
         buttonListGames = view.findViewById(R.id.perfil_user_games_button);
         buttonListFriend = view.findViewById(R.id.perfil_user_friends_button);
 
-
         new Thread(() -> {
             int friendListSize = DataBaseManager.getFriendList(CurrentSession.getUsuario().getId()).size();
 
