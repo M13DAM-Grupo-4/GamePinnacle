@@ -207,4 +207,5 @@ public class LoginMenu extends Fragment {
         email_text = view.findViewById(R.id.login_email_text);
     }
 
+
 }

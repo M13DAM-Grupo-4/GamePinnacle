@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import android.os.Bundle;
+import android.os.Handler;
 
 import m13dam.grupo4.gamepinnacle.BuildConfig;
 import m13dam.grupo4.gamepinnacle.Classes.Other.CurrentSession;
@@ -28,6 +29,9 @@ import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
 
+    private boolean backButtonEnabled = true;
+    private boolean backButtonTransitionInProgress = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,13 +45,11 @@ public class MainActivity extends AppCompatActivity {
                 .commit();
 
         backButton();
-
+        disableBackButton();
     }
 
     private void createTwitchToken() {
-
         new Thread(() -> {
-
             if (CurrentSession.getTwitchToken() != null) {
                 return;
             }
@@ -74,55 +76,71 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
             );
-
         }).start();
-
     }
 
     private void backButton() {
         getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
-                Fragment fragContainer = getSupportFragmentManager().findFragmentById(R.id.main_fragment_container);
+                if (backButtonEnabled && !backButtonTransitionInProgress) {
+                    disableBackButton();
+                    backButtonTransitionInProgress = true;
+                    Fragment fragContainer = getSupportFragmentManager().findFragmentById(R.id.main_fragment_container);
 
-                Fragment newFrag = null;
+                    Fragment newFrag = null;
 
-                if (fragContainer == null) {
-                    return;
-                }
+                    if (fragContainer != null) {
+                        if (fragContainer.getClass() == RegisterMenu.class) {
+                            newFrag = new LoginMenu();
+                        }
 
-                if (fragContainer.getClass() == RegisterMenu.class){
-                    newFrag = new LoginMenu();
-                }
+                        if (fragContainer.getClass() == SettingsMenu.class) {
+                            newFrag = new PerfilUserMenu();
+                        }
+                        if (fragContainer.getClass() == FriendListMenu.class) {
+                            newFrag = new PerfilUserMenu();
+                        }
+                        if (fragContainer.getClass() == GameListMenu.class) {
+                            newFrag = new PerfilUserMenu();
+                        }
+                        if (fragContainer.getClass() == PerfilFriendMenu.class) {
+                            newFrag = new FriendListMenu();
+                        }
+                        if (fragContainer.getClass() == GameInfo.class) {
+                            newFrag = new GameListMenu();
+                        }
+                        if (fragContainer.getClass() == AddFriendMenu.class) {
+                            newFrag = new FriendListMenu();
+                        }
+                    }
 
-                if (fragContainer.getClass() == SettingsMenu.class){
-                    newFrag = new PerfilUserMenu();
-                }
-                if (fragContainer.getClass() == FriendListMenu.class){
-                    newFrag = new PerfilUserMenu();
-                }
-                if (fragContainer.getClass() == GameListMenu.class){
-                    newFrag = new PerfilUserMenu();
-                }
-                if (fragContainer.getClass() == PerfilFriendMenu.class){
-                    newFrag = new FriendListMenu();
-                }
-                if (fragContainer.getClass() == GameInfo.class){
-                    newFrag = new GameListMenu();
-                }
-                if (fragContainer.getClass() == AddFriendMenu.class){
-                    newFrag = new FriendListMenu();
-                }
+                    if (newFrag != null) {
+                        FragmentManager fragmentManager = getSupportFragmentManager();
+                        disableBackButton();
+                        fragmentManager.beginTransaction()
+                                .replace(R.id.main_fragment_container, newFrag, null)
+                                .commit();
 
-                if (newFrag != null) {
-                    FragmentManager fragmentManager = getSupportFragmentManager();
-                    fragmentManager.beginTransaction()
-                            .replace(R.id.main_fragment_container, newFrag, null)
-                            .commit();
-                }
+                        new Handler(getMainLooper()).postDelayed(() -> {
+                            enableBackButton();
+                            backButtonTransitionInProgress = false;
+                        }, 2000);
+                    }
 
+
+                }
             }
         });
+    }
+
+    public void disableBackButton() {
+        backButtonEnabled = false;
+    }
+
+    public void enableBackButton() {
+        backButtonEnabled = true;
+        backButtonTransitionInProgress = false; // Restablecer el indicador de transición
     }
 
 }

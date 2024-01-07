@@ -14,10 +14,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ProgressBar;
 
 import java.util.ArrayList;
 import java.util.Objects;
+import java.util.Timer;
+import java.util.TimerTask;
 
+import m13dam.grupo4.gamepinnacle.Activities.MainActivity;
 import m13dam.grupo4.gamepinnacle.Adapters.FilterGamesAdapter;
 import m13dam.grupo4.gamepinnacle.Adapters.FriendsAdapter;
 import m13dam.grupo4.gamepinnacle.Classes.Other.Amigos;
@@ -43,6 +47,8 @@ public class FriendListMenu extends Fragment {
     private String mParam2;
     //ArrayList<Amigos> friendList = new ArrayList<>();
     private Button añadirFriend;
+    private ProgressBar barra;
+    int contador = 2;
 
     public FriendListMenu() {
         // Required empty public constructor
@@ -90,8 +96,11 @@ public class FriendListMenu extends Fragment {
         friendList.add (new Amigos("asdd","asd","asd",1));
         listJuegosAmigos(); */
         System.out.println("Algo paso mu mal");
+        barra = view.findViewById(R.id.barraAmigosLista);
+
 
         añadirFriend = view.findViewById(R.id.añadirAmigo);
+        disableButtons();
 
         añadirFriend.setOnClickListener(v -> {
             FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
@@ -107,8 +116,28 @@ public class FriendListMenu extends Fragment {
 
             requireActivity().runOnUiThread(() -> {
                 mostrarListaDeAmigos(listaDeAmigos);
+                contador-=1;
             });
         }).start();
+
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                if (getActivity() != null) { // Verifica que la actividad no sea nula
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (contador == 1) {
+                                enableButtons();
+                                ((MainActivity) requireActivity()).enableBackButton();
+                                timer.cancel(); // Cancelar el temporizador después de activar los botones
+                            }
+                        }
+                    });
+                }
+            }
+        }, 0, 1000);
 
     }
 
@@ -121,5 +150,22 @@ public class FriendListMenu extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
     }
 
+    private void disableButtons() {
+        barra.setVisibility(View.VISIBLE);
+        añadirFriend.setEnabled(false);
+        ((MainActivity) requireActivity()).disableBackButton();
+
+
+        // Deshabilitar otros botones según sea necesario
+    }
+
+    private void enableButtons() {
+        if (isAdded()) {
+            barra.setVisibility(View.INVISIBLE);
+            añadirFriend.setEnabled(true);
+            ((MainActivity) requireActivity()).enableBackButton();
+        }
+        // Habilitar otros botones según sea necesario
+    }
 
 }
