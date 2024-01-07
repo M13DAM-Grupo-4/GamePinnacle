@@ -16,6 +16,7 @@ import java.util.ArrayList;
 
 import m13dam.grupo4.gamepinnacle.Classes.Other.FilterOption;
 import m13dam.grupo4.gamepinnacle.Classes.SteamWebApi.Games;
+import m13dam.grupo4.gamepinnacle.Fragments.Menus.AddGamesMenu;
 import m13dam.grupo4.gamepinnacle.Fragments.Menus.GameInfo;
 import m13dam.grupo4.gamepinnacle.R;
 
@@ -49,10 +50,10 @@ public class FilterGamesAdapter extends RecyclerView.Adapter<FilterGamesAdapter.
             holder.toggleButton.setTextOff("Añadir Juego");
             holder.toggleButton.setOnClickListener(v -> {
 
-                        GameInfo gameInfoFragment = new GameInfo();
+                        AddGamesMenu addGamesMenu = new AddGamesMenu();
                         FragmentManager fragmentManager = ((AppCompatActivity) v.getContext()).getSupportFragmentManager();
                         fragmentManager.beginTransaction()
-                                .replace(R.id.main_fragment_container, gameInfoFragment)
+                                .replace(R.id.main_fragment_container, addGamesMenu)
                                 .addToBackStack(null)
                                 .commit();
 
