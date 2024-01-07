@@ -14,6 +14,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Handler;
 import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,25 +23,19 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.api.igdb.apicalypse.APICalypse;
-import com.api.igdb.apicalypse.Sort;
-import com.api.igdb.exceptions.RequestException;
-import com.api.igdb.request.IGDBWrapper;
-import com.api.igdb.request.ProtoRequestKt;
-import com.api.igdb.utils.Endpoints;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.concurrent.CountDownLatch;
 
+import m13dam.grupo4.gamepinnacle.Activities.MainActivity;
 import m13dam.grupo4.gamepinnacle.Adapters.RecentlyPlayedGamesAdapter;
-import m13dam.grupo4.gamepinnacle.BuildConfig;
-import m13dam.grupo4.gamepinnacle.Classes.IgdbApi.IgdbApi;
-import m13dam.grupo4.gamepinnacle.Classes.IgdbApi.IgdbGame;
-import m13dam.grupo4.gamepinnacle.Classes.TwitchApi.TwitchApi;
 import m13dam.grupo4.gamepinnacle.DataBases.DataBaseManager;
 import m13dam.grupo4.gamepinnacle.R;
 import m13dam.grupo4.gamepinnacle.Classes.SteamWebApi.SteamWebApi;
@@ -49,9 +44,6 @@ import m13dam.grupo4.gamepinnacle.Classes.SteamWebApi.Games;
 import m13dam.grupo4.gamepinnacle.Classes.SteamWebApi.GetOwnedGamesResponse;
 import m13dam.grupo4.gamepinnacle.Classes.SteamWebApi.GetPlayerSummariesResponse;
 import m13dam.grupo4.gamepinnacle.Classes.SteamWebApi.GetRecentlyPlayedGamesResponse;
-import okhttp3.RequestBody;
-import proto.Game;
-import proto.GameResult;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -83,7 +75,8 @@ public class PerfilUserMenu extends Fragment {
     private Button buttonListFriend;
 
     private ArrayList <Games> listaJuegos = new ArrayList<>();
-
+    private ProgressBar barra;
+    int contador = 4;
 
 
     public PerfilUserMenu() {
@@ -130,8 +123,6 @@ public class PerfilUserMenu extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        tests();
-
         avatarUsuario = view.findViewById(R.id.perfil_user_avatar);
         userMail = view.findViewById(R.id.perfil_user_email);
         userName= view.findViewById(R.id.perfil_user_username);
@@ -144,6 +135,12 @@ public class PerfilUserMenu extends Fragment {
         ajustes = view.findViewById(R.id.prefil_user_settings);
         buttonListGames = view.findViewById(R.id.perfil_user_games_button);
         buttonListFriend = view.findViewById(R.id.perfil_user_friends_button);
+        barra = view.findViewById(R.id.progressBar2);
+
+        disableButtons();
+
+
+
 
         new Thread(() -> {
             int friendListSize = DataBaseManager.getFriendList(CurrentSession.getUsuario().getId()).size();
@@ -151,6 +148,7 @@ public class PerfilUserMenu extends Fragment {
             requireActivity().runOnUiThread(() -> {
                 numberOfFriends.setText(String.valueOf(friendListSize));
             });
+
         }).start();
 
         loginOut.setOnClickListener(v -> {
@@ -221,6 +219,7 @@ public class PerfilUserMenu extends Fragment {
 
                         if (response.body().getRecentGames().getGames() == null) {
                             System.out.println("GetRecentlyPlayedGames is null");
+                            contador-=1;
                             return;
                         }
 
@@ -230,12 +229,14 @@ public class PerfilUserMenu extends Fragment {
 
                         }
                         listaJuegosRecientes();
+                        contador-=1;
                     }
                 }
 
                 @Override
                 public void onFailure(Call<GetRecentlyPlayedGamesResponse> call, Throwable t) {
                     System.out.println(t.getMessage());
+                    contador-=1;
                 }
             });
 
@@ -255,6 +256,7 @@ public class PerfilUserMenu extends Fragment {
 
                         if (response.body().getGetOwnedGames().getGames() == null) {
                             System.out.println("GetOwnedGames is null");
+                            contador-=1;
                             return;
                         }
 
@@ -270,6 +272,7 @@ public class PerfilUserMenu extends Fragment {
                         playedTimeHours = playedTimeCount / 60;
 
                         played_hours.setText(String.valueOf(playedTimeHours));
+                        contador-=1;
 
                     }
                 }
@@ -277,6 +280,7 @@ public class PerfilUserMenu extends Fragment {
                 @Override
                 public void onFailure(Call<GetOwnedGamesResponse> call, Throwable t) {
                     System.out.println(t.getMessage());
+                    contador-=1;
                 }
             });
 
@@ -294,11 +298,13 @@ public class PerfilUserMenu extends Fragment {
 
                         if (response.body().getPlayerSummaries().getPlayers() == null) {
                             System.out.println("GetPlayerSummaries is null");
+                            contador-=1;
                             return;
                         }
 
                         System.out.println(response.body().getPlayerSummaries().getPlayers().get(0).getAvatar());
                         Picasso.get().load(response.body().getPlayerSummaries().getPlayers().get(0).getAvatar()).into(avatarUsuario);
+                        contador-=1;
                     }
 
                 }
@@ -306,8 +312,30 @@ public class PerfilUserMenu extends Fragment {
                 @Override
                 public void onFailure(Call<GetPlayerSummariesResponse> call, Throwable t) {
                     System.out.println(t.getMessage());
+                    contador-=1;
                 }
             });
+
+
+
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                if (getActivity() != null) { // Verifica que la actividad no sea nula
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (contador == 1) {
+                                enableButtons();
+                                ((MainActivity) requireActivity()).enableBackButton();
+                                timer.cancel(); // Cancelar el temporizador después de activar los botones
+                            }
+                        }
+                    });
+                }
+            }
+        }, 0, 1000);
 
         }
 
@@ -320,23 +348,26 @@ public class PerfilUserMenu extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
     }
 
-    private void tests() {
-
-        new Thread(() -> {
-            try {
-                IGDBWrapper wrapper = IGDBWrapper.INSTANCE;
-                wrapper.setCredentials(BuildConfig.twitchclientid, CurrentSession.getTwitchToken());
-
-                APICalypse apicalypse = new APICalypse().fields("*, websites.*").search("ARK").limit(5);
-                List<Game> games = ProtoRequestKt.games(wrapper, apicalypse);
-
-                for (Game g : games) {
-                    System.out.println(g.getId() + " " + g.getName() + " " + g.getWebsites(0).getUrl());
-                }
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }).start();
+    private void disableButtons() {
+        barra.setVisibility(View.VISIBLE);
+        buttonListGames.setEnabled(false);
+        buttonListFriend.setEnabled(false);
+        loginOut.setEnabled(false);
+        ajustes.setEnabled(false);
+        ((MainActivity) requireActivity()).disableBackButton();
+        // Deshabilitar otros botones según sea necesario
     }
-}
+
+    private void enableButtons() {
+        if (isAdded()) {
+            barra.setVisibility(View.INVISIBLE);
+            buttonListGames.setEnabled(true);
+            buttonListFriend.setEnabled(true);
+            loginOut.setEnabled(true);
+            ajustes.setEnabled(true);
+            ((MainActivity) requireActivity()).enableBackButton();
+            // Habilitar otros botones según sea necesario
+        }
+    }
+
+    }

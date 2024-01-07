@@ -7,42 +7,54 @@
     tools:context=".Fragments.Menus.GameListMenu"
     android:background="@color/black">
 
+    <ProgressBar
+        android:id="@+id/barraAmigosLista"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="308dp"
+        android:layout_height="395dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <ImageView
+        android:id="@+id/imageView2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/login_background"
+        android:alpha="0.15"
         android:scaleType="centerCrop"
-        android:alpha="0.15"/>
+        android:src="@drawable/login_background" />
 
     <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="@dimen/_280sdp"
         android:layout_height="@dimen/_500sdp"
-        app:layout_constraintTop_toTopOf="parent"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:orientation="vertical">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <Button
             android:id="@+id/añadirAmigo"
             android:layout_width="@dimen/_280sdp"
             android:layout_height="@dimen/_50sdp"
             android:background="@drawable/juegos_recientes_button_bg"
-            android:text="Añadir amigo"
-            android:textColor="@color/white"
             android:fontFamily="@font/roboto_medium"
-            android:textSize="@dimen/_16ssp"
-            android:textAllCaps="false"/>
+            android:text="Añadir amigo"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_16ssp" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id ="@+id/recicleFriendsList"
+            android:id="@+id/recicleFriendsList"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="@dimen/_20sdp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="@dimen/_20sdp"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </LinearLayout>
 
