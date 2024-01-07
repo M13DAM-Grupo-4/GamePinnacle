@@ -24,12 +24,23 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.api.igdb.apicalypse.APICalypse;
+import com.api.igdb.apicalypse.Sort;
+import com.api.igdb.exceptions.RequestException;
+import com.api.igdb.request.IGDBWrapper;
+import com.api.igdb.request.ProtoRequestKt;
+import com.api.igdb.utils.Endpoints;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import m13dam.grupo4.gamepinnacle.Adapters.RecentlyPlayedGamesAdapter;
+import m13dam.grupo4.gamepinnacle.BuildConfig;
+import m13dam.grupo4.gamepinnacle.Classes.IgdbApi.IgdbApi;
+import m13dam.grupo4.gamepinnacle.Classes.IgdbApi.IgdbGame;
+import m13dam.grupo4.gamepinnacle.Classes.TwitchApi.TwitchApi;
 import m13dam.grupo4.gamepinnacle.DataBases.DataBaseManager;
 import m13dam.grupo4.gamepinnacle.R;
 import m13dam.grupo4.gamepinnacle.Classes.SteamWebApi.SteamWebApi;
@@ -38,6 +49,9 @@ import m13dam.grupo4.gamepinnacle.Classes.SteamWebApi.Games;
 import m13dam.grupo4.gamepinnacle.Classes.SteamWebApi.GetOwnedGamesResponse;
 import m13dam.grupo4.gamepinnacle.Classes.SteamWebApi.GetPlayerSummariesResponse;
 import m13dam.grupo4.gamepinnacle.Classes.SteamWebApi.GetRecentlyPlayedGamesResponse;
+import okhttp3.RequestBody;
+import proto.Game;
+import proto.GameResult;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -115,6 +129,8 @@ public class PerfilUserMenu extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        tests();
 
         avatarUsuario = view.findViewById(R.id.perfil_user_avatar);
         userMail = view.findViewById(R.id.perfil_user_email);
@@ -302,5 +318,25 @@ public class PerfilUserMenu extends Fragment {
 
         recyclerView.setAdapter(recycleview_jvm);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+    }
+
+    private void tests() {
+
+        new Thread(() -> {
+            try {
+                IGDBWrapper wrapper = IGDBWrapper.INSTANCE;
+                wrapper.setCredentials(BuildConfig.twitchclientid, CurrentSession.getTwitchToken());
+
+                APICalypse apicalypse = new APICalypse().fields("*, websites.*").search("ARK").limit(5);
+                List<Game> games = ProtoRequestKt.games(wrapper, apicalypse);
+
+                for (Game g : games) {
+                    System.out.println(g.getId() + " " + g.getName() + " " + g.getWebsites(0).getUrl());
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }).start();
     }
 }
