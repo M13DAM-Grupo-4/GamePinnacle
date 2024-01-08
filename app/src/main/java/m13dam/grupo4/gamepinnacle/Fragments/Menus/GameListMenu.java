@@ -12,10 +12,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ProgressBar;
 
 import java.util.ArrayList;
 import java.util.Objects;
+import java.util.Timer;
+import java.util.TimerTask;
 
+import m13dam.grupo4.gamepinnacle.Activities.MainActivity;
 import m13dam.grupo4.gamepinnacle.Adapters.FilterGamesAdapter;
 import m13dam.grupo4.gamepinnacle.Adapters.RecentlyPlayedGamesAdapter;
 import m13dam.grupo4.gamepinnacle.Classes.Other.CurrentSession;
@@ -44,7 +48,8 @@ public class GameListMenu extends Fragment {
     private String mParam1;
     private String mParam2;
     private ArrayList<Games> listaJuegos = new ArrayList<>();
-    private Button addGame;
+    private ProgressBar barra;
+    int contador = 2;
 
     public GameListMenu() {
         // Required empty public constructor
@@ -88,6 +93,9 @@ public class GameListMenu extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        barra = view.findViewById(R.id.progressBar3);
+        disableButtons();
+
         SteamWebApi.getSteamWebApiService().getOwnedGamesByUser(
                 CurrentSession.getSteamApiKey(),
                 CurrentSession.getUsuario().getSteamid(),
@@ -112,6 +120,7 @@ public class GameListMenu extends Fragment {
 
                     }
                     listJuegosSteam();
+                    contador-=1;
                 }
 
                 listFiltros();
@@ -120,12 +129,35 @@ public class GameListMenu extends Fragment {
             @Override
             public void onFailure(Call<GetOwnedGamesResponse> call, Throwable t) {
                 System.out.println(t.getMessage());
+                contador-=1;
             }
         });
 
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                if (getActivity() != null) { // Verifica que la actividad no sea nula
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (contador == 1) {
+                                enableButtons();
+
+                                timer.cancel(); // Cancelar el temporizador después de activar los botones
+                            }
+                        }
+                    });
+                }
+            }
+        }, 0, 1000);
     }
 
-    private void listJuegosSteam () {
+    private void listJuegosSteam() {
+        if (!isAdded()) {
+            return;
+        }
+
         RecentlyPlayedGamesAdapter recycleview_jvm = new RecentlyPlayedGamesAdapter(getActivity(), listaJuegos, "all");
 
         RecyclerView recyclerView = requireActivity().findViewById(R.id.reciclePrueba);
@@ -150,5 +182,21 @@ public class GameListMenu extends Fragment {
         FilterGamesAdapter adapter = new FilterGamesAdapter(getActivity(), opts);
 
         recyclerView.setAdapter(adapter);
+    }
+
+    private void disableButtons() {
+        barra.setVisibility(View.VISIBLE);
+
+        ((MainActivity) requireActivity()).disableBackButton();
+        // Deshabilitar otros botones según sea necesario
+    }
+
+    private void enableButtons() {
+        if (isAdded()) {
+            barra.setVisibility(View.INVISIBLE);
+
+            ((MainActivity) requireActivity()).enableBackButton();
+            // Habilitar otros botones según sea necesario
+        }
     }
 }
