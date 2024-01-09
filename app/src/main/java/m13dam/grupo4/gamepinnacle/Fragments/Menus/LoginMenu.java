@@ -192,7 +192,11 @@ public class LoginMenu extends Fragment {
 
                 if (id > 0){
                     DataBaseManager.ActualizarContraseña(id, encPassword);
-                    new MailManager(BuildConfig.mailusername, BuildConfig.mailpassword, email_text.getText().toString(), "GamePinnacle - Contraseña", "Esta es tu nueva contraseña: " + newPassword).execute();
+                    try {
+                        new MailManager(BuildConfig.mailusername, BuildConfig.mailpassword, email_text.getText().toString(), "GamePinnacle - Contraseña", "Esta es tu nueva contraseña: " + newPassword).execute();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                     getActivity().runOnUiThread(() -> {
                         Toast.makeText(getActivity(), "Se ha enviado tu nueva contraseña al correo.", Toast.LENGTH_SHORT).show();
                     });
