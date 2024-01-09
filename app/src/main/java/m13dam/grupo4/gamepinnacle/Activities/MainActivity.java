@@ -10,6 +10,7 @@ import android.os.Handler;
 
 import m13dam.grupo4.gamepinnacle.BuildConfig;
 import m13dam.grupo4.gamepinnacle.Classes.Other.CurrentSession;
+import m13dam.grupo4.gamepinnacle.Classes.Other.MailManager;
 import m13dam.grupo4.gamepinnacle.Classes.TwitchApi.GetAccessToken;
 import m13dam.grupo4.gamepinnacle.Classes.TwitchApi.TwitchApi;
 import m13dam.grupo4.gamepinnacle.DataBases.DataBaseManager;
@@ -47,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
 
         backButton();
         disableBackButton();
+
     }
 
     private void createTwitchToken() {
