@@ -13,7 +13,9 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.api.igdb.apicalypse.APICalypse;
@@ -24,7 +26,10 @@ import com.api.igdb.request.ProtoRequestKt;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
+import m13dam.grupo4.gamepinnacle.Activities.MainActivity;
 import m13dam.grupo4.gamepinnacle.Adapters.AddGameListAdapter;
 import m13dam.grupo4.gamepinnacle.Adapters.RecentlyPlayedGamesAdapter;
 import m13dam.grupo4.gamepinnacle.BuildConfig;
@@ -35,6 +40,9 @@ import m13dam.grupo4.gamepinnacle.R;
 import proto.Game;
 
 public class AddGamesMenu extends Fragment {
+    int contador = 2;
+    private ProgressBar barra;
+    private Button añadir;
 
     public AddGamesMenu() {
         // Required empty public constructor
@@ -67,8 +75,10 @@ public class AddGamesMenu extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         List<Juego> juegos = new ArrayList<>();
-
+        barra = view.findViewById(R.id.barraJuegoLista);
+        añadir = view.findViewById(R.id.añadirJuego_button);
         // Get Data
+        disableButtons();
 
         Thread getData = new Thread(() -> {
 
@@ -82,9 +92,11 @@ public class AddGamesMenu extends Fragment {
                 for (Game g : games) {
                     juegos.add(new Juego(1, g.getName(), g.getSummary(), "https:" + g.getCover().getUrl()));
                 }
+                contador-=1;
 
             } catch (Exception e) {
                 e.printStackTrace();
+                contador-=1;
             }
 
         });
@@ -96,7 +108,7 @@ public class AddGamesMenu extends Fragment {
             try {
                 getData.join();
 
-                if (juegos.size() < 1){
+                if (juegos.size() < 1) {
                     return;
                 }
 
@@ -161,5 +173,41 @@ public class AddGamesMenu extends Fragment {
             }
         }).start();
 
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                if (getActivity() != null) { // Verifica que la actividad no sea nula
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (contador == 1) {
+                                enableButtons();
+                                timer.cancel(); // Cancelar el temporizador después de activar los botones
+                            }
+                        }
+                    });
+                }
+            }
+        }, 0, 1000);
+
+    }
+
+    private void disableButtons() {
+        barra.setVisibility(View.VISIBLE);
+        añadir.setEnabled(false);
+
+        ((MainActivity) requireActivity()).disableBackButton();
+        // Deshabilitar otros botones según sea necesario
+    }
+
+    private void enableButtons() {
+        if (isAdded()) {
+            barra.setVisibility(View.INVISIBLE);
+            añadir.setEnabled(true);
+
+            ((MainActivity) requireActivity()).enableBackButton();
+            // Habilitar otros botones según sea necesario
+        }
     }
 }

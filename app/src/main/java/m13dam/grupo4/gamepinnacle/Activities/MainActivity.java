@@ -129,7 +129,6 @@ public class MainActivity extends AppCompatActivity {
 
                         new Handler(getMainLooper()).postDelayed(() -> {
                             enableBackButton();
-                            backButtonTransitionInProgress = false;
                         }, 2000);
                     }
 

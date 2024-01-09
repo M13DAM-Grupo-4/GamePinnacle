@@ -130,7 +130,6 @@ public class FriendListMenu extends Fragment {
                         public void run() {
                             if (contador == 1) {
                                 enableButtons();
-                                ((MainActivity) requireActivity()).enableBackButton();
                                 timer.cancel(); // Cancelar el temporizador después de activar los botones
                             }
                         }

@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import android.os.Looper;
+import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -73,9 +74,15 @@ public class AddFriendMenu extends Fragment {
                 Toast.makeText(getActivity(), "Complete todos los campos", Toast.LENGTH_SHORT).show();
                 return;
             }
-            Amigos amigo = new Amigos (friendName.getText().toString(),friendSurname1.getText().toString(),friendSurname2.getText().toString(),imageFriend.getText().toString());
+            String imageUrl = imageFriend.getText().toString();
+            if (!isValidImageUrl(imageUrl)) {
+                Toast.makeText(getActivity(), "La URL de la imagen no es válida", Toast.LENGTH_SHORT).show();
+                return;
+            }
 
-            new Thread(()-> {
+            Amigos amigo = new Amigos(friendName.getText().toString(), friendSurname1.getText().toString(), friendSurname2.getText().toString(), imageUrl);
+
+            new Thread(() -> {
                 Looper.prepare();
 
                 DataBaseManager.RegistrarAmigo(amigo, CurrentSession.getUsuario().getId());
@@ -84,9 +91,14 @@ public class AddFriendMenu extends Fragment {
                 fragmentManager.beginTransaction()
                         .replace(R.id.main_fragment_container, FriendListMenu.class, null)
                         .commit();
-
             }).start();
         });
 
+    }
+
+    private boolean isValidImageUrl(String url) {
+
+        String imageUrlPattern = "^(https?://pbs\\.twimg\\.com/media/.*\\.jpg|https?://.*\\.(jpg|jpeg|png|gif))$";
+        return Patterns.WEB_URL.matcher(url).matches() && url.matches(imageUrlPattern);
     }
 }

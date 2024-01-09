@@ -313,6 +313,7 @@ public class DataBaseManager {
     }
 
     public static int RegistrarPartida(PlayedGamesFriends playedGamesFriends){
+
         try{
             Connection c = CreateConnection();
             PreparedStatement stmt = c.prepareStatement("INSERT INTO public.user_interactions (user_id, friend_id, " +
