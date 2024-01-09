@@ -10,11 +10,25 @@ public class Juego {
 
     private String Imagen;
 
+    private int Año;
+
     public Juego(int id, String nombre, String descripcion, String imagen) {
         Id = id;
         Nombre = nombre;
         Descripcion = descripcion;
         Imagen = imagen;
+    }
+
+    public Juego(int id, String nombre, String descripcion, String imagen, int año) {
+        Id = id;
+        Nombre = nombre;
+        Descripcion = descripcion;
+        Imagen = imagen;
+        Año = año;
+    }
+
+    public int getAño() {
+        return Año;
     }
 
     public int getId() {

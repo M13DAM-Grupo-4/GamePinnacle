@@ -9,8 +9,12 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
+import m13dam.grupo4.gamepinnacle.Classes.Other.Juego;
 import m13dam.grupo4.gamepinnacle.R;
 
 /**
@@ -20,34 +24,18 @@ import m13dam.grupo4.gamepinnacle.R;
  */
 public class GameInfo extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private Juego juego;
 
     public GameInfo() {
-        // Required empty public constructor
+
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment GameInfo.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static GameInfo newInstance(String param1, String param2) {
+    public void setGame(Juego juego){
+        this.juego = juego;
+    }
+
+    public static GameInfo newInstance(String param1) {
         GameInfo fragment = new GameInfo();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
         return fragment;
     }
 
@@ -55,8 +43,7 @@ public class GameInfo extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+
         }
     }
 
@@ -74,13 +61,13 @@ public class GameInfo extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        Bundle arguments = getArguments();
-        if (arguments != null && arguments.containsKey("gameId")) {
-            String gameId = arguments.getString("gameId");
-            // Utilizar la información del juego según sea necesario
-            // Por ejemplo, puedes mostrar el gameId en un TextView
-            TextView gameIdTextView = view.findViewById(R.id.textprueba);
-            gameIdTextView.setText("Game ID: " + gameId);
-        }
+        ImageView photo = view.findViewById(R.id.game_info_photo);
+        TextView nombre = view.findViewById(R.id.game_info_nombre);
+        TextView description = view.findViewById(R.id.game_info_desciption);
+
+        Picasso.get().load(juego.getImagen()).into(photo);
+        nombre.setText(juego.getNombre());
+        description.setText(juego.getDescripcion());
+
     }
 }

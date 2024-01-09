@@ -15,13 +15,20 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.api.igdb.apicalypse.APICalypse;
+import com.api.igdb.request.IGDBWrapper;
+import com.api.igdb.request.ProtoRequestKt;
 import com.squareup.picasso.Picasso;
 
 import java.lang.reflect.Array;
+import java.security.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
+import m13dam.grupo4.gamepinnacle.BuildConfig;
 import m13dam.grupo4.gamepinnacle.Classes.Other.CurrentSession;
+import m13dam.grupo4.gamepinnacle.Classes.Other.Juego;
 import m13dam.grupo4.gamepinnacle.Classes.SteamWebApi.Archievement;
 import m13dam.grupo4.gamepinnacle.Classes.SteamWebApi.GetPlayerAchievements;
 import m13dam.grupo4.gamepinnacle.Classes.SteamWebApi.GetPlayerAchievementsResponse;
@@ -31,6 +38,7 @@ import m13dam.grupo4.gamepinnacle.Fragments.Menus.GameInfo;
 import m13dam.grupo4.gamepinnacle.Fragments.Menus.GameListMenu;
 import m13dam.grupo4.gamepinnacle.R;
 import m13dam.grupo4.gamepinnacle.Classes.SteamWebApi.Games;
+import proto.Game;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -81,13 +89,32 @@ public class RecentlyPlayedGamesAdapter extends RecyclerView.Adapter<RecentlyPla
                     bundle.putString("gameId", selectedGame.getAppid());
 
                     GameInfo gameInfoFragment = new GameInfo();
-                    gameInfoFragment.setArguments(bundle);
 
-                    FragmentManager fragmentManager = ((AppCompatActivity) v.getContext()).getSupportFragmentManager();
-                    fragmentManager.beginTransaction()
-                            .replace(R.id.main_fragment_container, gameInfoFragment)
-                            .addToBackStack(null)
-                            .commit();
+                    new Thread(() -> {
+
+                        try {
+                            IGDBWrapper wrapper = IGDBWrapper.INSTANCE;
+                            wrapper.setCredentials(BuildConfig.twitchclientid, CurrentSession.getTwitchToken());
+
+                            APICalypse apicalypse = new APICalypse().fields("*, websites.*, cover.*").search(selectedGame.getName()).limit(1);
+                            List<Game> games = ProtoRequestKt.games(wrapper, apicalypse);
+                            gameInfoFragment.setGame(new Juego((int)games.get(0).getId(), games.get(0).getName(), games.get(0).getSummary(), "https:"+games.get(0).getCover().getUrl()));
+                        } catch (Exception e){
+                            e.printStackTrace();
+                        }
+
+
+                        gameInfoFragment.setArguments(bundle);
+
+                        FragmentManager fragmentManager = ((AppCompatActivity) v.getContext()).getSupportFragmentManager();
+                        fragmentManager.beginTransaction()
+                                .replace(R.id.main_fragment_container, gameInfoFragment)
+                                .addToBackStack(null)
+                                .commit();
+
+                    }).start();
+
+
                 }
             });
 
