@@ -98,6 +98,9 @@ public class RecentlyPlayedGamesAdapter extends RecyclerView.Adapter<RecentlyPla
 
                             APICalypse apicalypse = new APICalypse().fields("*, websites.*, cover.*").search(selectedGame.getName()).limit(1);
                             List<Game> games = ProtoRequestKt.games(wrapper, apicalypse);
+                            if (games.size() < 1) {
+                                return;
+                            }
                             gameInfoFragment.setGame(new Juego((int)games.get(0).getId(), games.get(0).getName(), games.get(0).getSummary(), "https:"+games.get(0).getCover().getUrl()));
                         } catch (Exception e){
                             e.printStackTrace();
