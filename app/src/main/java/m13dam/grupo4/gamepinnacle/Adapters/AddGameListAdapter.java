@@ -1,20 +1,28 @@
 package m13dam.grupo4.gamepinnacle.Adapters;
 
 import android.content.Context;
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+import m13dam.grupo4.gamepinnacle.Classes.Other.Amigos;
 import m13dam.grupo4.gamepinnacle.Classes.Other.Juego;
+import m13dam.grupo4.gamepinnacle.DataBases.DataBaseManager;
+import m13dam.grupo4.gamepinnacle.Fragments.Menus.FriendListMenu;
+import m13dam.grupo4.gamepinnacle.Fragments.Menus.GameListMenu;
 import m13dam.grupo4.gamepinnacle.R;
 
 public class AddGameListAdapter extends RecyclerView.Adapter<AddGameListAdapter.ViewHolder> {
@@ -66,6 +74,31 @@ public class AddGameListAdapter extends RecyclerView.Adapter<AddGameListAdapter.
             nombre = itemView.findViewById(R.id.add_game_name);
             descripcion = itemView.findViewById(R.id.add_game_description);
             imagen = itemView.findViewById(R.id.add_game_image);
+
+            imagen.setOnClickListener(v -> {
+                int position = getAdapterPosition();
+                if (position != RecyclerView.NO_POSITION) {
+
+                    Juego selectedGame = juegos.get(position);
+                    new Thread(() ->{
+                        Looper.prepare();
+
+                        if (DataBaseManager.listaJuegosRegistrados(selectedGame.getNombre())<0) {
+                            DataBaseManager.RegistrarJuego(selectedGame);
+
+                            FragmentManager fragmentManager = ((AppCompatActivity) v.getContext()).getSupportFragmentManager();
+                            fragmentManager.beginTransaction()
+                                    .replace(R.id.main_fragment_container, GameListMenu.class, null)
+                                    .commit();
+                        }else {
+                            Toast.makeText(context, "El juego ya esta registrado", Toast.LENGTH_SHORT).show();
+                        }
+
+                    }).start();
+
+
+                }
+            });
 
         }
     }

@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,9 +25,11 @@ import m13dam.grupo4.gamepinnacle.Adapters.FilterGamesAdapter;
 import m13dam.grupo4.gamepinnacle.Adapters.RecentlyPlayedGamesAdapter;
 import m13dam.grupo4.gamepinnacle.Classes.Other.CurrentSession;
 import m13dam.grupo4.gamepinnacle.Classes.Other.FilterOption;
+import m13dam.grupo4.gamepinnacle.Classes.Other.Juego;
 import m13dam.grupo4.gamepinnacle.Classes.SteamWebApi.Games;
 import m13dam.grupo4.gamepinnacle.Classes.SteamWebApi.GetOwnedGamesResponse;
 import m13dam.grupo4.gamepinnacle.Classes.SteamWebApi.SteamWebApi;
+import m13dam.grupo4.gamepinnacle.DataBases.DataBaseManager;
 import m13dam.grupo4.gamepinnacle.R;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -50,6 +53,7 @@ public class GameListMenu extends Fragment {
     private ArrayList<Games> listaJuegos = new ArrayList<>();
     private ProgressBar barra;
     int contador = 2;
+    private ArrayList<Juego>ListaIGDB = new ArrayList<>();
 
     public GameListMenu() {
         // Required empty public constructor
@@ -132,6 +136,14 @@ public class GameListMenu extends Fragment {
                 contador-=1;
             }
         });
+
+
+        new Thread(() -> {
+            Looper.prepare();
+
+            ListaIGDB = DataBaseManager.listaJuegosIGDB();
+
+        }).start();
 
         Timer timer = new Timer();
         timer.schedule(new TimerTask() {

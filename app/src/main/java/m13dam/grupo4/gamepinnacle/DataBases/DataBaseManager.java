@@ -19,6 +19,7 @@ import java.util.Properties;
 import m13dam.grupo4.gamepinnacle.BuildConfig;
 import m13dam.grupo4.gamepinnacle.Classes.Other.Amigos;
 import m13dam.grupo4.gamepinnacle.Classes.Other.CurrentSession;
+import m13dam.grupo4.gamepinnacle.Classes.Other.Juego;
 import m13dam.grupo4.gamepinnacle.Classes.Other.PlayedGamesFriends;
 import m13dam.grupo4.gamepinnacle.Classes.Other.Usuario;
 
@@ -236,6 +237,72 @@ public class DataBaseManager {
 
         return -1;
     }
+    public static int listaJuegosRegistrados (String nombre) {
+
+        try {
+            Connection c = CreateConnection();
+            PreparedStatement stmt = c.prepareStatement("SELECT id FROM public.games WHERE name=? and id_user=?");
+            stmt.setString(1, nombre);
+            stmt.setInt(2,CurrentSession.getUsuario().getId());
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()){
+                return rs.getInt("id");
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return -1;
+    }
+    public static ArrayList<Juego> listaJuegosIGDB () {
+        ArrayList<Juego> listaJuego = new ArrayList<>();
+        try {
+            Connection c = CreateConnection();
+            PreparedStatement stmt = c.prepareStatement("SELECT id, name, horas, imagen FROM public.games WHERE id_user=?");
+            stmt.setInt(1,CurrentSession.getUsuario().getId());
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()){
+                Juego juego = new Juego (rs.getInt("id"),rs.getString("name"),rs.getString("horas"), rs.getString("imagen"));
+                listaJuego.add(juego);
+                return listaJuego;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+    public static int RegistrarJuego(Juego juego){
+        try{
+            Connection c = CreateConnection();
+            PreparedStatement stmt = c.prepareStatement("INSERT INTO public.games (id, name, " +
+                    "horas, id_user, imagen) VALUES" +
+                    "(?,?,?,?,?) RETURNING id");
+            stmt.setInt(1, juego.getId());
+            stmt.setString(2, juego.getNombre());
+            stmt.setString(3, horasTotalesPartidas(juego.getId()));
+            stmt.setInt(4,CurrentSession.getUsuario().getId());
+            stmt.setString(5,juego.getImagen());
+
+            ResultSet rs = stmt.executeQuery();
+
+            while(rs.next()) {
+                return rs.getInt("id");
+            }
+
+            stmt.close();
+            c.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return -1;
+    }
 
     public static int actualizarNombreUsuario(String nuevoNombre) {
         try {
@@ -340,6 +407,30 @@ public class DataBaseManager {
 
             System.out.println("Algo paso 2");
             return listaGames;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+    public static String horasTotalesPartidas (int juegoId) {
+        System.out.println("Algo paso normal");
+        int horas = 0;
+        try {
+            Connection c = CreateConnection();
+            PreparedStatement stmt0 = c.prepareStatement("SELECT played_time FROM public.user_interactions  WHERE game_id = ?");
+            stmt0.setInt(1, juegoId);
+            ResultSet rs = stmt0.executeQuery();
+            System.out.println("Algo paso 1");
+
+            while (rs.next()){
+                 horas += Integer.parseInt(rs.getString("played_time"));
+
+            }
+
+            System.out.println("Algo paso 2");
+            return String.valueOf(horas);
 
         } catch (Exception e) {
             e.printStackTrace();

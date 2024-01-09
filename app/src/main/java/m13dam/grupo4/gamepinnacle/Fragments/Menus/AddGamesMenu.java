@@ -42,7 +42,7 @@ import proto.Game;
 public class AddGamesMenu extends Fragment {
     int contador = 2;
     private ProgressBar barra;
-    private Button añadir;
+
 
     public AddGamesMenu() {
         // Required empty public constructor
@@ -76,7 +76,7 @@ public class AddGamesMenu extends Fragment {
 
         List<Juego> juegos = new ArrayList<>();
         barra = view.findViewById(R.id.barraJuegoLista);
-        añadir = view.findViewById(R.id.añadirJuego_button);
+
         // Get Data
         disableButtons();
 
@@ -195,7 +195,7 @@ public class AddGamesMenu extends Fragment {
 
     private void disableButtons() {
         barra.setVisibility(View.VISIBLE);
-        añadir.setEnabled(false);
+
 
         ((MainActivity) requireActivity()).disableBackButton();
         // Deshabilitar otros botones según sea necesario
@@ -204,7 +204,7 @@ public class AddGamesMenu extends Fragment {
     private void enableButtons() {
         if (isAdded()) {
             barra.setVisibility(View.INVISIBLE);
-            añadir.setEnabled(true);
+
 
             ((MainActivity) requireActivity()).enableBackButton();
             // Habilitar otros botones según sea necesario

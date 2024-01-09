@@ -11,6 +11,8 @@ public class Juego {
     private String Imagen;
 
     private int Año;
+    private String horas;
+
 
     public Juego(int id, String nombre, String descripcion, String imagen) {
         Id = id;
