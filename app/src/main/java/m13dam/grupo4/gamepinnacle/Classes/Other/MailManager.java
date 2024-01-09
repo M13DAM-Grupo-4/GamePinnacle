@@ -3,6 +3,8 @@ package m13dam.grupo4.gamepinnacle.Classes.Other;
 
 import android.os.AsyncTask;
 import android.util.Log;
+
+import java.io.UnsupportedEncodingException;
 import java.util.Properties;
 import javax.mail.Authenticator;
 import javax.mail.Message;
@@ -52,6 +54,9 @@ public class MailManager extends AsyncTask<Void, Void, Boolean> {
             mimeMessage.setRecipients(Message.RecipientType.TO, InternetAddress.parse(recipient));
             mimeMessage.setSubject(subject);
             mimeMessage.setText(message);
+            InternetAddress recipientAddress = new InternetAddress(recipient);
+            recipientAddress.setPersonal("Game Pinnacle"); // Set the recipient's name
+            mimeMessage.setRecipient(Message.RecipientType.TO, recipientAddress);
 
             Transport.send(mimeMessage);
 
@@ -59,6 +64,8 @@ public class MailManager extends AsyncTask<Void, Void, Boolean> {
         } catch (MessagingException e) {
             Log.e("SendMailTask", "Error sending email", e);
             return false;
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
         }
     }
 

@@ -14,6 +14,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
+import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,7 +30,10 @@ import android.widget.Toast;
 import com.google.common.hash.Hashing;
 
 import java.nio.charset.StandardCharsets;
+import java.security.SecureRandom;
 
+import m13dam.grupo4.gamepinnacle.BuildConfig;
+import m13dam.grupo4.gamepinnacle.Classes.Other.MailManager;
 import m13dam.grupo4.gamepinnacle.Classes.Other.Usuario;
 import m13dam.grupo4.gamepinnacle.DataBases.DataBaseManager;
 import m13dam.grupo4.gamepinnacle.R;
@@ -152,6 +156,10 @@ public class LoginMenu extends Fragment {
 
     }
 
+    private boolean isValidEmail(String email) {
+        return Patterns.EMAIL_ADDRESS.matcher(email).matches();
+    }
+
     private void recover(@NonNull View view) {
         // Recover
         recover = view.findViewById(R.id.login_recover_button);
@@ -159,8 +167,39 @@ public class LoginMenu extends Fragment {
             Animation anim = AnimationUtils.loadAnimation(getActivity(), R.anim.blink);
             recover.startAnimation(anim);
 
-            // TODO
-            System.out.println("TODO: Recover");
+            if (!isValidEmail(email_text.getText().toString())){
+                Toast.makeText(getActivity(), "Correo no valido.", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            String ALLOWED_CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+            StringBuilder password = new StringBuilder();
+            SecureRandom random = new SecureRandom();
+
+            for (int i = 0; i < 8; i++) {
+                int randomIndex = random.nextInt(ALLOWED_CHARACTERS.length());
+                char randomChar = ALLOWED_CHARACTERS.charAt(randomIndex);
+                password.append(randomChar);
+            }
+
+            String newPassword = password.toString();
+            String encPassword = Hashing.sha256().hashString(newPassword, StandardCharsets.UTF_8).toString();
+
+            new Thread(() -> {
+
+                int id = DataBaseManager.getIdFromMail(email_text.getText().toString());
+
+                if (id > 0){
+                    DataBaseManager.ActualizarContraseña(id, encPassword);
+                    new MailManager(BuildConfig.mailusername, BuildConfig.mailpassword, email_text.getText().toString(), "GamePinnacle - Contraseña", "Esta es tu nueva contraseña: " + newPassword).execute();
+                    getActivity().runOnUiThread(() -> {
+                        Toast.makeText(getActivity(), "Se ha enviado tu nueva contraseña al correo.", Toast.LENGTH_SHORT).show();
+                    });
+                }
+
+            }).start();
+
         });
     }
 

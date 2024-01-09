@@ -142,6 +142,23 @@ public class DataBaseManager {
         return false;
     }
 
+    public static int getIdFromMail(String mail){
+        try {
+            Connection c = CreateConnection();
+            PreparedStatement stmt = c.prepareStatement("SELECT id FROM public.users WHERE email=?");
+            stmt.setString(1, mail);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()){
+                return rs.getInt("id");
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return -1;
+    }
+
 
     public static SQLiteDatabase GetLocalDB(@Nullable Context c){
         return new LocalDatabaseManager(c).getWritableDatabase();
@@ -173,6 +190,25 @@ public class DataBaseManager {
 
         return -1;
     }
+
+    public static int ActualizarContraseña(int id, String nuevaContraseña){
+        try {
+            Connection c = CreateConnection();
+            PreparedStatement stmt = c.prepareStatement("UPDATE public.users SET password=?");
+            stmt.setString(1, nuevaContraseña);
+
+            stmt.executeUpdate();
+
+            stmt.close();
+            c.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return -1;
+    }
+
     public static int RegistrarAmigo(Amigos amigo, int id){
         try{
             Connection c = CreateConnection();
