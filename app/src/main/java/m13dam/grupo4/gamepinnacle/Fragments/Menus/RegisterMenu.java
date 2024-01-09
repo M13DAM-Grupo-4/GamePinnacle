@@ -32,6 +32,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.concurrent.CompletableFuture;
 
+import m13dam.grupo4.gamepinnacle.Activities.MainActivity;
 import m13dam.grupo4.gamepinnacle.BuildConfig;
 import m13dam.grupo4.gamepinnacle.Classes.TwitchApi.TwitchApi;
 import m13dam.grupo4.gamepinnacle.DataBases.DataBaseManager;
@@ -124,6 +125,7 @@ public class RegisterMenu extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        enableButtons();
 
         register_menu_ui = getActivity().findViewById(R.id.register_menu_ui);
         register_menu_title = getActivity().findViewById(R.id.register_menu_title);
@@ -191,12 +193,12 @@ public class RegisterMenu extends Fragment {
                     return;
                 }
 
-                if (!isSteamIdValid(steamId)) {
-                    Toast.makeText(getActivity(), "El SteamID no es valido", Toast.LENGTH_SHORT).show();
+                if (!isSteamApiKeyValid(steamApiKey)) {
+                    Toast.makeText(getActivity(), "El SteamApiKey no es valido", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
-                if (!isSteamApiKeyValid(steamApiKey)) {
+                if (!isSteamIdValid(steamId, steamApiKey)) {
                     Toast.makeText(getActivity(), "El SteamID no es valido", Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -208,13 +210,16 @@ public class RegisterMenu extends Fragment {
 
                 Usuario nuevoUsuario = new Usuario(-1, email, user, passOneHash.toString(), steamId);
 
-                int UserId = DataBaseManager.RegistarUsuario(nuevoUsuario);
+                int UserId = DataBaseManager.RegistarUsuario(nuevoUsuario, steamApiKey);
+
+                CurrentSession.setUsuario(nuevoUsuario);
+                CurrentSession.setSteamApiKey(steamApiKey);
 
                 nuevoUsuario.setId(UserId);
 
                 SaveLoginRemember(getActivity(), nuevoUsuario, CurrentSession.getTwitchToken());
 
-                CurrentSession.setUsuario(nuevoUsuario);
+
 
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 fragmentManager.beginTransaction()
@@ -247,14 +252,14 @@ public class RegisterMenu extends Fragment {
         return password1.equals(password2);
     }
 
-    private boolean isSteamIdValid(String SteamID){
+    private boolean isSteamIdValid(String SteamID, String SteamAPIKey){
 
         if (SteamID.length() != 17) {
             return false;
         }
 
         try {
-            Response<GetPlayerSummariesResponse> res = SteamWebApi.getSteamWebApiService().getPlayerSummaries(CurrentSession.getSteamApiKey(), SteamID, "json").execute();
+            Response<GetPlayerSummariesResponse> res = SteamWebApi.getSteamWebApiService().getPlayerSummaries(SteamAPIKey, SteamID, "json").execute();
 
             if (res.code() != 200){
                 return false;
@@ -275,7 +280,7 @@ public class RegisterMenu extends Fragment {
     private boolean isSteamApiKeyValid(String SteamApiKey) {
 
         if (SteamApiKey.length() == 32) {
-            return false;
+            return true;
         }
 
         try {
@@ -327,5 +332,11 @@ public class RegisterMenu extends Fragment {
 
         return future;
     }
+    private void enableButtons() {
+        if (isAdded()) {
 
+            ((MainActivity) requireActivity()).enableBackButton();
+        }
+        // Habilitar otros botones según sea necesario
+    }
 }
