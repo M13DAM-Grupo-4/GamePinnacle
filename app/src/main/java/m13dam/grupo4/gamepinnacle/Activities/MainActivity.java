@@ -7,6 +7,7 @@ import androidx.fragment.app.FragmentManager;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.View;
 
 import m13dam.grupo4.gamepinnacle.BuildConfig;
 import m13dam.grupo4.gamepinnacle.Classes.Other.CurrentSession;
@@ -97,7 +98,6 @@ public class MainActivity extends AppCompatActivity {
                         if (fragContainer.getClass() == RegisterMenu.class) {
                             newFrag = new LoginMenu();
                         }
-
                         if (fragContainer.getClass() == SettingsMenu.class) {
                             newFrag = new PerfilUserMenu();
                         }
@@ -148,5 +148,7 @@ public class MainActivity extends AppCompatActivity {
         backButtonEnabled = true;
         backButtonTransitionInProgress = false; // Restablecer el indicador de transición
     }
+
+
 
 }

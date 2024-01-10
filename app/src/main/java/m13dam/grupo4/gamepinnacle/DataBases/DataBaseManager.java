@@ -165,16 +165,17 @@ public class DataBaseManager {
         return new LocalDatabaseManager(c).getWritableDatabase();
     }
 
-    public static int RegistarUsuario(Usuario usuario){
+    public static int RegistarUsuario(Usuario usuario, String steamApiKey){
         try {
             Connection c = CreateConnection();
             PreparedStatement stmt = c.prepareStatement("INSERT INTO public.users (email, username, " +
-                    "password, steamid) VALUES" +
-                    "(?,?,?,?) RETURNING id");
+                    "password, steamid, steamapikey) VALUES" +
+                    "(?,?,?,?,?) RETURNING id");
             stmt.setString(1, usuario.getCorreo());
             stmt.setString(2, usuario.getUsuario());
             stmt.setString(3, usuario.getPassword());
             stmt.setString(4, usuario.getSteamid());
+            stmt.setString(5, steamApiKey);
 
             ResultSet rs = stmt.executeQuery();
 
