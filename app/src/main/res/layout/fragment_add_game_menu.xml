@@ -91,19 +91,6 @@
             android:layout_height="@dimen/_300sdp"
             android:layout_marginTop="@dimen/_20sdp"/>
 
-        <Button
-            android:id="@+id/añadirJuego_button"
-            android:layout_width="@dimen/_150sdp"
-            android:layout_height="@dimen/_50sdp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="@dimen/_20sdp"
-            android:gravity="center"
-            android:text="Añadir"
-            android:textSize="@dimen/_16ssp"
-            android:fontFamily="@font/roboto_medium"
-            android:textColor="@color/white"
-            android:background="@drawable/blue_button"/>
-
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
