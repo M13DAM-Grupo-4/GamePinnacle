@@ -356,14 +356,7 @@ public class PerfilUserMenu extends Fragment {
         RecentlyPlayedGamesAdapter recycleview_jvm = new RecentlyPlayedGamesAdapter(getActivity(), new ArrayList<>(), "2weeks");
         RecentlyPlayedGamesAdapter.listaJuegosSteam = listaJuegos;
 
-        // TEST
-
-        ArrayList<Juego> jSteam = RecentlyPlayedGamesAdapter.listaJuegosSteam;
-        ArrayList<Juego> jIgdb = RecentlyPlayedGamesAdapter.listaJuegosIgdb;
-
-        ArrayList<Juego> juegosTotales = (ArrayList<Juego>) Stream.concat(jIgdb.stream(), jSteam.stream()).collect(Collectors.toList());
-
-        RecentlyPlayedGamesAdapter.listaJuegos = juegosTotales;
+        RecentlyPlayedGamesAdapter.listaJuegos = RecentlyPlayedGamesAdapter.listaJuegosSteam;
 
         //
 
