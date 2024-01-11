@@ -34,13 +34,22 @@
             android:background="@drawable/profile_background"
             android:orientation="horizontal">
 
-            <ImageView
-                android:id="@+id/game_info_photo"
-                android:layout_width="@dimen/_80sdp"
-                android:layout_height="@dimen/_80sdp"
+            <androidx.cardview.widget.CardView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="4dp"
                 android:layout_gravity="center_vertical"
-                android:layout_marginStart="@dimen/_10sdp"
-                android:src="@drawable/na"/>
+                android:layout_marginStart="@dimen/_10sdp">
+
+                <ImageView
+                    android:id="@+id/game_info_photo"
+                    android:layout_width="@dimen/_80sdp"
+                    android:layout_height="@dimen/_80sdp"
+                    android:src="@drawable/na"/>
+            </androidx.cardview.widget.CardView>
+
+
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -83,7 +92,8 @@
                     android:layout_height="match_parent"
                     android:layout_margin="@dimen/_10sdp"
                     android:fontFamily="@font/roboto_medium"
-                    android:textSize="@dimen/_12ssp"/>
+                    android:textSize="@dimen/_12ssp"
+                    android:textColor="@color/text"/>
 
 
             </LinearLayout>

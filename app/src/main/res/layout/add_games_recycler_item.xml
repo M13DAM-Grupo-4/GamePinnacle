@@ -8,6 +8,7 @@
     android:orientation="horizontal">
 
     <LinearLayout
+        android:id="@+id/add_game_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -17,11 +18,20 @@
         android:orientation="horizontal"
         android:gravity="center_vertical">
 
-        <ImageView
-            android:id="@+id/add_game_image"
-            android:layout_width="@dimen/_60sdp"
-            android:layout_height="@dimen/_60sdp"
-            android:src="@drawable/na"/>
+        <androidx.cardview.widget.CardView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="4dp"
+            android:layout_gravity="center_vertical">
+
+            <ImageView
+                android:id="@+id/add_game_image"
+                android:layout_width="@dimen/_60sdp"
+                android:layout_height="@dimen/_60sdp"/>
+        </androidx.cardview.widget.CardView>
+
+
 
         <LinearLayout
             android:layout_width="@dimen/_220sdp"

@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -67,6 +68,7 @@ public class AddGameListAdapter extends RecyclerView.Adapter<AddGameListAdapter.
 
         TextView nombre, descripcion;
         ImageView imagen;
+        LinearLayout container;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -74,8 +76,9 @@ public class AddGameListAdapter extends RecyclerView.Adapter<AddGameListAdapter.
             nombre = itemView.findViewById(R.id.add_game_name);
             descripcion = itemView.findViewById(R.id.add_game_description);
             imagen = itemView.findViewById(R.id.add_game_image);
+            container = itemView.findViewById(R.id.add_game_container);
 
-            imagen.setOnClickListener(v -> {
+            container.setOnClickListener(v -> {
                 int position = getAdapterPosition();
                 if (position != RecyclerView.NO_POSITION) {
 
