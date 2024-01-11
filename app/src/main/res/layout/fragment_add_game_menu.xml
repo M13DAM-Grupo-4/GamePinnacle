@@ -67,7 +67,7 @@
 
             <EditText
                 android:id="@+id/add_games_input"
-                android:layout_width="@dimen/_145sdp"
+                android:layout_width="@dimen/_175sdp"
                 android:layout_height="match_parent"
                 android:layout_marginStart="@dimen/_5sdp"
                 android:layout_marginEnd="@dimen/_5sdp"
@@ -79,9 +79,6 @@
                 android:inputType="textEmailAddress"
                 android:autofillHints="emailAddress" />
 
-            <Button
-                android:layout_width="@dimen/_35sdp"
-                android:layout_height="@dimen/_35sdp"/>
 
         </LinearLayout>
 
