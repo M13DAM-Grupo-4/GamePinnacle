@@ -141,15 +141,52 @@ public class RecentlyPlayedGamesAdapter extends RecyclerView.Adapter<RecentlyPla
             return;
         }
 
-        if (juego.getIgdbID() != 0){
-            showIdDbGame(holder, juego);
-            return;
-        }
+        showIdDbGame(holder, juego);
 
     }
 
     private void showIdDbGame(ViewHolder holder, Juego juego) {
+        new Thread(() -> {
 
+            String coverUrl = "";
+
+            try {
+                IGDBWrapper wrapper = IGDBWrapper.INSTANCE;
+                wrapper.setCredentials(BuildConfig.twitchclientid, CurrentSession.getTwitchToken());
+
+                APICalypse apicalypse = new APICalypse().fields("*, websites.*, cover.*").search(juego.getNombre()).limit(1);
+                List<Game> games = ProtoRequestKt.games(wrapper, apicalypse);
+                if (games.size() > 0) {
+                    coverUrl = "https:" + games.get(0).getCover().getUrl();
+                }
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+
+            String finalCoverUrl = coverUrl;
+            new Handler(Looper.getMainLooper()).post(new Runnable() {
+                @Override
+                public void run() {
+                    Picasso.get().load(finalCoverUrl).into(holder.imagenJuego);
+                    holder.nJuego.setText(juego.getNombre());
+
+                    if(test.equals("all")){
+                        holder.hJuego.setText(String.valueOf(juego.getPlayTime()));
+                    }
+                }
+            });
+
+            new Handler(Looper.getMainLooper()).post(new Runnable() {
+                @Override
+                public void run() {
+                    holder.imagenJuego.setAlpha(1f);
+                    holder.nJuego.setAlpha(1f);
+                    holder.hJuego.setAlpha(1f);
+                    holder.horasJugadasText.setAlpha(1f);
+                }
+            });
+
+        }).start();
     }
 
     public void showSteamGame(ViewHolder holder, Juego juego){
