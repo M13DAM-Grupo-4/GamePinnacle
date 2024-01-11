@@ -28,14 +28,21 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import org.checkerframework.checker.units.qual.A;
+
 import java.util.ArrayList;
+
+import java.util.List;
 import java.util.Objects;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.CountDownLatch;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import m13dam.grupo4.gamepinnacle.Activities.MainActivity;
 import m13dam.grupo4.gamepinnacle.Adapters.RecentlyPlayedGamesAdapter;
+import m13dam.grupo4.gamepinnacle.Classes.Other.Juego;
 import m13dam.grupo4.gamepinnacle.DataBases.DataBaseManager;
 import m13dam.grupo4.gamepinnacle.R;
 import m13dam.grupo4.gamepinnacle.Classes.SteamWebApi.SteamWebApi;
@@ -74,7 +81,7 @@ public class PerfilUserMenu extends Fragment {
     private Button buttonListGames;
     private Button buttonListFriend;
 
-    private ArrayList <Games> listaJuegos = new ArrayList<>();
+    private ArrayList <Juego> listaJuegos = new ArrayList<>();
     private ProgressBar barra;
     int contador = 4;
 
@@ -225,7 +232,14 @@ public class PerfilUserMenu extends Fragment {
 
                         for (Games g : response.body().getRecentGames().getGames()) {
 
-                            listaJuegos.add(g);
+                            Juego j = new Juego();
+                            j.setNombre(g.getName());
+                            j.setSteamID(Integer.valueOf(g.getAppid()));
+                            j.setImagen(g.getImg_icon_url());
+                            j.setPlayTime2Weeks(Integer.parseInt(g.getPlaytime_2weeks_on_hours()));
+                            j.setSteamImagen("https://media.steampowered.com/steamcommunity/public/images/apps/"+g.getAppid()+"/"+g.getImg_icon_url()+".jpg");
+
+                            listaJuegos.add(j);
 
                         }
                         listaJuegosRecientes();
@@ -339,7 +353,19 @@ public class PerfilUserMenu extends Fragment {
         }
 
     private void listaJuegosRecientes () {
-        RecentlyPlayedGamesAdapter recycleview_jvm = new RecentlyPlayedGamesAdapter(getActivity(), listaJuegos, "2weeks");
+        RecentlyPlayedGamesAdapter recycleview_jvm = new RecentlyPlayedGamesAdapter(getActivity(), new ArrayList<>(), "2weeks");
+        RecentlyPlayedGamesAdapter.listaJuegosSteam = listaJuegos;
+
+        // TEST
+
+        ArrayList<Juego> jSteam = RecentlyPlayedGamesAdapter.listaJuegosSteam;
+        ArrayList<Juego> jIgdb = RecentlyPlayedGamesAdapter.listaJuegosIgdb;
+
+        ArrayList<Juego> juegosTotales = (ArrayList<Juego>) Stream.concat(jIgdb.stream(), jSteam.stream()).collect(Collectors.toList());
+
+        RecentlyPlayedGamesAdapter.listaJuegos = juegosTotales;
+
+        //
 
         RecyclerView recyclerView = getActivity().findViewById(R.id.perfil_user_lista_juegos_recientes_recycler);
 

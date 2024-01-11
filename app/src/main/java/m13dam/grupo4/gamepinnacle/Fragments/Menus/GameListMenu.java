@@ -15,6 +15,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ProgressBar;
 
+import org.checkerframework.checker.units.qual.A;
+
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Timer;
@@ -50,7 +52,7 @@ public class GameListMenu extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-    private ArrayList<Games> listaJuegos = new ArrayList<>();
+    private ArrayList<Juego> listaJuegos = new ArrayList<>();
     private ProgressBar barra;
     int contador = 2;
     private ArrayList<Juego>ListaIGDB = new ArrayList<>();
@@ -120,14 +122,19 @@ public class GameListMenu extends Fragment {
 
                     for (Games g : response.body().getGetOwnedGames().getGames()) {
 
-                        listaJuegos.add(g);
+                        Juego j = new Juego(-1, g.getName(), "", g.getImg_icon_url());
+                        j.setSteamID(Integer.valueOf(g.getAppid()));
+                        j.setPlayTime(Integer.valueOf(g.getPlaytime_forever_on_hours()));
+                        j.setSteamImagen("https://media.steampowered.com/steamcommunity/public/images/apps/"+g.getAppid()+"/"+g.getImg_icon_url()+".jpg");
+
+                        listaJuegos.add(j);
 
                     }
                     listJuegosSteam();
                     contador-=1;
                 }
 
-                listFiltros();
+
             }
 
             @Override
@@ -170,7 +177,10 @@ public class GameListMenu extends Fragment {
             return;
         }
 
-        RecentlyPlayedGamesAdapter recycleview_jvm = new RecentlyPlayedGamesAdapter(getActivity(), listaJuegos, "all");
+        RecentlyPlayedGamesAdapter recycleview_jvm = new RecentlyPlayedGamesAdapter(getActivity(), new ArrayList<>(), "all");
+        RecentlyPlayedGamesAdapter.listaJuegosSteam = listaJuegos;
+
+        listFiltros();
 
         RecyclerView recyclerView = requireActivity().findViewById(R.id.reciclePrueba);
 
@@ -186,12 +196,12 @@ public class GameListMenu extends Fragment {
 
         RecyclerView recyclerView = requireView().findViewById(R.id.reciclerFilters);
 
-        // Use a LinearLayoutManager with horizontal orientation
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
 
         FilterGamesAdapter adapter = new FilterGamesAdapter(getActivity(), opts);
+        FilterGamesAdapter.view = this.getView();
 
         recyclerView.setAdapter(adapter);
     }

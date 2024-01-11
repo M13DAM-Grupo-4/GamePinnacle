@@ -34,7 +34,7 @@ public class GameInfo extends Fragment {
         this.juego = juego;
     }
 
-    public static GameInfo newInstance(String param1) {
+    public static GameInfo newInstance() {
         GameInfo fragment = new GameInfo();
         return fragment;
     }
@@ -50,11 +50,7 @@ public class GameInfo extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_game_info, container, false);
-
-
-
     }
 
     @Override

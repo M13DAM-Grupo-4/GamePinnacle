@@ -3,6 +3,8 @@ package m13dam.grupo4.gamepinnacle.Adapters;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.api.igdb.apicalypse.APICalypse;
 import com.api.igdb.request.IGDBWrapper;
 import com.api.igdb.request.ProtoRequestKt;
+import com.google.common.collect.BoundType;
 import com.squareup.picasso.Picasso;
 
 import java.lang.reflect.Array;
@@ -45,11 +48,13 @@ import retrofit2.Response;
 
 public class RecentlyPlayedGamesAdapter extends RecyclerView.Adapter<RecentlyPlayedGamesAdapter.ViewHolder> {
     private Context mContext_jvm;
-    private static ArrayList<Games> listaJuegos;
+    public static ArrayList<Juego> listaJuegos = new ArrayList<>();
+    public static ArrayList<Juego> listaJuegosSteam = new ArrayList<>();
+    public static ArrayList<Juego> listaJuegosIgdb = new ArrayList<>();
     private String test;
 
 
-    public RecentlyPlayedGamesAdapter(Context context, ArrayList<Games>listaJuegos, String test) {
+    public RecentlyPlayedGamesAdapter(Context context, ArrayList<Juego>listaJuegos, String test) {
         this.mContext_jvm = context;
         this.listaJuegos = listaJuegos;
         this.test = test;
@@ -83,10 +88,7 @@ public class RecentlyPlayedGamesAdapter extends RecyclerView.Adapter<RecentlyPla
                 int position = getAdapterPosition();
                 if (position != RecyclerView.NO_POSITION) {
 
-                    Games selectedGame = listaJuegos.get(position);
-
-                    Bundle bundle = new Bundle();
-                    bundle.putString("gameId", selectedGame.getAppid());
+                    Juego selectedGame = listaJuegos.get(position);
 
                     GameInfo gameInfoFragment = new GameInfo();
 
@@ -96,7 +98,7 @@ public class RecentlyPlayedGamesAdapter extends RecyclerView.Adapter<RecentlyPla
                             IGDBWrapper wrapper = IGDBWrapper.INSTANCE;
                             wrapper.setCredentials(BuildConfig.twitchclientid, CurrentSession.getTwitchToken());
 
-                            APICalypse apicalypse = new APICalypse().fields("*, websites.*, cover.*").search(selectedGame.getName()).limit(1);
+                            APICalypse apicalypse = new APICalypse().fields("*, websites.*, cover.*").search(selectedGame.getNombre()).limit(1);
                             List<Game> games = ProtoRequestKt.games(wrapper, apicalypse);
                             if (games.size() < 1) {
                                 return;
@@ -105,9 +107,6 @@ public class RecentlyPlayedGamesAdapter extends RecyclerView.Adapter<RecentlyPla
                         } catch (Exception e){
                             e.printStackTrace();
                         }
-
-
-                        gameInfoFragment.setArguments(bundle);
 
                         FragmentManager fragmentManager = ((AppCompatActivity) v.getContext()).getSupportFragmentManager();
                         fragmentManager.beginTransaction()
@@ -135,68 +134,124 @@ public class RecentlyPlayedGamesAdapter extends RecyclerView.Adapter<RecentlyPla
     @SuppressLint("ResourceType")
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Games juego = listaJuegos.get(position);
+        Juego juego = listaJuegos.get(position);
 
-        Picasso.get().load("https://media.steampowered.com/steamcommunity/public/images/apps/" +  juego.getAppid() + "/" +  juego.getImg_icon_url() +  ".jpg").into(holder.imagenJuego);
-        holder.nJuego.setText(juego.getName());
-
-        if(test.equals("all")){
-            holder.hJuego.setText(juego.getPlaytime_forever_on_hours());
-        }
-        if(test.equals("2weeks")){
-            holder.hJuego.setText(juego.getPlaytime_2weeks_on_hours());
+        if (juego.getSteamID() != 0){
+            showSteamGame(holder, juego);
+            return;
         }
 
-        SteamWebApi.getSteamWebApiService().getPlayerAchievements(
-                CurrentSession.getSteamApiKey(),
-                CurrentSession.getUsuario().getSteamid(),
-                juego.getAppid(),
-                "spanish",
-                "json"
-        ).enqueue(new Callback<GetPlayerAchievementsResponse>() {
-            @Override
-            public void onResponse(Call<GetPlayerAchievementsResponse> call, Response<GetPlayerAchievementsResponse> response) {
-                System.out.println(call.request());
+        if (juego.getIgdbID() != 0){
+            showIdDbGame(holder, juego);
+            return;
+        }
 
-                if (response.code() == 200) {
+    }
 
-                    List<Archievement> archievements = response.body().getPlayerAchievements().getArchivements();
+    private void showIdDbGame(ViewHolder holder, Juego juego) {
 
-                    if (archievements == null) {
-                        return;
+    }
+
+    public void showSteamGame(ViewHolder holder, Juego juego){
+
+        new Thread(() -> {
+
+            String coverUrl = juego.getSteamImagen();
+
+            try {
+                IGDBWrapper wrapper = IGDBWrapper.INSTANCE;
+                wrapper.setCredentials(BuildConfig.twitchclientid, CurrentSession.getTwitchToken());
+
+                APICalypse apicalypse = new APICalypse().fields("*, websites.*, cover.*").search(juego.getNombre()).limit(1);
+                List<Game> games = ProtoRequestKt.games(wrapper, apicalypse);
+                if (games.size() > 0) {
+                    coverUrl = "https:" + games.get(0).getCover().getUrl();
+                }
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+
+            String finalCoverUrl = coverUrl;
+            new Handler(Looper.getMainLooper()).post(new Runnable() {
+                @Override
+                public void run() {
+                    Picasso.get().load(finalCoverUrl).into(holder.imagenJuego);
+                    holder.nJuego.setText(juego.getNombre());
+
+                    if(test.equals("all")){
+                        holder.hJuego.setText(String.valueOf(juego.getPlayTime()));
                     }
+                    if(test.equals("2weeks")){
+                        holder.hJuego.setText(String.valueOf(juego.getPlayTime2Weeks()));
+                    }
+                }
+            });
 
+            SteamWebApi.getSteamWebApiService().getPlayerAchievements(
+                    CurrentSession.getSteamApiKey(),
+                    CurrentSession.getUsuario().getSteamid(),
+                    String.valueOf(juego.getSteamID()),
+                    "spanish",
+                    "json"
+            ).enqueue(new Callback<GetPlayerAchievementsResponse>() {
+                @Override
+                public void onResponse(Call<GetPlayerAchievementsResponse> call, Response<GetPlayerAchievementsResponse> response) {
+                    System.out.println(call.request());
 
+                    if (response.code() == 200) {
 
-                    int NumberOfArchivements = archievements.size();
-                    int ArchivementsCompleted = 0;
+                        List<Archievement> archievements = response.body().getPlayerAchievements().getArchivements();
 
-                    for (Archievement a : archievements) {
-                        if (a.getAchieved() == 1){
-                            ArchivementsCompleted++;
+                        if (archievements == null) {
+                            return;
                         }
+
+
+
+                        int NumberOfArchivements = archievements.size();
+                        int ArchivementsCompleted = 0;
+
+                        for (Archievement a : archievements) {
+                            if (a.getAchieved() == 1){
+                                ArchivementsCompleted++;
+                            }
+                        }
+
+                        int finalArchivementsCompleted = ArchivementsCompleted;
+                        new Handler(Looper.getMainLooper()).post(new Runnable() {
+                            @Override
+                            public void run() {
+                                holder.archivementPorgress.setMax(NumberOfArchivements);
+                                holder.archivementPorgress.setProgress(finalArchivementsCompleted, true);
+                                holder.archivementText.setText(finalArchivementsCompleted + "/" + NumberOfArchivements);
+
+                                holder.archivementPorgress.setAlpha(1f);
+                                holder.archivementText.setAlpha(1f);
+                            }
+                        });
+
+
                     }
 
-                    holder.archivementPorgress.setMax(NumberOfArchivements);
-                    holder.archivementPorgress.setProgress(ArchivementsCompleted, true);
-                    holder.archivementText.setText(ArchivementsCompleted + "/" + NumberOfArchivements);
+                    new Handler(Looper.getMainLooper()).post(new Runnable() {
+                        @Override
+                        public void run() {
+                            holder.imagenJuego.setAlpha(1f);
+                            holder.nJuego.setAlpha(1f);
+                            holder.hJuego.setAlpha(1f);
+                            holder.horasJugadasText.setAlpha(1f);
+                        }
+                    });
 
-                    holder.archivementPorgress.setAlpha(1f);
-                    holder.archivementText.setAlpha(1f);
                 }
 
-                holder.imagenJuego.setAlpha(1f);
-                holder.nJuego.setAlpha(1f);
-                holder.hJuego.setAlpha(1f);
-                holder.horasJugadasText.setAlpha(1f);
-            }
+                @Override
+                public void onFailure(Call<GetPlayerAchievementsResponse> call, Throwable t) {
+                    t.printStackTrace();
+                }
+            });
 
-            @Override
-            public void onFailure(Call<GetPlayerAchievementsResponse> call, Throwable t) {
-                t.printStackTrace();
-            }
-        });
-
+        }).start();
     }
 
     @Override

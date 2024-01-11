@@ -13,6 +13,19 @@ public class Juego {
     private int Año;
     private String horas;
 
+    private int playTime;
+
+    private int playTime2Weeks;
+
+    private int steamID;
+
+    private int igdbID;
+
+    private String steamImagen;
+
+    public Juego(){
+
+    }
 
     public Juego(int id, String nombre, String descripcion, String imagen) {
         Id = id;
@@ -29,23 +42,91 @@ public class Juego {
         Año = año;
     }
 
-    public int getAño() {
-        return Año;
-    }
-
     public int getId() {
         return Id;
+    }
+
+    public void setId(int id) {
+        Id = id;
     }
 
     public String getNombre() {
         return Nombre;
     }
 
+    public void setNombre(String nombre) {
+        Nombre = nombre;
+    }
+
     public String getDescripcion() {
         return Descripcion;
     }
 
+    public void setDescripcion(String descripcion) {
+        Descripcion = descripcion;
+    }
+
     public String getImagen() {
         return Imagen;
+    }
+
+    public void setImagen(String imagen) {
+        Imagen = imagen;
+    }
+
+    public int getAño() {
+        return Año;
+    }
+
+    public void setAño(int año) {
+        Año = año;
+    }
+
+    public String getHoras() {
+        return horas;
+    }
+
+    public void setHoras(String horas) {
+        this.horas = horas;
+    }
+
+    public int getPlayTime() {
+        return playTime;
+    }
+
+    public void setPlayTime(int playTime) {
+        this.playTime = playTime;
+    }
+
+    public int getPlayTime2Weeks() {
+        return playTime2Weeks;
+    }
+
+    public void setPlayTime2Weeks(int playTime2Weeks) {
+        this.playTime2Weeks = playTime2Weeks;
+    }
+
+    public int getSteamID() {
+        return steamID;
+    }
+
+    public void setSteamID(int steamID) {
+        this.steamID = steamID;
+    }
+
+    public int getIgdbID() {
+        return igdbID;
+    }
+
+    public void setIgdbID(int igdbID) {
+        this.igdbID = igdbID;
+    }
+
+    public String getSteamImagen() {
+        return steamImagen;
+    }
+
+    public void setSteamImagen(String steamImagen) {
+        this.steamImagen = steamImagen;
     }
 }
