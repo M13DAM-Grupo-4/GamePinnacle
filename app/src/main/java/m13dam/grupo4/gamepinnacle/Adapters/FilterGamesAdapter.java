@@ -71,7 +71,7 @@ public class FilterGamesAdapter extends RecyclerView.Adapter<FilterGamesAdapter.
 
             holder.toggleButton.setTextOn(filterOptions.get(position).getName()+": ON");
             holder.toggleButton.setTextOff(filterOptions.get(position).getName()+": OFF");
-            holder.toggleButton.setChecked(holder.checked);
+            holder.toggleButton.setChecked(steamFilter);
 
             holder.toggleButton.setOnClickListener(v -> {
                 steamFilter = holder.toggleButton.isChecked();
@@ -84,7 +84,7 @@ public class FilterGamesAdapter extends RecyclerView.Adapter<FilterGamesAdapter.
 
             holder.toggleButton.setTextOn(filterOptions.get(position).getName()+": ON");
             holder.toggleButton.setTextOff(filterOptions.get(position).getName()+": OFF");
-            holder.toggleButton.setChecked(holder.checked);
+            holder.toggleButton.setChecked(igdbFilter);
 
             holder.toggleButton.setOnClickListener(v -> {
                 igdbFilter = holder.toggleButton.isChecked();
