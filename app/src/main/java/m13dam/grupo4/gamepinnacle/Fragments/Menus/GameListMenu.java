@@ -149,6 +149,7 @@ public class GameListMenu extends Fragment {
             Looper.prepare();
 
             ListaIGDB = DataBaseManager.listaJuegosIGDB();
+            RecentlyPlayedGamesAdapter.listaJuegosIgdb = ListaIGDB;
 
         }).start();
 
