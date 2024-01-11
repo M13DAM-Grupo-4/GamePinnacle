@@ -130,7 +130,23 @@ public class GameListMenu extends Fragment {
                         listaJuegos.add(j);
 
                     }
-                    listJuegosSteam();
+
+
+                    new Thread(() -> {
+
+                        ListaIGDB = DataBaseManager.listaJuegosIGDB();
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+
+
+                                RecentlyPlayedGamesAdapter.listaJuegosIgdb = ListaIGDB;
+                                listJuegosSteam();
+                            }
+                        });
+
+                    }).start();
+
                     contador-=1;
                 }
 
@@ -145,13 +161,7 @@ public class GameListMenu extends Fragment {
         });
 
 
-        new Thread(() -> {
-            Looper.prepare();
 
-            ListaIGDB = DataBaseManager.listaJuegosIGDB();
-            RecentlyPlayedGamesAdapter.listaJuegosIgdb = ListaIGDB;
-
-        }).start();
 
         Timer timer = new Timer();
         timer.schedule(new TimerTask() {

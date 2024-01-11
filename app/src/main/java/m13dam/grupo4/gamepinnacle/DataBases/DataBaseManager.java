@@ -265,11 +265,12 @@ public class DataBaseManager {
             stmt.setInt(1,CurrentSession.getUsuario().getId());
             ResultSet rs = stmt.executeQuery();
 
-            if (rs.next()){
+            while (rs.next()){
                 Juego juego = new Juego (rs.getInt("id"),rs.getString("name"),rs.getString("horas"), rs.getString("imagen"));
                 listaJuego.add(juego);
-                return listaJuego;
+
             }
+            return listaJuego;
 
         } catch (Exception e) {
             e.printStackTrace();
