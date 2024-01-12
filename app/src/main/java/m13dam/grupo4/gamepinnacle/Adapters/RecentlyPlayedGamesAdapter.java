@@ -37,6 +37,7 @@ import m13dam.grupo4.gamepinnacle.Classes.SteamWebApi.GetPlayerAchievements;
 import m13dam.grupo4.gamepinnacle.Classes.SteamWebApi.GetPlayerAchievementsResponse;
 import m13dam.grupo4.gamepinnacle.Classes.SteamWebApi.GetPlayerSummariesResponse;
 import m13dam.grupo4.gamepinnacle.Classes.SteamWebApi.SteamWebApi;
+import m13dam.grupo4.gamepinnacle.DataBases.DataBaseManager;
 import m13dam.grupo4.gamepinnacle.Fragments.Menus.GameInfo;
 import m13dam.grupo4.gamepinnacle.Fragments.Menus.GameListMenu;
 import m13dam.grupo4.gamepinnacle.R;
@@ -52,7 +53,7 @@ public class RecentlyPlayedGamesAdapter extends RecyclerView.Adapter<RecentlyPla
     public static ArrayList<Juego> listaJuegosSteam = new ArrayList<>();
     public static ArrayList<Juego> listaJuegosIgdb = new ArrayList<>();
     private String test;
-
+    private static boolean isDatabaseOperationInProgress = false;
 
     public RecentlyPlayedGamesAdapter(Context context, ArrayList<Juego>listaJuegos, String test) {
         this.mContext_jvm = context;
@@ -86,7 +87,9 @@ public class RecentlyPlayedGamesAdapter extends RecyclerView.Adapter<RecentlyPla
 
             itemView.setOnClickListener(v ->  {
                 int position = getAdapterPosition();
-                if (position != RecyclerView.NO_POSITION) {
+                if (position != RecyclerView.NO_POSITION && !isDatabaseOperationInProgress) {
+
+                    isDatabaseOperationInProgress = true;
 
                     Juego selectedGame = listaJuegos.get(position);
 
@@ -107,12 +110,17 @@ public class RecentlyPlayedGamesAdapter extends RecyclerView.Adapter<RecentlyPla
                         } catch (Exception e){
                             e.printStackTrace();
                         }
+                        if (DataBaseManager.listaJuegosRegistrados(selectedGame.getNombre()) != 1){
+                                DataBaseManager.RegistrarJuego(new Juego (1,selectedGame.getNombre(),"Steam",""));
+                        }
 
                         FragmentManager fragmentManager = ((AppCompatActivity) v.getContext()).getSupportFragmentManager();
                         fragmentManager.beginTransaction()
                                 .replace(R.id.main_fragment_container, gameInfoFragment)
                                 .addToBackStack(null)
                                 .commit();
+
+                        isDatabaseOperationInProgress = false;
 
                     }).start();
 

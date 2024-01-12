@@ -261,7 +261,7 @@ public class DataBaseManager {
         ArrayList<Juego> listaJuego = new ArrayList<>();
         try {
             Connection c = CreateConnection();
-            PreparedStatement stmt = c.prepareStatement("SELECT id, name, horas, imagen FROM public.games WHERE id_user=?");
+            PreparedStatement stmt = c.prepareStatement("SELECT id, name, horas, imagen FROM public.games WHERE id_user=? AND imagen IS NOT NULL AND imagen <> ''");
             stmt.setInt(1,CurrentSession.getUsuario().getId());
             ResultSet rs = stmt.executeQuery();
 

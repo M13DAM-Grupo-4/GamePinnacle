@@ -30,7 +30,7 @@ public class AddGameListAdapter extends RecyclerView.Adapter<AddGameListAdapter.
 
     private Context context;
     private List<Juego> juegos;
-
+    private boolean isLoading = false;
 
 
     public AddGameListAdapter(Context context, List<Juego> juegos) {
@@ -57,6 +57,7 @@ public class AddGameListAdapter extends RecyclerView.Adapter<AddGameListAdapter.
         holder.descripcion.setSelected(true);
         Picasso.get().load(j.getImagen()).into(holder.imagen);
 
+        holder.container.setEnabled(!isLoading);
     }
 
     @Override
@@ -80,7 +81,9 @@ public class AddGameListAdapter extends RecyclerView.Adapter<AddGameListAdapter.
 
             container.setOnClickListener(v -> {
                 int position = getAdapterPosition();
-                if (position != RecyclerView.NO_POSITION) {
+                if (position != RecyclerView.NO_POSITION && !isLoading) {
+
+
 
                     Juego selectedGame = juegos.get(position);
                     new Thread(() ->{
@@ -96,7 +99,7 @@ public class AddGameListAdapter extends RecyclerView.Adapter<AddGameListAdapter.
                         }else {
                             Toast.makeText(context, "El juego ya esta registrado", Toast.LENGTH_SHORT).show();
                         }
-
+                        isLoading = false;
                     }).start();
 
 
