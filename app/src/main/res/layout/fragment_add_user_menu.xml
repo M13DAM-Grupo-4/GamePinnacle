@@ -22,7 +22,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="@dimen/_50sdp"
+        android:layout_marginTop="@dimen/_25sdp"
         android:textColor="@color/white"
         android:textSize="@dimen/_30ssp"
         android:text="@string/register_title"
@@ -52,7 +52,7 @@
             android:layout_width="@dimen/_250sdp"
             android:layout_height="@dimen/_50sdp"
             android:orientation="horizontal"
-            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_marginTop="@dimen/_15sdp"
             android:background="@drawable/button">
 
             <ImageView
@@ -179,7 +179,6 @@
             android:layout_height="@dimen/_50sdp"
             android:orientation="horizontal"
             android:layout_marginTop="@dimen/_10sdp"
-            android:layout_marginBottom="@dimen/_10sdp"
             android:background="@drawable/button"
             >
 
@@ -217,12 +216,55 @@
 
         </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="@dimen/_250sdp"
+            android:layout_height="@dimen/_50sdp"
+            android:orientation="horizontal"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginBottom="@dimen/_10sdp"
+            android:background="@drawable/button"
+            >
+
+            <ImageView
+                android:layout_width="@dimen/_30sdp"
+                android:layout_height="@dimen/_30sdp"
+                android:src="@drawable/password_icon"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="@dimen/_15sdp"
+                android:contentDescription="@string/register_password_image_description" />
+
+            <EditText
+                android:id="@+id/register_password2_text"
+                android:layout_width="@dimen/_150sdp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_marginEnd="@dimen/_5sdp"
+                android:hint="@string/register_password_hint_text"
+                android:textColor="@color/text"
+                android:textColorHint="@color/text"
+                android:textSize="@dimen/_16ssp"
+                android:fontFamily="@font/roboto_medium"
+                android:inputType="textPassword"
+                android:layout_gravity="center_vertical"
+                android:autofillHints="password" />
+
+            <ImageView
+                android:id="@+id/register_password2_visibility"
+                android:layout_width="@dimen/_30sdp"
+                android:layout_height="@dimen/_30sdp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="@dimen/_15sdp"
+                android:src="@drawable/password_key"
+                android:contentDescription="@string/register_password_visibility_description" />
+
+        </LinearLayout>
+
         <Button
             android:id="@+id/login_login_button"
             android:layout_width="@dimen/_150sdp"
             android:layout_height="@dimen/_50sdp"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="@dimen/_15sdp"
+            android:layout_marginTop="@dimen/_10sdp"
             android:gravity="center"
             android:text="@string/register_login_button_text"
             android:textSize="@dimen/_16ssp"

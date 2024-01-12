@@ -73,6 +73,7 @@ public class RegisterMenu extends Fragment {
 
     // Text
     EditText register_password_text;
+    EditText register_password2_text;
     EditText register_steam_id;
     EditText register_steamapikey;
 
@@ -135,6 +136,7 @@ public class RegisterMenu extends Fragment {
         register_menu_title.startAnimation(anim);
 
         register_password_text = getActivity().findViewById(R.id.register_password_text);
+        register_password2_text = getActivity().findViewById(R.id.register_password2_text);
 
         register_password_visibility = getActivity().findViewById(R.id.register_password_visibility);
         register_password_visibility.setOnClickListener(v -> {
@@ -158,9 +160,32 @@ public class RegisterMenu extends Fragment {
             }
         });
 
+        register_password_repeated_visibility = getActivity().findViewById(R.id.register_password2_visibility);
+        register_password_repeated_visibility.setOnClickListener(v -> {
+            Animation anim1 = AnimationUtils.loadAnimation(getActivity(), R.anim.blink);
+            register_password_repeated_visibility.startAnimation(anim1);
+
+            if (password_repeated_hidden) {
+                password_repeated_hidden = false;
+                register_password_repeated_visibility.setImageResource(R.drawable.password_eye);
+                int sel_start = register_password2_text.getSelectionStart();
+                int sel_end = register_password2_text.getSelectionEnd();
+                register_password2_text.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                register_password2_text.setSelection(sel_start, sel_end);
+            } else {
+                password_repeated_hidden = true;
+                register_password_repeated_visibility.setImageResource(R.drawable.password_key);
+                int sel_start = register_password2_text.getSelectionStart();
+                int sel_end = register_password2_text.getSelectionEnd();
+                register_password2_text.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                register_password2_text.setSelection(sel_start, sel_end);
+            }
+        });
+
         mail_int = view.findViewById(R.id.register_email_text);
         user_int = view.findViewById(R.id.register_username_text);
         passOne_int = view.findViewById(R.id.register_password_text);
+        passTwo_int = view.findViewById(R.id.register_password2_text);
         register_steam_id = view.findViewById(R.id.register_steamid_text);
         register_steamapikey = view.findViewById(R.id.register_steamapikey_text);
 
@@ -171,6 +196,7 @@ public class RegisterMenu extends Fragment {
             String email = mail_int.getText().toString();
             String user = user_int.getText().toString();
             HashCode passOneHash = Hashing.sha256().hashString(passOne_int.getText().toString(), StandardCharsets.UTF_8);
+            HashCode passTwoHash = Hashing.sha256().hashString(passTwo_int.getText().toString(), StandardCharsets.UTF_8);
             String steamId = register_steam_id.getText().toString();
             String steamApiKey = register_steamapikey.getText().toString();
 
@@ -205,6 +231,11 @@ public class RegisterMenu extends Fragment {
 
                 if (!isPasswordValid(passOneHash)) {
                     Toast.makeText(getActivity(), "Las contraseña no es valida", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if (!passwordsMatch(passOneHash, passTwoHash)) {
+                    Toast.makeText(getActivity(), "Las contraseñas no coinciden", Toast.LENGTH_SHORT).show();
                     return;
                 }
 

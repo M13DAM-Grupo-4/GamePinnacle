@@ -76,6 +76,7 @@ public class RecentlyPlayedGamesAdapter extends RecyclerView.Adapter<RecentlyPla
             imagenJuego.setAlpha(0f);
             nJuego = itemView.findViewById(R.id.recently_playes_games_nombre_juego);
             nJuego.setAlpha(0f);
+            nJuego.setSelected(true);
             hJuego = itemView.findViewById(R.id.recently_playes_games_horas_juego);
             hJuego.setAlpha(0f);
             horasJugadasText = itemView.findViewById(R.id.recently_playes_games_horas_juego_text);
