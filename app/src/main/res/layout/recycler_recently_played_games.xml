@@ -2,7 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="@dimen/_250sdp"
+    android:layout_width="match_parent"
     android:layout_height="@dimen/_90sdp"
     android:layout_gravity="center_horizontal"
     android:orientation="horizontal">
@@ -29,26 +29,33 @@
                 android:id="@+id/imagen_multi"
                 android:layout_width="@dimen/_70sdp"
                 android:layout_height="@dimen/_70sdp"/>
+
         </androidx.cardview.widget.CardView>
 
 
 
         <LinearLayout
-            android:layout_width="@dimen/_160sdp"
+            android:layout_width="match_parent"
             android:layout_height="@dimen/_70sdp"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_marginEnd="@dimen/_10sdp">
 
             <TextView
                 android:id="@+id/recently_playes_games_nombre_juego"
-                android:layout_width="@dimen/_150sdp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_10sdp"
                 android:layout_marginTop="@dimen/_5sdp"
                 android:fontFamily="@font/roboto_medium"
-                android:singleLine="true"
                 android:text="Nombre"
                 android:textColor="@color/white"
-                android:textSize="@dimen/_16ssp" />
+                android:textSize="@dimen/_16ssp"
+                android:ellipsize="marquee"
+                android:singleLine="true"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:scrollHorizontally="true"/>
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -85,7 +92,7 @@
 
                 <ProgressBar
                     android:id="@+id/recently_playes_games_archivement_progress"
-                    android:layout_width="@dimen/_85sdp"
+                    android:layout_width="@dimen/_95sdp"
                     android:layout_height="@dimen/_10sdp"
                     style="@android:style/Widget.ProgressBar.Horizontal"
                     android:progress="0"
