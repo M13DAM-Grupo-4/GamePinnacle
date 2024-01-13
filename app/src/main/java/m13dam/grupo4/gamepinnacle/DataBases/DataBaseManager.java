@@ -281,14 +281,13 @@ public class DataBaseManager {
     public static int RegistrarJuego(Juego juego){
         try{
             Connection c = CreateConnection();
-            PreparedStatement stmt = c.prepareStatement("INSERT INTO public.games (id, name, " +
+            PreparedStatement stmt = c.prepareStatement("INSERT INTO public.games (name, " +
                     "horas, id_user, imagen) VALUES" +
-                    "(?,?,?,?,?) RETURNING id");
-            stmt.setInt(1, juego.getId());
-            stmt.setString(2, juego.getNombre());
-            stmt.setString(3, horasTotalesPartidas(juego.getId()));
-            stmt.setInt(4,CurrentSession.getUsuario().getId());
-            stmt.setString(5,juego.getImagen());
+                    "(?,?,?,?) RETURNING id");
+            stmt.setString(1, juego.getNombre());
+            stmt.setString(2, horasTotalesPartidas(juego.getId()));
+            stmt.setInt(3,CurrentSession.getUsuario().getId());
+            stmt.setString(4,juego.getImagen());
 
             ResultSet rs = stmt.executeQuery();
 
