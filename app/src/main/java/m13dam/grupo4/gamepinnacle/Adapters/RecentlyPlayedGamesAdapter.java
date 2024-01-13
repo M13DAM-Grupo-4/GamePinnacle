@@ -115,6 +115,9 @@ public class RecentlyPlayedGamesAdapter extends RecyclerView.Adapter<RecentlyPla
                                 DataBaseManager.RegistrarJuego(new Juego (1,selectedGame.getNombre(),"Steam",""));
                         }
 
+                        Juego.setNombreJuego(selectedGame.getNombre());
+                        System.out.println(Juego.getNombreJuego());
+
                         FragmentManager fragmentManager = ((AppCompatActivity) v.getContext()).getSupportFragmentManager();
                         fragmentManager.beginTransaction()
                                 .replace(R.id.main_fragment_container, gameInfoFragment)

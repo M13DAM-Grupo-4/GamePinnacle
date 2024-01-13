@@ -440,7 +440,7 @@ public class DataBaseManager {
         return null;
     }
 
-    public static int RegistrarPartida(PlayedGamesFriends playedGamesFriends){
+    public static int RegistrarPartida(Juego juegoPartida){
 
         try{
             Connection c = CreateConnection();
@@ -448,11 +448,11 @@ public class DataBaseManager {
                     "game_id, played_time, winned, time) VALUES" +
                     "(?,?,?,?,?,?) RETURNING user_id");
             stmt.setInt(1, CurrentSession.getUsuario().getId());
-            stmt.setInt(2, playedGamesFriends.getFriend_id());
-            stmt.setInt(3, playedGamesFriends.getGame_id());
-            stmt.setInt(4, Integer.parseInt(playedGamesFriends.getHours()));
-            stmt.setBoolean(5, playedGamesFriends.getLoseWin());
-            stmt.setString(6, playedGamesFriends.getFecha());
+            stmt.setInt(2, juegoPartida.getFriend_id());
+            stmt.setInt(3, idJuego(Juego.getNombreJuego()));
+            stmt.setInt(4, juegoPartida.getPlayTime());
+            stmt.setBoolean(5, juegoPartida.getWinLose());
+            stmt.setString(6, String.valueOf(System.currentTimeMillis()));
 
             ResultSet rs = stmt.executeQuery();
 
@@ -462,6 +462,25 @@ public class DataBaseManager {
 
             stmt.close();
             c.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return -1;
+    }
+    public static int idJuego (String nombre) {
+
+        try {
+            Connection c = CreateConnection();
+            PreparedStatement stmt = c.prepareStatement("SELECT id FROM public.games WHERE name=? and id_user=?");
+            stmt.setString(1, nombre);
+            stmt.setInt(2,CurrentSession.getUsuario().getId());
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()){
+                return rs.getInt("id");
+            }
 
         } catch (Exception e) {
             e.printStackTrace();

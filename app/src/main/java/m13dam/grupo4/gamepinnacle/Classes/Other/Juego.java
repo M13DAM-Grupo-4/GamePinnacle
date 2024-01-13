@@ -2,6 +2,7 @@ package m13dam.grupo4.gamepinnacle.Classes.Other;
 
 public class Juego {
 
+    private static String nombreJuego;
     private int Id;
 
     private String Nombre;
@@ -9,6 +10,7 @@ public class Juego {
     private String Descripcion;
 
     private String Imagen;
+    private int friend_id;
 
     private int Año;
     private String horas;
@@ -20,11 +22,19 @@ public class Juego {
     private int steamID;
 
     private int igdbID;
+    private Boolean winLose;
 
     private String steamImagen;
 
     public Juego(){
 
+    }
+
+    public Juego(int id, int friend_id, int playTime, Boolean winLose) {
+        Id = id;
+        this.friend_id = friend_id;
+        this.playTime = playTime;
+        this.winLose = winLose;
     }
 
     public Juego(int id, String nombre, String descripcion, String imagen) {
@@ -40,6 +50,22 @@ public class Juego {
         Descripcion = descripcion;
         Imagen = imagen;
         Año = año;
+    }
+
+    public static String getNombreJuego() {
+        return nombreJuego;
+    }
+
+    public static void setNombreJuego(String nombreJuego) {
+        Juego.nombreJuego = nombreJuego;
+    }
+
+    public Boolean getWinLose() {
+        return winLose;
+    }
+
+    public int getFriend_id() {
+        return friend_id;
     }
 
     public int getId() {
