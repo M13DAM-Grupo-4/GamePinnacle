@@ -133,21 +133,19 @@ public class GameListMenu extends Fragment {
 
 
                     new Thread(() -> {
-
                         ListaIGDB = DataBaseManager.listaJuegosIGDB();
-                        getActivity().runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-
+                        if (isAdded()) {
+                            getActivity().runOnUiThread(() -> {
 
                                 RecentlyPlayedGamesAdapter.listaJuegosIgdb = ListaIGDB;
                                 listJuegosSteam();
-                            }
-                        });
 
+                                contador-=1;
+                            });
+                        }
                     }).start();
 
-                    contador-=1;
+
                 }
 
 
