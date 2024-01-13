@@ -11,46 +11,39 @@ import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.ArrayList;
 
 import m13dam.grupo4.gamepinnacle.Classes.Other.Amigos;
 import m13dam.grupo4.gamepinnacle.Classes.Other.CurrentSession;
+import m13dam.grupo4.gamepinnacle.Classes.Other.Juego;
 import m13dam.grupo4.gamepinnacle.DataBases.DataBaseManager;
 import m13dam.grupo4.gamepinnacle.R;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link AddSession#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class AddSession extends Fragment {
 
     private EditText playTime;
     private Spinner friend;
     private Spinner winLose;
     private Button addSession;
+    private int amigoId;
+    private Boolean viLo;
 
     public AddSession() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment AddSession.
-     */
     // TODO: Rename and change types and number of parameters
     public static AddSession newInstance(String param1, String param2) {
         AddSession fragment = new AddSession();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -58,10 +51,6 @@ public class AddSession extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
@@ -75,33 +64,81 @@ public class AddSession extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        addSession.setOnClickListener(v->{
+        playTime = view.findViewById(R.id.add_partida_time);
+        friend = view.findViewById(R.id.add_partida_friend);
+        winLose = view.findViewById(R.id.add_partida_winned);
+        addSession = view.findViewById(R.id.añadirAmigo_button);
 
-            if(friendName.getText().toString().isEmpty() || friendSurname1.getText().toString().isEmpty() || friendSurname2.getText().toString().isEmpty() || imageFriend.getText().toString().isEmpty()){
-                Toast.makeText(getActivity(), "Complete todos los campos", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            String imageUrl = imageFriend.getText().toString();
-            if (!isValidImageUrl(imageUrl)) {
-                Toast.makeText(getActivity(), "La URL de la imagen no es válida", Toast.LENGTH_SHORT).show();
-                return;
-            }
+        new Thread(() -> {
+            Looper.prepare();
+            ArrayList <Amigos> amigos = DataBaseManager.getFriendList(CurrentSession.getUsuario().getId());
 
-            Amigos amigo = new Amigos(friendName.getText().toString(), friendSurname1.getText().toString(), friendSurname2.getText().toString(), imageUrl);
+            ArrayAdapter<Amigos> adaptador = new ArrayAdapter<Amigos>(getActivity(), android.R.layout.simple_spinner_item, amigos) {
+                @Override
+                public View getView(int position, View convertView, ViewGroup parent) {
+                    // Mostrar solo el nombre del amigo en la vista desplegable
+                    return super.getView(position, convertView, parent);
+                }
 
-            new Thread(() -> {
-                Looper.prepare();
+                @Override
+                public View getDropDownView(int position, View convertView, ViewGroup parent) {
+                    // Mostrar solo el nombre del amigo en la lista desplegable
+                    View view = super.getDropDownView(position, convertView, parent);
+                    TextView textView = (TextView) view.findViewById(android.R.id.text1);
+                    textView.setText(amigos.get(position).getNombre());
 
-                DataBaseManager.RegistrarAmigo(amigo, CurrentSession.getUsuario().getId());
+                    return view;
+                }
+            };
+
+            adaptador.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            friend.setAdapter(adaptador);
+
+            friend.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                    // Obtener el ID del amigo seleccionado
+                    amigoId = amigos.get(position).getId();
+                    // Hacer lo que necesites con el ID del amigo
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parentView) {
+                    // Manejar caso donde no se ha seleccionado nada
+                }
+            });
+
+            addSession.setOnClickListener(v->{
+
+
+
+                if(playTime.getText().toString().isEmpty()){
+                    Toast.makeText(getActivity(), "Introduzca un tiempo de juego", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                ArrayList<String> partida = new ArrayList<>();
+                partida.add("Ganada");
+                partida.add("Perdida");
+                ArrayAdapter <String> adaptadorDos= new ArrayAdapter<>(getActivity(),android.R.layout.simple_spinner_item,partida);
+
+                winLose.setAdapter(adaptadorDos);
+
+                if (winLose.getSelectedItem().equals("Ganada")){
+                    viLo = true;
+                }else if (winLose.getSelectedItem().equals("Perdida")){
+                    viLo = false;
+                }
+
+                DataBaseManager.RegistrarJuego(new Juego(CurrentSession.getUsuario().getId(), amigoId, Integer.parseInt(playTime.getText().toString()),viLo));
 
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 fragmentManager.beginTransaction()
                         .replace(R.id.main_fragment_container, FriendListMenu.class, null)
                         .commit();
-            }).start();
-        });
 
+            });
 
+        }).start();
 
     }
 }
