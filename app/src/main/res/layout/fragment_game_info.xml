@@ -114,15 +114,37 @@
                 android:layout_height="@dimen/_50sdp"
                 android:orientation="horizontal">
 
-                <Button
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/juegos_recientes_button_bg"
-                    android:text="Partidas jugadas"
-                    android:textColor="@color/white"
-                    android:fontFamily="@font/roboto_medium"
-                    android:textSize="@dimen/_16ssp"
-                    android:textAllCaps="false"/>
+                    android:layout_height="match_parent">
+
+                    <Button
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/juegos_recientes_button_bg"
+                        android:text="Partidas jugadas"
+                        android:textColor="@color/white"
+                        android:fontFamily="@font/roboto_medium"
+                        android:textSize="@dimen/_16ssp"
+                        android:textAllCaps="false"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"/>
+
+                    <Button
+                        android:id="@+id/game_info_add_partida"
+                        android:layout_width="@dimen/_40sdp"
+                        android:layout_height="@dimen/_40sdp"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:background="@drawable/add"
+                        android:layout_marginEnd="@dimen/_15sdp"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
 
             </LinearLayout>
 
