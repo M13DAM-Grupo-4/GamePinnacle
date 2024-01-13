@@ -26,7 +26,7 @@ import m13dam.grupo4.gamepinnacle.R;
  */
 public class GameInfo extends Fragment {
 
-    private Juego juego;
+    private static Juego juego;
     Button addPartidaBtn;
 
     public GameInfo() {

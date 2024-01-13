@@ -86,47 +86,53 @@ public class AddSession extends Fragment {
 
             getActivity().runOnUiThread(() -> {
                 friend.setAdapter(adaptador);
+            });
 
-                friend.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                    @Override
-                    public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                        amigoId = amigos.get(position).getId();
-                    }
+            friend.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                    amigoId = amigos.get(position).getId();
+                }
 
-                    @Override
-                    public void onNothingSelected(AdapterView<?> parentView) {
-                        // Handle case where nothing is selected
-                    }
-                });
+                @Override
+                public void onNothingSelected(AdapterView<?> parentView) {
+                    // Handle case where nothing is selected
+                }
+            });
 
-                addSession.setOnClickListener(v -> {
-                    if (playTime.getText().toString().isEmpty()) {
-                        Toast.makeText(getActivity(), "Introduzca un tiempo de juego", Toast.LENGTH_SHORT).show();
-                        return;
-                    }
+            ArrayList<String> partida = new ArrayList<>();
+            partida.add("Ganada");
+            partida.add("Perdida");
+            ArrayAdapter<String> adaptadorDos = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, partida);
+            adaptadorDos.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-                    ArrayList<String> partida = new ArrayList<>();
-                    partida.add("Ganada");
-                    partida.add("Perdida");
-                    ArrayAdapter<String> adaptadorDos = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, partida);
+            getActivity().runOnUiThread(() -> {
+                winLose.setAdapter(adaptadorDos);
+
+                if (winLose.getSelectedItem().equals("Ganada")) {
+                    viLo = true;
+                } else if (winLose.getSelectedItem().equals("Perdida")) {
+                    viLo = false;
+                }
+
+            });
+
+            addSession.setOnClickListener(v -> {
+                if (playTime.getText().toString().isEmpty()) {
+                    Toast.makeText(getActivity(), "Introduzca un tiempo de juego", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                new Thread(() -> {
+                    DataBaseManager.RegistrarPartida(new Juego(CurrentSession.getUsuario().getId(), amigoId, Integer.parseInt(playTime.getText().toString()), viLo));
 
                     getActivity().runOnUiThread(() -> {
-                        winLose.setAdapter(adaptadorDos);
-
-                        if (winLose.getSelectedItem().equals("Ganada")) {
-                            viLo = true;
-                        } else if (winLose.getSelectedItem().equals("Perdida")) {
-                            viLo = false;
-                        }
-
-                        DataBaseManager.RegistrarJuego(new Juego(CurrentSession.getUsuario().getId(), amigoId, Integer.parseInt(playTime.getText().toString()), viLo));
-
                         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                         fragmentManager.beginTransaction()
                                 .replace(R.id.main_fragment_container, GameInfo.class, null)
                                 .commit();
                     });
-                });
+                }).start();
             });
 
         }).start();
