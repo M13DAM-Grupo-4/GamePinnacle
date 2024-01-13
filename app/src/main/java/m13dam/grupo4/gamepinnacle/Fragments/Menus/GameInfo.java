@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -25,6 +26,7 @@ import m13dam.grupo4.gamepinnacle.R;
 public class GameInfo extends Fragment {
 
     private Juego juego;
+    Button addPartidaBtn;
 
     public GameInfo() {
 
@@ -56,6 +58,12 @@ public class GameInfo extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        addPartidaBtn = view.findViewById(R.id.game_info_add_partida);
+
+        addPartidaBtn.setOnClickListener(v -> {
+
+        });
 
         ImageView photo = view.findViewById(R.id.game_info_photo);
         TextView nombre = view.findViewById(R.id.game_info_nombre);
