@@ -33,14 +33,13 @@ public class AddSession extends Fragment {
     private Spinner friend;
     private Spinner winLose;
     private Button addSession;
-    private int amigoId;
+    private int amigoId = -1;
     private Boolean viLo;
 
     public AddSession() {
         // Required empty public constructor
     }
 
-    // TODO: Rename and change types and number of parameters
     public static AddSession newInstance(String param1, String param2) {
         AddSession fragment = new AddSession();
         Bundle args = new Bundle();
@@ -49,14 +48,8 @@ public class AddSession extends Fragment {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_add_partida_menu, container, false);
     }
 
@@ -76,13 +69,11 @@ public class AddSession extends Fragment {
             ArrayAdapter<Amigos> adaptador = new ArrayAdapter<Amigos>(getActivity(), android.R.layout.simple_spinner_item, amigos) {
                 @Override
                 public View getView(int position, View convertView, ViewGroup parent) {
-                    // Mostrar solo el nombre del amigo en la vista desplegable
                     return super.getView(position, convertView, parent);
                 }
 
                 @Override
                 public View getDropDownView(int position, View convertView, ViewGroup parent) {
-                    // Mostrar solo el nombre del amigo en la lista desplegable
                     View view = super.getDropDownView(position, convertView, parent);
                     TextView textView = (TextView) view.findViewById(android.R.id.text1);
                     textView.setText(amigos.get(position).getNombre());
@@ -92,53 +83,52 @@ public class AddSession extends Fragment {
             };
 
             adaptador.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            friend.setAdapter(adaptador);
 
-            friend.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                @Override
-                public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                    // Obtener el ID del amigo seleccionado
-                    amigoId = amigos.get(position).getId();
-                    // Hacer lo que necesites con el ID del amigo
-                }
+            getActivity().runOnUiThread(() -> {
+                friend.setAdapter(adaptador);
 
-                @Override
-                public void onNothingSelected(AdapterView<?> parentView) {
-                    // Manejar caso donde no se ha seleccionado nada
-                }
-            });
+                friend.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                        amigoId = amigos.get(position).getId();
+                    }
 
-            addSession.setOnClickListener(v->{
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parentView) {
+                        // Handle case where nothing is selected
+                    }
+                });
 
+                addSession.setOnClickListener(v -> {
+                    if (playTime.getText().toString().isEmpty()) {
+                        Toast.makeText(getActivity(), "Introduzca un tiempo de juego", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
 
+                    ArrayList<String> partida = new ArrayList<>();
+                    partida.add("Ganada");
+                    partida.add("Perdida");
+                    ArrayAdapter<String> adaptadorDos = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, partida);
 
-                if(playTime.getText().toString().isEmpty()){
-                    Toast.makeText(getActivity(), "Introduzca un tiempo de juego", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                ArrayList<String> partida = new ArrayList<>();
-                partida.add("Ganada");
-                partida.add("Perdida");
-                ArrayAdapter <String> adaptadorDos= new ArrayAdapter<>(getActivity(),android.R.layout.simple_spinner_item,partida);
+                    getActivity().runOnUiThread(() -> {
+                        winLose.setAdapter(adaptadorDos);
 
-                winLose.setAdapter(adaptadorDos);
+                        if (winLose.getSelectedItem().equals("Ganada")) {
+                            viLo = true;
+                        } else if (winLose.getSelectedItem().equals("Perdida")) {
+                            viLo = false;
+                        }
 
-                if (winLose.getSelectedItem().equals("Ganada")){
-                    viLo = true;
-                }else if (winLose.getSelectedItem().equals("Perdida")){
-                    viLo = false;
-                }
+                        DataBaseManager.RegistrarJuego(new Juego(CurrentSession.getUsuario().getId(), amigoId, Integer.parseInt(playTime.getText().toString()), viLo));
 
-                DataBaseManager.RegistrarJuego(new Juego(CurrentSession.getUsuario().getId(), amigoId, Integer.parseInt(playTime.getText().toString()),viLo));
-
-                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                fragmentManager.beginTransaction()
-                        .replace(R.id.main_fragment_container, FriendListMenu.class, null)
-                        .commit();
-
+                        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                        fragmentManager.beginTransaction()
+                                .replace(R.id.main_fragment_container, GameInfo.class, null)
+                                .commit();
+                    });
+                });
             });
 
         }).start();
-
     }
 }
