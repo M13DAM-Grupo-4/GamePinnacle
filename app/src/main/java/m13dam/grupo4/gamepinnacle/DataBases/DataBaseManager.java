@@ -452,7 +452,7 @@ public class DataBaseManager {
             stmt.setInt(3, idJuego(Juego.getNombreJuego()));
             stmt.setInt(4, juegoPartida.getPlayTime());
             stmt.setBoolean(5, juegoPartida.getWinLose());
-            stmt.setString(6, String.valueOf(System.currentTimeMillis()));
+            stmt.setString(6, String.valueOf(juegoPartida.getPlayTime()));
 
             ResultSet rs = stmt.executeQuery();
 

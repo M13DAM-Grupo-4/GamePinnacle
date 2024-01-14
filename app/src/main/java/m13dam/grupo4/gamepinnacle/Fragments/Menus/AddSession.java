@@ -124,7 +124,9 @@ public class AddSession extends Fragment {
                 }
 
                 new Thread(() -> {
-                    DataBaseManager.RegistrarPartida(new Juego(CurrentSession.getUsuario().getId(), amigoId, Integer.parseInt(playTime.getText().toString()), viLo));
+                    Juego nuevoJuego = new Juego(CurrentSession.getUsuario().getId(), amigoId, Integer.parseInt(playTime.getText().toString()), viLo);
+                    nuevoJuego.setPlayTime(60);
+                    DataBaseManager.RegistrarPartida(nuevoJuego);
 
                     getActivity().runOnUiThread(() -> {
                         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
