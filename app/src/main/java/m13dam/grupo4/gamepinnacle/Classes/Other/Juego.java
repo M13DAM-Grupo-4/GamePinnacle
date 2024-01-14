@@ -3,6 +3,7 @@ package m13dam.grupo4.gamepinnacle.Classes.Other;
 public class Juego {
 
     private static String nombreJuego;
+    private static int id_juegoSeleccionado;
     private int Id;
 
     private String Nombre;
@@ -50,6 +51,14 @@ public class Juego {
         Descripcion = descripcion;
         Imagen = imagen;
         Año = año;
+    }
+
+    public static int getId_juegoSeleccionado() {
+        return id_juegoSeleccionado;
+    }
+
+    public static void setId_juegoSeleccionado(int id_juegoSeleccionado) {
+        Juego.id_juegoSeleccionado = id_juegoSeleccionado;
     }
 
     public static String getNombreJuego() {
