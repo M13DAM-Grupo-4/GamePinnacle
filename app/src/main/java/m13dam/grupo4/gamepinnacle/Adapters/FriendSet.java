@@ -52,9 +52,14 @@ public class FriendSet extends RecyclerView.Adapter<FriendSet.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         PlayedGamesFriends parti = listapartidas.get(position);
-        holder.nombre.setText(parti.getFriend_name());
-        holder.apellido.setText(parti.getFecha());
-        holder.apellido2.setText(parti.getHours());
+        holder.nombre.setText(parti.getGame_name());
+        if(parti.getLoseWin()){
+            holder.apellido.setText("Ganada");}
+        else {
+            holder.apellido.setText("Perdida");
+        }
+        String texto = parti.getHours() + " Horas";
+        holder.apellido2.setText(texto);
 
     }
 

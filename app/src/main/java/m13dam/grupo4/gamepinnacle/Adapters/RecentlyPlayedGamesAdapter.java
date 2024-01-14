@@ -115,6 +115,7 @@ public class RecentlyPlayedGamesAdapter extends RecyclerView.Adapter<RecentlyPla
                                 DataBaseManager.RegistrarJuego(new Juego (1,selectedGame.getNombre(),"Steam",""));
                         }
 
+                        Juego.setId_juegoSeleccionado(selectedGame.getId());
                         Juego.setNombreJuego(selectedGame.getNombre());
                         System.out.println(Juego.getNombreJuego());
 

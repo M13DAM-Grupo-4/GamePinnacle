@@ -6,7 +6,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +19,14 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
+
+import m13dam.grupo4.gamepinnacle.Adapters.FriendSet;
 import m13dam.grupo4.gamepinnacle.Classes.Other.Juego;
+import m13dam.grupo4.gamepinnacle.Classes.Other.PlayedGamesFriends;
+import m13dam.grupo4.gamepinnacle.DataBases.DataBaseManager;
 import m13dam.grupo4.gamepinnacle.R;
 
 /**
@@ -28,6 +38,8 @@ public class GameInfo extends Fragment {
 
     private static Juego juego;
     Button addPartidaBtn;
+    ArrayList<PlayedGamesFriends> partidasAmigos;
+    RecyclerView listaPartidas;
 
     public GameInfo() {
 
@@ -77,6 +89,43 @@ public class GameInfo extends Fragment {
         Picasso.get().load(juego.getImagen()).into(photo);
         nombre.setText(juego.getNombre());
         description.setText(juego.getDescripcion());
+
+        new Thread(() -> {
+            Looper.prepare();
+
+            // Simula la creación de una partida y obtiene la lista de partidas
+            //DataBaseManager.RegistrarPartida(new PlayedGamesFriends(8, amigo.getId(), "53", true, "323"));
+            partidasAmigos = DataBaseManager.partidasJuegos(Juego.getId_juegoSeleccionado());
+            System.out.println(partidasAmigos.size());
+
+            // Utiliza runOnUiThread para realizar operaciones en el hilo principal
+            getActivity().runOnUiThread(() -> {
+                FriendSet adaptador = new FriendSet(getActivity(), partidasAmigos);
+                listaPartidas.setAdapter(adaptador);
+                listaPartidas.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+                //partidasTotales.setText(String.valueOf(partidasAmigos.size()));
+
+                int horasT = 0;
+                Set<Integer> juegosUnicos = new HashSet<>();
+
+                for (PlayedGamesFriends partida : partidasAmigos) {
+                    horasT += Integer.parseInt(partida.getHours());
+                    int gameId = partida.getGame_id();
+                    System.out.println("ID del juego: " + gameId);  // Agrega esta línea para imprimir los IDs de los juegos
+                    juegosUnicos.add(gameId);
+                }
+
+                int totalJuegosUnicos = juegosUnicos.size();
+
+                //horasTotales.setText(String.valueOf(horasT));
+                //juegosTotales.setText(String.valueOf(totalJuegosUnicos));
+
+
+
+
+            });
+        }).start();
 
     }
 }

@@ -402,7 +402,31 @@ public class DataBaseManager {
             System.out.println("Algo paso 1");
 
             while (rs.next()){
-                PlayedGamesFriends partida = new PlayedGamesFriends(rs.getInt("game_id"), "pepe",rs.getInt("friend_id"),rs.getString("played_time"),rs.getBoolean("winned"), rs.getString("time") );
+                PlayedGamesFriends partida = new PlayedGamesFriends(rs.getInt("game_id"), rs.getString("name"),rs.getInt("friend_id"),rs.getString("played_time"),rs.getBoolean("winned"), rs.getString("time") );
+                listaGames.add(partida);
+            }
+
+            System.out.println("Algo paso 2");
+            return listaGames;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+    public static ArrayList<PlayedGamesFriends> partidasJuegos (int gameId) {
+        System.out.println("Algo paso normal");
+        ArrayList <PlayedGamesFriends> listaGames = new ArrayList<>();
+        try {
+            Connection c = CreateConnection();
+            PreparedStatement stmt0 = c.prepareStatement("SELECT a.game_id, a.friend_id, a.played_time, a.winned, a.time, b.name FROM public.user_interactions AS a LEFT JOIN public.games AS b ON a.game_id = b.id WHERE game_id = ?");
+            stmt0.setInt(1, gameId);
+            ResultSet rs = stmt0.executeQuery();
+            System.out.println("Algo paso 1");
+
+            while (rs.next()){
+                PlayedGamesFriends partida = new PlayedGamesFriends(rs.getInt("game_id"), rs.getString("name"),rs.getInt("friend_id"),rs.getString("played_time"),rs.getBoolean("winned"), rs.getString("time") );
                 listaGames.add(partida);
             }
 
