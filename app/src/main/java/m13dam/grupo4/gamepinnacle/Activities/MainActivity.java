@@ -17,6 +17,7 @@ import m13dam.grupo4.gamepinnacle.Classes.TwitchApi.TwitchApi;
 import m13dam.grupo4.gamepinnacle.DataBases.DataBaseManager;
 import m13dam.grupo4.gamepinnacle.Fragments.Menus.AddFriendMenu;
 import m13dam.grupo4.gamepinnacle.Fragments.Menus.AddGamesMenu;
+import m13dam.grupo4.gamepinnacle.Fragments.Menus.AddSession;
 import m13dam.grupo4.gamepinnacle.Fragments.Menus.FriendListMenu;
 import m13dam.grupo4.gamepinnacle.Fragments.Menus.GameInfo;
 import m13dam.grupo4.gamepinnacle.Fragments.Menus.GameListMenu;
@@ -118,6 +119,9 @@ public class MainActivity extends AppCompatActivity {
                         }
                         if (fragContainer.getClass() == AddGamesMenu.class){
                             newFrag = new GameListMenu();
+                        }
+                        if (fragContainer.getClass() == AddSession.class){
+                            newFrag = new GameInfo();
                         }
 
                     }

@@ -1,5 +1,7 @@
 package m13dam.grupo4.gamepinnacle.Classes.Other;
 
+import androidx.annotation.NonNull;
+
 import java.util.ArrayList;
 
 public class Amigos {
@@ -60,5 +62,11 @@ public class Amigos {
 
     public void setPicture(String picture) {
         Picture = picture;
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return getNombre();
     }
 }

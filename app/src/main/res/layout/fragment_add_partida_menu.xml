@@ -61,7 +61,8 @@
             <Spinner
                 android:id="@+id/add_partida_friend"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+                android:layout_height="match_parent"
+                android:padding="@dimen/_10sdp"/>
 
         </LinearLayout>
 
@@ -75,7 +76,8 @@
             <Spinner
                 android:id="@+id/add_partida_winned"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+                android:layout_height="match_parent"
+                android:padding="@dimen/_10sdp"/>
 
         </LinearLayout>
 
@@ -92,7 +94,8 @@
                 android:layout_height="match_parent"
                 android:inputType="time"
                 android:layout_marginStart="@dimen/_25sdp"
-                android:layout_marginEnd="@dimen/_25sdp"/>
+                android:layout_marginEnd="@dimen/_25sdp"
+                android:hint="Duración en minutos"/>
 
         </LinearLayout>
 

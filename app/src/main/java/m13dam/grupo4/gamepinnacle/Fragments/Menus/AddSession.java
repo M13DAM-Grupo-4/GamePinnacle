@@ -63,7 +63,7 @@ public class AddSession extends Fragment {
         addSession = view.findViewById(R.id.añadirAmigo_button);
 
         new Thread(() -> {
-            Looper.prepare();
+
             ArrayList <Amigos> amigos = DataBaseManager.getFriendList(CurrentSession.getUsuario().getId());
 
             ArrayAdapter<Amigos> adaptador = new ArrayAdapter<Amigos>(getActivity(), android.R.layout.simple_spinner_item, amigos) {
@@ -80,6 +80,8 @@ public class AddSession extends Fragment {
 
                     return view;
                 }
+
+
             };
 
             adaptador.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
