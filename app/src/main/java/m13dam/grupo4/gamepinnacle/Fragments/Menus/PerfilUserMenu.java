@@ -190,7 +190,7 @@ public class PerfilUserMenu extends Fragment {
         buttonListGames.setOnClickListener(v -> {
 
             Animation anim = AnimationUtils.loadAnimation(getActivity(), R.anim.blink);
-            ajustes.startAnimation(anim);
+            buttonListGames.startAnimation(anim);
 
             FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
             fragmentManager.beginTransaction()
@@ -202,7 +202,7 @@ public class PerfilUserMenu extends Fragment {
         buttonListFriend.setOnClickListener(v -> {
 
             Animation anim = AnimationUtils.loadAnimation(getActivity(), R.anim.blink);
-            ajustes.startAnimation(anim);
+            buttonListFriend.startAnimation(anim);
 
             FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
             fragmentManager.beginTransaction()

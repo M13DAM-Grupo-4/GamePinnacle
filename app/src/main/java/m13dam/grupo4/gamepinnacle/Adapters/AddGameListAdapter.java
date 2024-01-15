@@ -5,6 +5,8 @@ import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -80,6 +82,10 @@ public class AddGameListAdapter extends RecyclerView.Adapter<AddGameListAdapter.
             container = itemView.findViewById(R.id.add_game_container);
 
             container.setOnClickListener(v -> {
+
+                Animation anim = AnimationUtils.loadAnimation(context, R.anim.blink);
+                container.startAnimation(anim);
+
                 int position = getAdapterPosition();
                 if (position != RecyclerView.NO_POSITION && !isLoading) {
 

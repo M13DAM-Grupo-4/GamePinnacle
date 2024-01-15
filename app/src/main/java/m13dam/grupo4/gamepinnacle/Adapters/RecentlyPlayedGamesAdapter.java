@@ -8,6 +8,8 @@ import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -87,6 +89,10 @@ public class RecentlyPlayedGamesAdapter extends RecyclerView.Adapter<RecentlyPla
             archivementText.setAlpha(0f);
 
             itemView.setOnClickListener(v ->  {
+
+                Animation anim = AnimationUtils.loadAnimation(itemView.getContext(), R.anim.blink);
+                itemView.startAnimation(anim);
+
                 int position = getAdapterPosition();
                 if (position != RecyclerView.NO_POSITION && !isDatabaseOperationInProgress) {
 

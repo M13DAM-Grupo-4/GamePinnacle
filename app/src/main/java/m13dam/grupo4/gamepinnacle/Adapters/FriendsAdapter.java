@@ -6,6 +6,8 @@ import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -52,6 +54,10 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.ViewHold
             eliminarAmigo =itemView.findViewById(R.id.eliminarAmigoButton);
 
             eliminarAmigo.setOnClickListener(v -> {
+
+                Animation anim = AnimationUtils.loadAnimation(itemView.getContext(), R.anim.blink);
+                eliminarAmigo.startAnimation(anim);
+
                 int position = getAdapterPosition();
                 if (position != RecyclerView.NO_POSITION) {
 
@@ -72,6 +78,10 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.ViewHold
                     });
 
             picture.setOnClickListener(v ->  {
+
+                Animation anim = AnimationUtils.loadAnimation(itemView.getContext(), R.anim.blink);
+                picture.startAnimation(anim);
+
                 int position = getAdapterPosition();
                 if (position != RecyclerView.NO_POSITION) {
 

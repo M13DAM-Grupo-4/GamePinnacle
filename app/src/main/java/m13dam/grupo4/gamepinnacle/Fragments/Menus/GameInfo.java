@@ -13,6 +13,8 @@ import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -76,6 +78,10 @@ public class GameInfo extends Fragment {
         listaPartidas = view.findViewById(R.id.game_info_recycler);
 
         addPartidaBtn.setOnClickListener(v -> {
+
+            Animation anim = AnimationUtils.loadAnimation(getContext(), R.anim.blink);
+            addPartidaBtn.startAnimation(anim);
+
             FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
             fragmentManager.beginTransaction()
                     .replace(R.id.main_fragment_container, AddSession.class, null)

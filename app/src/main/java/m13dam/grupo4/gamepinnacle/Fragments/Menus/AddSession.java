@@ -11,6 +11,8 @@ import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -128,6 +130,10 @@ public class AddSession extends Fragment {
             });
 
             addSession.setOnClickListener(v -> {
+
+                Animation anim = AnimationUtils.loadAnimation(getContext(), R.anim.blink);
+                addSession.startAnimation(anim);
+
                 if (playTime.getText().toString().isEmpty()) {
                     Toast.makeText(getActivity(), "Introduzca un tiempo de juego", Toast.LENGTH_SHORT).show();
                     return;

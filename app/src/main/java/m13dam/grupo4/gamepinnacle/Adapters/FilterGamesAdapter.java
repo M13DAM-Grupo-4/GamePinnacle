@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ToggleButton;
 
 import androidx.annotation.NonNull;
@@ -57,6 +59,9 @@ public class FilterGamesAdapter extends RecyclerView.Adapter<FilterGamesAdapter.
             holder.toggleButton.setTextOff("Añadir Juego");
             holder.toggleButton.setOnClickListener(v -> {
 
+                Animation anim = AnimationUtils.loadAnimation(mContext_jvm, R.anim.blink);
+                holder.toggleButton.startAnimation(anim);
+
                         AddGamesMenu addGamesMenu = new AddGamesMenu();
                         FragmentManager fragmentManager = ((AppCompatActivity) v.getContext()).getSupportFragmentManager();
                         fragmentManager.beginTransaction()
@@ -74,6 +79,10 @@ public class FilterGamesAdapter extends RecyclerView.Adapter<FilterGamesAdapter.
             holder.toggleButton.setChecked(steamFilter);
 
             holder.toggleButton.setOnClickListener(v -> {
+
+                Animation anim = AnimationUtils.loadAnimation(mContext_jvm, R.anim.blink);
+                holder.toggleButton.startAnimation(anim);
+
                 steamFilter = holder.toggleButton.isChecked();
                 updateGameList(igdbFilter, steamFilter);
                 reloadGameList();
@@ -87,6 +96,10 @@ public class FilterGamesAdapter extends RecyclerView.Adapter<FilterGamesAdapter.
             holder.toggleButton.setChecked(igdbFilter);
 
             holder.toggleButton.setOnClickListener(v -> {
+
+                Animation anim = AnimationUtils.loadAnimation(mContext_jvm, R.anim.blink);
+                holder.toggleButton.startAnimation(anim);
+
                 igdbFilter = holder.toggleButton.isChecked();
                 updateGameList(igdbFilter, steamFilter);
                 reloadGameList();

@@ -13,6 +13,8 @@ import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ProgressBar;
 
@@ -103,6 +105,10 @@ public class FriendListMenu extends Fragment {
         disableButtons();
 
         añadirFriend.setOnClickListener(v -> {
+
+            Animation anim = AnimationUtils.loadAnimation(getContext(), R.anim.blink);
+            añadirFriend.startAnimation(anim);
+
             FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
             fragmentManager.beginTransaction()
                     .replace(R.id.main_fragment_container, AddFriendMenu.class, null)

@@ -90,7 +90,13 @@ public class SettingsMenu extends Fragment {
         botonCambiarUsuario = view.findViewById(R.id.cambiar_usuario);
         botonCambiarContraseña = view.findViewById(R.id.cambiar_contraseña);
 
+
         botonCambiarUsuario.setOnClickListener(v -> {
+
+            if (usuario_nuevo.getText().equals("")) {
+                Toast.makeText(getActivity(), "Usuario invalido.", Toast.LENGTH_SHORT).show();
+                return;
+            }
 
             new Thread(()->{
 
@@ -106,6 +112,12 @@ public class SettingsMenu extends Fragment {
         });
 
         botonCambiarContraseña.setOnClickListener(v -> {
+
+            if (contraseña_nueva_uno.getText().equals("") || contraseña_nueva_dos.getText().equals("")) {
+                Toast.makeText(getActivity(), "Contraseña invalida.", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
             HashCode contraseña__uno = Hashing.sha256().hashString(contraseña_nueva_uno.getText().toString(), StandardCharsets.UTF_8);
             HashCode contraseña__dos = Hashing.sha256().hashString(contraseña_nueva_dos.getText().toString(), StandardCharsets.UTF_8);
             
@@ -116,7 +128,7 @@ public class SettingsMenu extends Fragment {
                 Looper.prepare();
 
                 if (DataBaseManager.actualizarContraseñaUsuario(contraseña__uno.toString()) > 0){
-                    Toast.makeText(getActivity(), "Cambio de nombre realizado correctamente.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Cambio de contraseña realizado correctamente.", Toast.LENGTH_SHORT).show();
                 }else {
                     Toast.makeText(getActivity(), "No se ha podido realizar el cambio.", Toast.LENGTH_SHORT).show();
                 }
