@@ -7,23 +7,28 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
 import m13dam.grupo4.gamepinnacle.Classes.Other.Amigos;
 import m13dam.grupo4.gamepinnacle.Classes.Other.PlayedGamesFriends;
+import m13dam.grupo4.gamepinnacle.Fragments.Menus.PerfilFriendMenu;
+import m13dam.grupo4.gamepinnacle.Fragments.Menus.PerfilUserMenu;
 import m13dam.grupo4.gamepinnacle.R;
 
 public class FriendSet extends RecyclerView.Adapter<FriendSet.ViewHolder> {
     private Context mContext_jvm;
     private ArrayList<PlayedGamesFriends> listapartidas;
+    private Fragment frag;
 
 
 
-    public FriendSet(Context context, ArrayList<PlayedGamesFriends>Listapartidas) {
+    public FriendSet(Context context, ArrayList<PlayedGamesFriends>Listapartidas, Fragment frag) {
         this.mContext_jvm = context;
         this.listapartidas = Listapartidas;
+        this.frag = frag;
         System.out.println("asdasdasdasdasdad");
     }
 
@@ -52,7 +57,12 @@ public class FriendSet extends RecyclerView.Adapter<FriendSet.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         PlayedGamesFriends parti = listapartidas.get(position);
-        holder.nombre.setText(parti.getFriend_name());
+        if (frag.getClass() == PerfilFriendMenu.class){
+            holder.nombre.setText(parti.getGame_name());
+        } else {
+            holder.nombre.setText(parti.getFriend_name());
+        }
+
         if(parti.getLoseWin()){
             holder.apellido.setText("Ganada");}
         else {

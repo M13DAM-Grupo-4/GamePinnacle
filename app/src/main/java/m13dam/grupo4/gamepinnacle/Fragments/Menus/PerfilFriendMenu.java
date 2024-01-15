@@ -107,7 +107,7 @@ public class PerfilFriendMenu extends Fragment {
 
             // Utiliza runOnUiThread para realizar operaciones en el hilo principal
             getActivity().runOnUiThread(() -> {
-                FriendSet adaptador = new FriendSet(getActivity(), partidasAmigos);
+                FriendSet adaptador = new FriendSet(getActivity(), partidasAmigos, this);
                 listaPartidas.setAdapter(adaptador);
                 listaPartidas.setLayoutManager(new LinearLayoutManager(getActivity()));
 
