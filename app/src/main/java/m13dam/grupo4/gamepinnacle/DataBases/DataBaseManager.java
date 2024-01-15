@@ -420,13 +420,15 @@ public class DataBaseManager {
         ArrayList <PlayedGamesFriends> listaGames = new ArrayList<>();
         try {
             Connection c = CreateConnection();
-            PreparedStatement stmt0 = c.prepareStatement("SELECT a.game_id, a.friend_id, a.played_time, a.winned, a.time, b.name FROM public.user_interactions AS a LEFT JOIN public.games AS b ON a.game_id = b.id WHERE game_id = ?");
+            PreparedStatement stmt0 = c.prepareStatement("SELECT a.game_id, a.friend_id, a.played_time, a.winned, a.time, b.name, c.name as friend_name " +
+                    "FROM public.user_interactions AS a LEFT JOIN public.games AS b ON a.game_id = b.id LEFT JOIN public.friends AS c ON a.friend_id=c.friend_id WHERE game_id = ?");
             stmt0.setInt(1, gameId);
             ResultSet rs = stmt0.executeQuery();
             System.out.println("Algo paso 1");
 
             while (rs.next()){
                 PlayedGamesFriends partida = new PlayedGamesFriends(rs.getInt("game_id"), rs.getString("name"),rs.getInt("friend_id"),rs.getString("played_time"),rs.getBoolean("winned"), rs.getString("time") );
+                partida.setFriend_name(rs.getString("friend_name"));
                 listaGames.add(partida);
             }
 

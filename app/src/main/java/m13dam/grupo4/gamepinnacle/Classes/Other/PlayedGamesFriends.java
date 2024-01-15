@@ -20,6 +20,10 @@ public class PlayedGamesFriends {
         return Friend_name;
     }
 
+    public void setFriend_name(String friend_name) {
+        Friend_name = friend_name;
+    }
+
     public String getHours() {
         return hours;
     }

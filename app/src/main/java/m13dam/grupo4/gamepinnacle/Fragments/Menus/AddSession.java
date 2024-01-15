@@ -107,16 +107,24 @@ public class AddSession extends Fragment {
             partida.add("Perdida");
             ArrayAdapter<String> adaptadorDos = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, partida);
             adaptadorDos.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            winLose.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    if (winLose.getSelectedItem().equals("Ganada")) {
+                        viLo = true;
+                    } else if (winLose.getSelectedItem().equals("Perdida")) {
+                        viLo = false;
+                    }
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+
+                }
+            });
 
             getActivity().runOnUiThread(() -> {
                 winLose.setAdapter(adaptadorDos);
-
-                if (winLose.getSelectedItem().equals("Ganada")) {
-                    viLo = true;
-                } else if (winLose.getSelectedItem().equals("Perdida")) {
-                    viLo = false;
-                }
-
             });
 
             addSession.setOnClickListener(v -> {

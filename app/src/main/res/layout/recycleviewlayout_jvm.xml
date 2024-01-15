@@ -4,38 +4,47 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/id_imagen"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="@dimen/_40sdp"
     android:layout_gravity="center_horizontal"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:layout_marginBottom="@dimen/_5sdp">
 
     <TextView
         android:id="@+id/nombre"
-        android:textColor="@color/blue"
+        android:textColor="@color/text"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="3"
         android:background="@drawable/border_jvm"
         android:text="TextView"
-        android:gravity="center"/>
+        android:gravity="center"
+        android:fontFamily="@font/roboto_medium"
+        android:textSize="@dimen/_14ssp"/>
 
     <TextView
         android:id="@+id/apellido1"
-        android:textColor="@color/blue"
+        android:textColor="@color/text"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="3"
         android:background="@drawable/border_jvm"
         android:text="TextView"
-        android:gravity="center"/>
+        android:gravity="center"
+        android:fontFamily="@font/roboto_medium"
+        android:textSize="@dimen/_14ssp"
+        android:padding="@dimen/_5sdp"/>
 
     <TextView
         android:id="@+id/apellido2"
-        android:textColor="@color/blue"
+        android:textColor="@color/text"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="3"
         android:background="@drawable/border_jvm"
         android:text="TextView"
-        android:gravity="center"/>
+        android:gravity="center"
+        android:fontFamily="@font/roboto_medium"
+        android:textSize="@dimen/_14ssp"
+        android:padding="@dimen/_5sdp"/>
 
 </LinearLayout>

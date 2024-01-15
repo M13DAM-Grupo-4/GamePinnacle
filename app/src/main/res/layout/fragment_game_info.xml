@@ -155,7 +155,7 @@
                 android:background="@drawable/perfil_user_juegos_recientes_bg">
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/perfil_friend_partidas_jugadas_recycler"
+                    android:id="@+id/game_info_recycler"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginStart="@dimen/_10sdp"

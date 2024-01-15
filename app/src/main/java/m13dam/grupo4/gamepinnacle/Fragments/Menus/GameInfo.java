@@ -73,6 +73,7 @@ public class GameInfo extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         addPartidaBtn = view.findViewById(R.id.game_info_add_partida);
+        listaPartidas = view.findViewById(R.id.game_info_recycler);
 
         addPartidaBtn.setOnClickListener(v -> {
             FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
@@ -95,7 +96,7 @@ public class GameInfo extends Fragment {
 
             // Simula la creación de una partida y obtiene la lista de partidas
             //DataBaseManager.RegistrarPartida(new PlayedGamesFriends(8, amigo.getId(), "53", true, "323"));
-            partidasAmigos = DataBaseManager.partidasJuegos(Juego.getId_juegoSeleccionado());
+            partidasAmigos = DataBaseManager.partidasJuegos(DataBaseManager.idJuego(juego.getNombre()));
             System.out.println(partidasAmigos.size());
 
             // Utiliza runOnUiThread para realizar operaciones en el hilo principal
