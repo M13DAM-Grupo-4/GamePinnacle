@@ -12,7 +12,6 @@ public class Amigos {
 
     private String Picture;
 
-
     public Amigos(String nombre, String apellidoUno, String apellidoDos,int id) {
         Nombre = nombre;
         ApellidoUno = apellidoUno;

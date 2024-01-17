@@ -11,8 +11,10 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.Currency;
 
 import m13dam.grupo4.gamepinnacle.Classes.Other.Amigos;
+import m13dam.grupo4.gamepinnacle.Classes.Other.CurrentSession;
 import m13dam.grupo4.gamepinnacle.Classes.Other.PlayedGamesFriends;
 import m13dam.grupo4.gamepinnacle.Fragments.Menus.PerfilFriendMenu;
 import m13dam.grupo4.gamepinnacle.Fragments.Menus.PerfilUserMenu;
@@ -60,7 +62,11 @@ public class FriendSet extends RecyclerView.Adapter<FriendSet.ViewHolder> {
         if (frag.getClass() == PerfilFriendMenu.class){
             holder.nombre.setText(parti.getGame_name());
         } else {
-            holder.nombre.setText(parti.getFriend_name());
+            if (parti.getFriend_name().isEmpty()){
+                holder.nombre.setText(CurrentSession.getUsuario().getUsuario());
+            } else {
+                holder.nombre.setText(parti.getFriend_name());
+            }
         }
 
         if(parti.getLoseWin()){

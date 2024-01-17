@@ -93,7 +93,7 @@ public class SettingsMenu extends Fragment {
 
         botonCambiarUsuario.setOnClickListener(v -> {
 
-            if (usuario_nuevo.getText().equals("")) {
+            if (usuario_nuevo.getText().toString().equals("")) {
                 Toast.makeText(getActivity(), "Usuario invalido.", Toast.LENGTH_SHORT).show();
                 return;
             }
@@ -113,7 +113,7 @@ public class SettingsMenu extends Fragment {
 
         botonCambiarContraseña.setOnClickListener(v -> {
 
-            if (contraseña_nueva_uno.getText().equals("") || contraseña_nueva_dos.getText().equals("")) {
+            if (contraseña_nueva_uno.getText().toString().equals("") || contraseña_nueva_dos.getText().equals("")) {
                 Toast.makeText(getActivity(), "Contraseña invalida.", Toast.LENGTH_SHORT).show();
                 return;
             }

@@ -16,6 +16,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -37,6 +38,7 @@ public class AddSession extends Fragment {
     private Button addSession;
     private int amigoId = -1;
     private Boolean viLo;
+    private CheckBox unJugador;
 
     public AddSession() {
         // Required empty public constructor
@@ -63,6 +65,11 @@ public class AddSession extends Fragment {
         friend = view.findViewById(R.id.add_partida_friend);
         winLose = view.findViewById(R.id.add_partida_winned);
         addSession = view.findViewById(R.id.añadirAmigo_button);
+        unJugador = view.findViewById(R.id.add_partida_un_jugador);
+
+        unJugador.setOnClickListener(v -> {
+            friend.setEnabled(!unJugador.isChecked());
+        });
 
         new Thread(() -> {
 
@@ -82,7 +89,6 @@ public class AddSession extends Fragment {
 
                     return view;
                 }
-
 
             };
 
@@ -133,6 +139,10 @@ public class AddSession extends Fragment {
 
                 Animation anim = AnimationUtils.loadAnimation(getContext(), R.anim.blink);
                 addSession.startAnimation(anim);
+
+                if (unJugador.isChecked()) {
+                    amigoId = -1;
+                }
 
                 if (playTime.getText().toString().isEmpty()) {
                     Toast.makeText(getActivity(), "Introduzca un tiempo de juego", Toast.LENGTH_SHORT).show();
