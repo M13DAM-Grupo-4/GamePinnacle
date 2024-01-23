@@ -239,7 +239,7 @@ public class RegisterMenu extends Fragment {
                     return;
                 }
 
-                Usuario nuevoUsuario = new Usuario(-1, email, user, passOneHash.toString(), steamId);
+                Usuario nuevoUsuario = new Usuario(-1, email, user, passOneHash.toString(), steamId, steamApiKey);
 
                 int UserId = DataBaseManager.RegistarUsuario(nuevoUsuario, steamApiKey);
 
@@ -289,45 +289,13 @@ public class RegisterMenu extends Fragment {
             return false;
         }
 
-        try {
-            Response<GetPlayerSummariesResponse> res = SteamWebApi.getSteamWebApiService().getPlayerSummaries(SteamAPIKey, SteamID, "json").execute();
-
-            if (res.code() != 200){
-                return false;
-            }
-
-            if (res.body().getPlayerSummaries().getPlayers().size() == 0) {
-                return false;
-            }
-
-            return true;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return false;
+        return true;
     }
 
     private boolean isSteamApiKeyValid(String SteamApiKey) {
 
         if (SteamApiKey.length() == 32) {
             return true;
-        }
-
-        try {
-            Response<GetPlayerSummariesResponse> res = SteamWebApi.getSteamWebApiService().getPlayerSummaries(CurrentSession.getSteamApiKey(), "76561197960435530", "json").execute();
-
-            if (res.code() != 200){
-                return false;
-            }
-
-            if (res.body().getPlayerSummaries().getPlayers().size() == 0) {
-                return false;
-            }
-
-            return true;
-        } catch (Exception e) {
-            e.printStackTrace();
         }
 
         return false;

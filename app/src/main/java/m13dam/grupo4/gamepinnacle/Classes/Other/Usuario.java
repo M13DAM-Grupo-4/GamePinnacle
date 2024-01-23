@@ -8,6 +8,7 @@ public class Usuario {
     private String usuario;
     private String password;
     private String steamid;
+    private String steamapikey;
 
     public Usuario(int id, String correo, String usuario, String password) {
         this.id = id;
@@ -16,12 +17,13 @@ public class Usuario {
         this.password = password;
     }
 
-    public Usuario(int id, String correo, String usuario, String password, String steamid) {
+    public Usuario(int id, String correo, String usuario, String password, String steamid, String steamapikey) {
         this.id = id;
         this.correo = correo;
         this.usuario = usuario;
         this.password = password;
         this.steamid = steamid;
+        this.steamapikey = steamapikey;
     }
 
     public int getId() {
@@ -62,5 +64,13 @@ public class Usuario {
 
     public void setSteamid(String steamid) {
         this.steamid = steamid;
+    }
+
+    public String getSteamapikey() {
+        return steamapikey;
+    }
+
+    public void setSteamapikey(String steamapikey) {
+        this.steamapikey = steamapikey;
     }
 }

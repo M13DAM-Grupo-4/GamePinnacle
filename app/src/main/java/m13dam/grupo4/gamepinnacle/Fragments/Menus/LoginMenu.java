@@ -105,6 +105,7 @@ public class LoginMenu extends Fragment {
     }
 
     private void login(@NonNull View view) {
+        System.out.println("LOGIN 1");
         // Login remember
         new Thread(() -> {
             Looper.prepare();
@@ -115,14 +116,19 @@ public class LoginMenu extends Fragment {
                 return;
             }
 
+            System.out.println(userId);
+
             Usuario usuario = DataBaseManager.GetUserFromDatabase(userId);
             CurrentSession.setUsuario(usuario);
-            CurrentSession.UpdateSteamApiKey();
+            CurrentSession.setSteamApiKey(usuario.getSteamapikey());
+            System.out.println(CurrentSession.getUsuario().getSteamid());
             System.out.println(CurrentSession.getSteamApiKey());
 
             loadUserMenu();
         }).start();
 
+
+        System.out.println("LOGIN 2");
         // Login button
         login_button = view.findViewById(R.id.login_login_button);
         login_button.setOnClickListener(v -> {
@@ -137,18 +143,29 @@ public class LoginMenu extends Fragment {
                 return;
             }
 
+            System.out.println("LOGIN 3");
             new Thread(() -> {
                 Looper.prepare();
 
+                System.out.println("LOGIN 4");
+
                 int LoginID = DataBaseManager.Login(usuarioIntroducido_JVM, Hashing.sha256().hashString(contraseñaIntroducido_JVM, StandardCharsets.UTF_8).toString());
+
+                if (LoginID == -1){
+                    System.out.println("User not found");
+                }
+
                 Usuario usuario = DataBaseManager.GetUserFromDatabase(LoginID);
+
                 if (usuario == null) {
                     Toast.makeText(getActivity(), "Usuario o contraseña incorrectos", Toast.LENGTH_SHORT).show();
                 return;
                 }
+                System.out.println(usuario.getSteamid());
+                System.out.println(usuario.getSteamapikey());
                 SaveLoginRemember(getActivity(), usuario, CurrentSession.getTwitchToken());
                 CurrentSession.setUsuario(usuario);
-                CurrentSession.UpdateSteamApiKey();
+                CurrentSession.setSteamApiKey(usuario.getSteamapikey());
 
                 loadUserMenu();
             }).start();

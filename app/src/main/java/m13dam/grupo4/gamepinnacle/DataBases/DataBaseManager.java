@@ -56,7 +56,7 @@ public class DataBaseManager {
             ResultSet rs = stmt.executeQuery();
 
             while(rs.next()) {
-                return rs.getInt(1);
+                return rs.getInt("id");
             }
 
         } catch (Exception e) {
@@ -66,6 +66,10 @@ public class DataBaseManager {
     }
 
     public static Usuario GetUserFromDatabase(int id) {
+
+        if (id == -1){
+            return null;
+        }
 
         try {
             Connection c = CreateConnection();
@@ -79,7 +83,8 @@ public class DataBaseManager {
                         rs.getString("email"),
                         rs.getString("username"),
                         rs.getString("password"),
-                        rs.getString("steamid"));
+                        rs.getString("steamid"),
+                        rs.getString("steamapikey"));
 
                 return usuario;
             }
@@ -196,8 +201,9 @@ public class DataBaseManager {
     public static int ActualizarContraseña(int id, String nuevaContraseña){
         try {
             Connection c = CreateConnection();
-            PreparedStatement stmt = c.prepareStatement("UPDATE public.users SET password=?");
+            PreparedStatement stmt = c.prepareStatement("UPDATE public.users SET password=? WHERE id=?");
             stmt.setString(1, nuevaContraseña);
+            stmt.setInt(2, id);
 
             stmt.executeUpdate();
 
