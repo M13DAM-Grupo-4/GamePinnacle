@@ -19,6 +19,7 @@ import com.google.common.hash.Hashing;
 
 import java.nio.charset.StandardCharsets;
 
+import m13dam.grupo4.gamepinnacle.Classes.Other.CurrentSession;
 import m13dam.grupo4.gamepinnacle.DataBases.DataBaseManager;
 import m13dam.grupo4.gamepinnacle.R;
 
@@ -103,6 +104,7 @@ public class SettingsMenu extends Fragment {
                 Looper.prepare();
                 if (DataBaseManager.actualizarNombreUsuario(usuario_nuevo.getText().toString()) > 0){
                     Toast.makeText(getActivity(), "Cambio de nombre realizado correctamente.", Toast.LENGTH_SHORT).show();
+                    CurrentSession.getUsuario().setUsuario(usuario_nuevo.getText().toString());
                 }else {
                     Toast.makeText(getActivity(), "No se ha podido realizar el cambio.", Toast.LENGTH_SHORT).show();
                 }

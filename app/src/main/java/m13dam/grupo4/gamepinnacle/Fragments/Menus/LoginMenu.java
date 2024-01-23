@@ -150,9 +150,12 @@ public class LoginMenu extends Fragment {
                 System.out.println("LOGIN 4");
 
                 int LoginID = DataBaseManager.Login(usuarioIntroducido_JVM, Hashing.sha256().hashString(contraseñaIntroducido_JVM, StandardCharsets.UTF_8).toString());
+                System.out.println("LOGIN ID: " + LoginID);
 
                 if (LoginID == -1){
                     System.out.println("User not found");
+                    Toast.makeText(getActivity(), "Usuario o contraseña incorrectos", Toast.LENGTH_SHORT).show();
+                    return;
                 }
 
                 Usuario usuario = DataBaseManager.GetUserFromDatabase(LoginID);
